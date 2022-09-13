@@ -1,0 +1,53 @@
+,0
+Score,Food System Resilience Score
+natural,Natural Capital
+BDH.new,Biodiversity and Habitat
+ECS,Ecosystem Status
+Sealevel,Sealevel Rise
+Forest,Forest Area
+Land,Land Degradation
+energy,Energy Footprint
+Water,Water Footprint
+GHP.new,Greenhouse emission per capita
+WaterQuant,Agricultural water quantity
+WaterQual,Agricultural water quality
+human,Human Capital
+Demographics,Population Growth
+literacy,Literacy Rate
+HDI,HDI Score
+labrate,Labor Participation Rate
+agprod,Agricultural Production Index
+agVol,Agricultural Production Volatility
+obesity,Obsesity Prevelance
+foodsafe,Food Safetly
+drinking,Drinking Water
+Micro,Micronutrient Availability
+Protein,Protein Quality
+Diversity,Food Diversity Score
+social,Social Capital
+urbancap,Urban Absorption Capacity
+safetynet,Presence of SafetyNet
+policyfood,Food Policy Score
+nutritional,Nutritional Standards
+gender,Gender Equity
+political,Political Stability
+corruption,Corruption
+conflict,Conflict
+financial,Financial Capital
+perCapita,Per-Capita Income
+edu,Agricultural Education and Resources
+tariff,Agricultural Import Tariff
+agGDP,Agricultural GDP
+finance,Access to finance for farmers
+priceVol,Food Price Volatility
+foodloss,Food Loss and Waste
+manufactured,Manufactured Capital
+kofgi,Index of Globalization
+agadaptpolicy,Adaptation of agricultural policy
+climatesma,Climate smart agriculture
+disman,Disaster Mangement
+Nindex,Sustainable use of Nitrogen
+RND,Agricultural R&D
+mobile,Mobile access to farmers
+transport,Transportation
+storage,Food Storage Facilities
