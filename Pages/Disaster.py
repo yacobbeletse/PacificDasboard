@@ -231,9 +231,11 @@ def linePlot(df,i,var,c1):
   )
 
   for k in var:
+    # if k!="Count":
+    #     name1 = k.split("_")[0]
 
     fig.add_trace(
-        go.Scatter(x=df["Year"], y=df[k], name=k.split("_")[0]),
+        go.Scatter(x=df["Year"], y=df[k], name=k),
         secondary_y=True,
     )
 
@@ -337,7 +339,7 @@ def app():
       merged = fd11.merge(avgdata,on = "Year",how = "left")
       print(merged.head())
       c1,c2,c3 = st.columns([1,4,1])
-      linePlot(merged,all_factors[indicator1],"Count",c2)
+      linePlot(merged,all_factors[indicator1],["Count"],c2)
 
       # linePlot(fd11,avgdata,)
 
