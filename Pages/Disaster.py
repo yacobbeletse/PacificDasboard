@@ -247,7 +247,7 @@ def linePlot(df,i,var,c1):
   fig.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
   fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
   # fig.update_traces(mode = "markers")
-  # fig.update_layout(width = 800)
+  fig.update_layout(width = 800)
 
   c1.subheader("Influence of Shocks on Score")
   c1.plotly_chart(fig)
