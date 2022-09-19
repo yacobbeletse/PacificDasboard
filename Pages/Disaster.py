@@ -239,6 +239,9 @@ def linePlot(df,i,var,c1):
         secondary_y=True,
     )
 
+    fig.update_yaxes(title_text = "Score for Indicator",secondary_y = False)
+    fig.update_yaxes(title_text = "Standardized Score for the Shock",secondary_y = True)
+
   # fig.add_trace(
   #     go.Scatter(x=df["Year"], y=df[col], name=col),
   #     secondary_y=True,
