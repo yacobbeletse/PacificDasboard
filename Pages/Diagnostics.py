@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
+import plotly.graph_objects as go
 
 # st.sidebar.title("Control Center")
 years = range(2012,2021)
@@ -130,6 +131,26 @@ all_factors1 = {
     'storage': 'Food Storage Facilities'
 }
 
+incomeCat=pd.read_csv("IncomeCat.csv")
+print(incomeCat.head())
+
+
+natural1 = [all_factors1[i] for i in ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']]
+human1 = [all_factors1[i] for i in ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']]
+social1 = [all_factors1[i] for i in ['urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']]
+financial1 = [all_factors1[i] for i in ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']]
+manufactured1 = [all_factors1[i] for i in ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']]
+
+natural = ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']
+human = ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']
+social = ['urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']
+financial = ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']
+manufactured = ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']
+
+# capitals = ['Score','natural','human','social','financial','manufactured']
+
+capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
+
 dataColl = {}
 for i in years:
     abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
@@ -147,13 +168,69 @@ flags = {
 # flags = pd.read_csv('Flag.csv',index_col="Country").T.to_dict("index")
 # print(flags)
 
+def coloredPlot(df,c1,capital,i):
+    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
+    
+    fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285,height = 500)
+    fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+    # # fig1['layout']['xaxis'].update(autorange = True)
+    fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
+    fig1.layout.showlegend = False
+    # fig1.update_traces(textposition='outside')
+    # c1.subheader(capital) 
+    # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+    if i not in all_factors1.keys():
+        c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
+    else:
+        c1.subheader(capital)
 
+    c1.plotly_chart(fig1)
 
-def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
-    # print(df)
+def traffic(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
+    print(df)
     # df=df.transpose()
     # c1.write(df)
     # df.index.name=None
+    # plt.style.use(plt_style)
+    for i in df.columns:
+        print(i)
+        d1,d2 = st.columns([1,15])
+        d1.image("Con_Flags/"+flags[i]+".png",width=50)
+        d2.subheader(str.upper(i))
+        
+        st.metric("Food Systems Resilience Score", np.round(df[i].mean(),2))
+
+        c1,c2,c3,c4,c5 = st.columns(5)
+        colored = df.sort_values(i,ascending=True).copy()
+        
+        colored["Color"] = "green"
+        colored.loc[colored[i]<40,"Color"] = "red"
+        colored.loc[(colored[i]>=40) & (colored[i]<80),"Color"]= "yellow"
+        colored.index = colored.index.map(all_factors1)
+
+        print(colored)
+               
+        nat = colored[colored.index.isin(natural1)]
+        hum =colored[colored.index.isin(human1)]
+        soc = colored[colored.index.isin(social1)]
+        fin = colored[colored.index.isin(financial1)]
+        man = colored[colored.index.isin(manufactured1)]
+        print(nat)
+        coloredPlot(nat,c1,"Natural",i)
+        coloredPlot(hum,c2,"Human",i)
+        coloredPlot(soc,c3,"Social",i)
+        coloredPlot(fin,c4,"Financial",i)
+        coloredPlot(man,c5,"Manufactured",i)
+
+
+def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
+    
+    
+
+    print(df)
+    # df.index = df["Country"]
+
     plt.style.use(plt_style)
     for i in df.columns:
         print(i)
@@ -162,6 +239,9 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
 
         if i in all_factors1.keys():
             st.subheader(str.upper(all_factors1[i]))
+            df["Color"] = "green"
+            df.loc[df[i]<40,"Color"] = "red"
+            df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
         else:
             d1,d2 = st.columns([1,10])
             d1.image("Con_Flags/"+flags[i]+".png",width=50)
@@ -172,83 +252,127 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
 
 
 
-        if index!="country":
-            df["var_name"] = [all_factors1[i] for i in df.index]
+        # if index!="country":
+        #     df["var_name"] = [all_factors1[i] for i in df.index]
+        # else:
+        #      df["var_name"]  = df.index
+
+        df1 =df.merge(incomeCat,left_on = df.index,right_on="Country",how="left")
+        print(df1.head())
+
+        print("Income = "+ str(len(df1["Income Group"].unique())))
+        print("region = "+ str(len(df1["Region"].unique())))
+        c = []
+        c = st.columns(4)
+
+
+        
+
+        if visType == "Income Category":
+            k=0
+            for j in df1["Income Group"].unique():
+            
+                fd = df1[df1["Income Group"]==j].sort_values(i,ascending=True)
+                fd.index = fd["Country"]
+                print(c)
+                coloredPlot(fd,c[k],j,i)
+                k=k+1
         else:
-             df["var_name"]  = df.index
+            k=0
+            for j in df1["Region"].unique():
+            
+                fd = df1[df1["Region"]==j].sort_values(i,ascending=True)
+                fd.index = fd["Country"]
+                print(c)
+                coloredPlot(fd,c[k],j,i)
+                k=k+1
 
-        print(df.head())
+                if(k>3):
+                    k=0
 
-        if(index!="country"):
-            a1,a2,a3,a4,a5,a6 = st.columns(6)
+            # dat.append(fd)
+            # print(fd.head())
+        # coloredPlot(dat[0],c1,j,i)
+        # coloredPlot(dat[1],c2,j,i)
+        # coloredPlot(dat[2],c3,j,i)
+        # coloredPlot(dat[3],c4,j,i)
+        # coloredPlot(df,c2,j,i)
+        # coloredPlot(df,c3,j,i)
+        # coloredPlot(df,c4,j,i)
 
-            if(present.empty):    
-                print("Present Empty")   
 
-                a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
-                a2.metric(label="Natural Capital",value=df.loc[df["var_name"]=="Natural Capital",i])
-                a3.metric(label="Human Capital",value=df.loc[df["var_name"]=="Human Capital",i])
-                a4.metric(label="Social Capital",value=df.loc[df["var_name"]=="Social Capital",i])
-                a5.metric(label="Financial Capital",value=df.loc[df["var_name"]=="Financial Capital",i])
-                a6.metric(label="Manufactured Capital",value=df.loc[df["var_name"]=="Manufactured Capital",i])
-            else:
-                print(present.head())
-                print("OKOK")
-                print(df.head())
-                a1.metric(label="Food System Resilience Score",value=present.loc[present.index=="Score",i][0],delta=str(np.round(df.loc[df["var_name"]=="Food System Resilience Score",i][0],2)))
-                a2.metric(label="Natural Capital",value=present.loc[present.index=="natural",i][0],delta=str(np.round(df.loc[df["var_name"]=="Natural Capital",i][0],2)))
-                a3.metric(label="Human Capital",value=present.loc[present.index=="human",i][0],delta=str(np.round(df.loc[df["var_name"]=="Human Capital",i][0],2)))
-                a4.metric(label="Social Capital",value=present.loc[present.index=="social",i][0],delta=str(np.round(df.loc[df["var_name"]=="Social Capital",i][0],2)))
-                a5.metric(label="Financial Capital",value=present.loc[present.index=="financial",i][0],delta=str(np.round(df.loc[df["var_name"]=="Financial Capital",i][0],2)))
-                a6.metric(label="Manufactured Capital",value=present.loc[present.index=="manufactured",i][0],delta=str(np.round(df.loc[df["var_name"]=="Manufactured Capital",i][0],2)))   
+
+
+        # if(index!="country"):
+        #     a1,a2,a3,a4,a5,a6 = st.columns(6)
+
+        #     if(present.empty):    
+        #         print("Present Empty")   
+
+        #         a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+        #         a2.metric(label="Natural Capital",value=df.loc[df["var_name"]=="Natural Capital",i])
+        #         a3.metric(label="Human Capital",value=df.loc[df["var_name"]=="Human Capital",i])
+        #         a4.metric(label="Social Capital",value=df.loc[df["var_name"]=="Social Capital",i])
+        #         a5.metric(label="Financial Capital",value=df.loc[df["var_name"]=="Financial Capital",i])
+        #         a6.metric(label="Manufactured Capital",value=df.loc[df["var_name"]=="Manufactured Capital",i])
+        #     else:
+        #         print(present.head())
+        #         print("OKOK")
+        #         print(df.head())
+        #         a1.metric(label="Food System Resilience Score",value=present.loc[present.index=="Score",i][0],delta=str(np.round(df.loc[df["var_name"]=="Food System Resilience Score",i][0],2)))
+        #         a2.metric(label="Natural Capital",value=present.loc[present.index=="natural",i][0],delta=str(np.round(df.loc[df["var_name"]=="Natural Capital",i][0],2)))
+        #         a3.metric(label="Human Capital",value=present.loc[present.index=="human",i][0],delta=str(np.round(df.loc[df["var_name"]=="Human Capital",i][0],2)))
+        #         a4.metric(label="Social Capital",value=present.loc[present.index=="social",i][0],delta=str(np.round(df.loc[df["var_name"]=="Social Capital",i][0],2)))
+        #         a5.metric(label="Financial Capital",value=present.loc[present.index=="financial",i][0],delta=str(np.round(df.loc[df["var_name"]=="Financial Capital",i][0],2)))
+        #         a6.metric(label="Manufactured Capital",value=present.loc[present.index=="manufactured",i][0],delta=str(np.round(df.loc[df["var_name"]=="Manufactured Capital",i][0],2)))   
             
        
-        best_10 = df.sort_values(i,ascending = False).head(10)
-        best_10[i] = best_10[i].apply(np.round)
-        best_10 = best_10.sort_values(i,ascending=True)
+        # best_10 = df.sort_values(i,ascending = False).head(10)
+        # best_10[i] = best_10[i].apply(np.round)
+        # best_10 = best_10.sort_values(i,ascending=True)
 
-        print(best_10)
+        # print(best_10)
 
-        c1,c2 = st.columns(2)
+        # c1,c2 = st.columns(2)
 
 
-        fig1 = px.bar(best_10, x = i,y = "var_name",orientation='h',text=i)
+        # fig1 = px.bar(best_10, x = i,y = "var_name",orientation='h',text=i)
         
-        fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-        # fig1['layout']['xaxis'].update(autorange = True)
-        fig1.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-        fig1.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
-        fig1.update_traces(textposition='outside')
+        # fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
+        # # fig1['layout']['xaxis'].update(autorange = True)
+        # fig1.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+        # fig1.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+        # fig1.update_traces(textposition='outside')
     
-        c1.plotly_chart(fig1)
+        # c1.plotly_chart(fig1)
 
 
 
-        worst_10 = df.sort_values(i,ascending = True).head(10)
-        worst_10[i] = worst_10[i].apply(np.round)
-        worst_10 = worst_10.sort_values(i,ascending=False)
-        print(worst_10)
+        # worst_10 = df.sort_values(i,ascending = True).head(10)
+        # worst_10[i] = worst_10[i].apply(np.round)
+        # worst_10 = worst_10.sort_values(i,ascending=False)
+        # print(worst_10)
 
-        fig2 = px.bar(worst_10, x = i,y = "var_name",orientation='h',text=i)
-
-
-        fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-        fig2.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-        fig2.update_traces(textposition='outside')
-        fig2.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+        # fig2 = px.bar(worst_10, x = i,y = "var_name",orientation='h',text=i)
 
 
-        if(visType=="Des"):
-            fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-        else:
-            fig2.update_layout(xaxis_range=[-100,5],yaxis_title=None, xaxis_title=None)
+        # fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
+        # fig2.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+        # fig2.update_traces(textposition='outside')
+        # fig2.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+
+
+        # if(visType=="Des"):
+        #     fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
+        # else:
+        #     fig2.update_layout(xaxis_range=[-100,5],yaxis_title=None, xaxis_title=None)
    
-        c2.plotly_chart(fig2)
+        # c2.plotly_chart(fig2)
 
-        # del d1,d2,c1,c2
+        # # del d1,d2,c1,c2
 
-        if index!="country":
-            del a1,a2,a3,a4,a5,a6
+        # if index!="country":
+        #     del a1,a2,a3,a4,a5,a6
 
 
 
@@ -274,19 +398,37 @@ def visualizeOp(op,yearChoice=2020):
         # df = org_data[countrySelect]
         df = org_data[org_data.index.isin(countrySelect)].transpose()
         print(df)
-        showPlot(df,index='indicator')
+        traffic(df,index = "indicator")
+        # showPlot(df,index='indicator')
 
      
     else:
-        indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
-        # trans_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country').transpose()
-        indSelect = [all_factors[i] for i in indSelect1]
-        print("choice of year = " + str(yearChoice))
+        vistype = st.sidebar.selectbox("Visualization by:",["Income Category","Region"])
+        capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+        indicator1=None
+        if capital=="Natural":
+            indicator1 = st.sidebar.selectbox("Indicator",natural1)
+        elif capital=="Human":
+            indicator1 = st.sidebar.selectbox("Indicator",human1)
+        elif capital=="Social":
+            indicator1 = st.sidebar.selectbox("Indicator",social1)
+        elif capital=="Financial":
+            indicator1 = st.sidebar.selectbox("Indicator",financial1)
+        elif capital=="Manufactured":
+            indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+        else:
+            indicator1 = "Food System Resilience Score"
+        # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
+        # # trans_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country').transpose()
+        # indSelect = [all_factors[i] for i in indSelect1]
+        # print("choice of year = " + str(yearChoice))
         trans_data=dataColl[yearChoice]
-        df1 = trans_data[indSelect]
-        # print(df1)
+        # print(trans_data)
+        # print(all_factors[indicator1])
+        df1 = trans_data.loc[:,[all_factors[indicator1]]]
+        print(df1)
 
-        showPlot(df1,index='country')
+        showPlot(df1,index='country',visType=vistype)
 
 
 
