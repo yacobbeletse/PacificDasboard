@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-
+incomeCat=pd.read_csv("IncomeCat.csv")
 plt_style = 'bmh'
 natural = ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']
 human = ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']
@@ -145,7 +145,8 @@ social1 = [all_factors1[i] for i in ['urbancap', 'safetynet', 'policyfood', 'nut
 financial1 = [all_factors1[i] for i in ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']]
 manufactured1 = [all_factors1[i] for i in ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']]
 
-capitals = ['Score','natural','human','social','financial','manufactured']
+# capitals = ['Score','natural','human','social','financial','manufactured']
+capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
 
 dataColl = {}
 years = range(2012,2021)
@@ -163,6 +164,25 @@ def showOption():
     opts = ['Country','Indicator']
     op = st.sidebar.selectbox('Analysis by:',opts)
     return op
+
+def coloredPlot(df,c1,capital,i):
+    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
+    
+    fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285,height = 500)
+    fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+    # # fig1['layout']['xaxis'].update(autorange = True)
+    fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
+    fig1.layout.showlegend = False
+    # fig1.update_traces(textposition='outside')
+    # c1.subheader(capital) 
+    # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+    if i not in all_factors1.keys():
+        c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
+    else:
+        c1.subheader(capital)
+
+    c1.plotly_chart(fig1)
 
 
 def linePlot1(df,countrySelect,capital):
@@ -271,7 +291,8 @@ def visualizeComp(op,choiceDiff):
         # df = org_data[countrySelect]
         print('*****')
         print(original.head())
-        showPlot(df,"Comp","indx",present = original)
+        traffic(df,index = "indicator",present = original[original.index.isin(all_factors1.keys())])
+        # showPlot1(df,"Comp","indx",present = original)
     elif op =="Countryvs":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
         indexes = ["Score","natural","human","social","financial","manufactured","Year"]
@@ -322,17 +343,186 @@ def visualizeComp(op,choiceDiff):
         linePlot1(df1,countrySelect,capital)
 
     else:
-        indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
-        indSelect = [all_factors[i] for i in indSelect1]
-        df1 = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[indSelect]
-        print(df1)
-        showPlot(df1,index="country",visType="Comp")
+        # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
+        # indSelect = [all_factors[i] for i in indSelect1]
+        # df1 = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[indSelect]
+        # print(df1)
+        # showPlot(df1,index="country",visType="Comp")
 
-def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
-    # print(df)
+        vistype = st.sidebar.selectbox("Visualization by:",["Income Category","Region"])
+        capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+        indicator1=None
+        if capital=="Natural":
+            indicator1 = st.sidebar.selectbox("Indicator",natural1)
+        elif capital=="Human":
+            indicator1 = st.sidebar.selectbox("Indicator",human1)
+        elif capital=="Social":
+            indicator1 = st.sidebar.selectbox("Indicator",social1)
+        elif capital=="Financial":
+            indicator1 = st.sidebar.selectbox("Indicator",financial1)
+        elif capital=="Manufactured":
+            indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+        else:
+            indicator1 = "Food System Resilience Score"
+
+        df = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[[all_factors[indicator1]]]
+        print(df)
+        # df = df[df.index.isin(countrySelect)].transpose()
+        # original = dataColl[yearChoice[0]][dataColl[yearChoice[0]].index.isin(countrySelect)].transpose()
+        original = dataColl[yearChoice[0]][[all_factors[indicator1]]]
+        # print(original)
+        # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
+        # # trans_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country').transpose()
+        # indSelect = [all_factors[i] for i in indSelect1]
+        # print("choice of year = " + str(yearChoice))
+        # trans_data=dataColl[yearChoice]
+        # print(trans_data)
+        # print(all_factors[indicator1])
+        # df1 = trans_data.loc[:,[all_factors[indicator1]]]
+        # print(yearChoice)
+        # print("IF ELSE")
+        # print(df1.head())
+
+        showPlot1(df,index='country',visType=vistype,present = original)
+
+def traffic(df,index = "country",visType="Time",check="nice",present=pd.DataFrame()):
+    print("Entered Traffic")
+    print(df)
     # df=df.transpose()
     # c1.write(df)
     # df.index.name=None
+    # plt.style.use(plt_style)
+    for i in df.columns:
+        print(i)
+        print(present)
+        d1,d2 = st.columns([1,15])
+        d1.image("Con_Flags/"+flags[i]+".png",width=50)
+        d2.subheader(str.upper(i))
+        
+        st.metric("Food Systems Resilience Score", np.round(present[i].mean(),2),delta = np.round(float(df.loc[df.index=="Score",i]),1))
+
+        c1,c2,c3,c4,c5 = st.columns(5)
+        colored = df.sort_values(i,ascending=True).copy()
+        
+        colored["Color"] = "green"
+        colored.loc[colored[i]<0,"Color"] = "red"
+        # colored.loc[(colored[i]>=40) & (colored[i]<80),"Color"]= "yellow"
+        colored.index = colored.index.map(all_factors1)
+
+        print(colored)
+               
+        nat = colored[colored.index.isin(natural1)]
+        hum =colored[colored.index.isin(human1)]
+        soc = colored[colored.index.isin(social1)]
+        fin = colored[colored.index.isin(financial1)]
+        man = colored[colored.index.isin(manufactured1)]
+
+        present_nat = present[present.index.isin(natural)]
+        present_hum = present[present.index.isin(human)]
+        present_soc = present[present.index.isin(social)]
+        present_fin = present[present.index.isin(financial)]
+        present_man = present[present.index.isin(manufactured)]
+        print(nat)
+        coloredPlot(nat,c1,"Natural",i,visType="Time",present = present_nat)
+        coloredPlot(hum,c2,"Human",i,visType="Time",present = present_hum)
+        coloredPlot(soc,c3,"Social",i,visType="Time",present = present_soc)
+        coloredPlot(fin,c4,"Financial",i,visType="Time",present = present_fin)
+        coloredPlot(man,c5,"Manufactured",i,visType="Time",present = present_man)
+
+def coloredPlot(df,c1,capital,i,visType=None,present=pd.DataFrame()):
+    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
+    
+    fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 285,height = 500)
+    fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+    # # fig1['layout']['xaxis'].update(autorange = True)
+    fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
+    fig1.layout.showlegend = False
+    # fig1.update_traces(textposition='outside')
+    # c1.subheader(capital) 
+    # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+    if i not in all_factors1.keys():
+        if visType!="Time":
+            c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
+        else:
+            c1.metric(label=capital+" Capital",value=np.round(present[i].mean(),2),delta = np.round(df[i].mean(),1))
+
+    else:
+        c1.subheader(capital)
+
+    c1.plotly_chart(fig1)
+
+def showPlot1(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
+    
+    
+    print("showplot1")
+    print(df)
+    # df.index = df["Country"]
+
+    plt.style.use(plt_style)
+    for i in df.columns:
+        print(i)
+        
+        
+
+        if i in all_factors1.keys():
+            st.subheader(str.upper(all_factors1[i]))
+            df["Color"] = "green"
+            df.loc[df[i]<0,"Color"] = "red"
+            # df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
+        else:
+            d1,d2 = st.columns([1,10])
+            d1.image("Con_Flags/"+flags[i]+".png",width=50)
+            d2.subheader(str.upper(i))
+        # else:
+        #     d1.subheader(str.upper(i))
+        print(df.head())
+
+
+
+        # if index!="country":
+        #     df["var_name"] = [all_factors1[i] for i in df.index]
+        # else:
+        #      df["var_name"]  = df.index
+
+        df1 =df.merge(incomeCat,left_on = df.index,right_on="Country",how="left")
+        print(df1.head())
+
+        print("Income = "+ str(len(df1["Income Group"].unique())))
+        print("region = "+ str(len(df1["Region"].unique())))
+        c = []
+        
+
+
+        
+
+        if visType == "Income Category":
+            c = st.columns(4)
+            k=0
+            for j in df1["Income Group"].unique():
+            
+                fd = df1[df1["Income Group"]==j].sort_values(i,ascending=True)
+                fd.index = fd["Country"]
+                print(c)
+                coloredPlot(fd,c[k],j,i)
+                k=k+1
+        else:
+            c = st.columns(5)
+            k=0
+            for j in df1["Region"].unique():
+            
+                fd = df1[df1["Region"]==j].sort_values(i,ascending=True)
+                fd.index = fd["Country"]
+                print(c)
+                coloredPlot(fd,c[k],j,i)
+                k=k+1
+
+                if(k>4):
+                    k=0
+
+
+def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
+
     plt.style.use(plt_style)
     for i in df.columns:
         print(i)
