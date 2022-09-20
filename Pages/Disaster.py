@@ -235,7 +235,7 @@ def linePlot(df,i,var,c1):
     #     name1 = k.split("_")[0]
 
     fig.add_trace(
-        go.Scatter(x=df["Year"], y=df[k], name=k),
+        go.Scatter(x=df["Year"], y=df[k], name=k.split("_")[0]),
         secondary_y=True,
     )
 
