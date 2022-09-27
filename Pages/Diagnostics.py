@@ -135,11 +135,11 @@ incomeCat=pd.read_csv("IncomeCat.csv")
 print(incomeCat.head())
 
 
-natural1 = [all_factors1[i] for i in ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']]
-human1 = [all_factors1[i] for i in ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']]
-social1 = [all_factors1[i] for i in ['urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']]
-financial1 = [all_factors1[i] for i in ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']]
-manufactured1 = [all_factors1[i] for i in ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']]
+natural1 = [all_factors1[i] for i in ['natural','BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']]
+human1 = [all_factors1[i] for i in ['human','Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']]
+social1 = [all_factors1[i] for i in ['social','urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']]
+financial1 = [all_factors1[i] for i in ['financial','perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']]
+manufactured1 = [all_factors1[i] for i in ['manufactured','kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']]
 
 natural = ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']
 human = ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']
@@ -434,6 +434,5 @@ def visualizeOp(op,yearChoice=2020):
 
 def app():
     yearChoice =  st.sidebar.selectbox('Select Year(s)',sorted(list(years),reverse=True))
-    print(type(yearChoice))
     op =showOption()
     visualizeOp(op,yearChoice)
