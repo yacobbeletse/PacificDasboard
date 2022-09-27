@@ -281,6 +281,7 @@ def visualizeMap1(gdf):
 # @st.cache(suppress_st_warning=True)
 
 def linePlot(df,i,var,c1,shock=None):
+  print(df)
 
   fig = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -289,10 +290,9 @@ def linePlot(df,i,var,c1,shock=None):
       go.Scatter(x=df["Year"], y=df[i], name=all_factors1[i]),
       secondary_y=False,
   )
-
   for k in var:
     # if k!="Count":
-    #     name1 = k.split("_")[0]
+    #     name1 = 
 
     fig.add_trace(
         go.Scatter(x=df["Year"], y=df[k], name=k.split("_")[0]),
@@ -309,7 +309,7 @@ def linePlot(df,i,var,c1,shock=None):
     xanchor="right",
     x=1
 ))
-    c1.subheader("Influence of "+shock +" on " +  all_factors1[i])
+  c1.subheader("Influence of "+shock +" on " +  all_factors1[i])
 
   # fig.add_trace(
   #     go.Scatter(x=df["Year"], y=df[col], name=col),
@@ -469,7 +469,7 @@ def app():
 
 
             if sdf.empty:
-                st.subheader("No "+ shock + " reported in chosen time range")
+                st.subheader("No "+ shock + " reported in chosen year range "+ str(years[0]) + " and "+  str(years[-1]))
 
             else:
                 fd1 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
@@ -527,7 +527,7 @@ def app():
 
                 var = ["Count","Total Deaths_new","Total Affected_new","AdjustedDamages_new"]
                 # c1,c2,c3 = st.columns([1,8,1])
-                linePlot(merged, all_factors[indicator1],var,st)
+                linePlot(merged, all_factors[indicator1],var,st,shock=shock)
           # coll = int(len(var)/2)
           # print("printing coll")
           # print(coll)

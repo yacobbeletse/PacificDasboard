@@ -168,6 +168,8 @@ flags = {
 # flags = pd.read_csv('Flag.csv',index_col="Country").T.to_dict("index")
 # print(flags)
 
+
+
 def coloredPlot(df,c1,capital,i):
     fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
     
