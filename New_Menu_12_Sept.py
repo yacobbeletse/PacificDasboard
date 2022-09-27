@@ -271,7 +271,7 @@ expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
 
 st.sidebar.write("PARTNERS")
-st.sidebar.image('partners.png')
+st.sidebar.image('partners.PNG')
 # a1,b1,c1 = st.sidebar.columns(3)
 # a1.image('CSIRO.png',width=100)
 # b1.image('ANU.png',width=100)
