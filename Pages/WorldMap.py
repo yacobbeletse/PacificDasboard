@@ -136,8 +136,10 @@ capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
 world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
 world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
 world['name'] = world['name'].str.lower() 
+print("Number of Countries = "+str(len(world['name'].unique())))
 
 alldata1 = pd.read_csv("restructure.csv")
+alldata1 = alldata1.replace({'United States':'United States of America'})
 
 
 # print(df.head())
@@ -211,11 +213,13 @@ def app():
     df = df[["Year","Country",'Indicator',"Value"]][(df["Indicator"]==indicator1) & (df["Year"]==Year)]
     df["Country"]=df["Country"].str.lower()
     df["Year"] = df["Year"].astype("int")
-    merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'left')
+    print("alldata country = "+ str(len(df["Country"].unique())))
+    print(df["Country"].unique())
+    merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'right')
 
     gdf = geopandas.GeoDataFrame(merged, geometry="geometry").dropna()
 
-    print(gdf.head())
+    print(gdf)
     gdf.index = gdf.name
     # gdf["Year"]=gdf["Year"].astype("int")
     st.subheader(str.upper(indicator1))

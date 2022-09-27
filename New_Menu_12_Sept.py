@@ -248,6 +248,7 @@ for i in years:
     abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
     # dataColl[i] = pd.read_csv(DATA_URL + "\\"+str(i)+'.csv',index_col= 'Country')
     dataColl[i] = abc
+
 org_data=dataColl[2020]
 trans_data = org_data.transpose()
 
@@ -260,20 +261,23 @@ my_html1 = """<h3>Please share your experience of using this tool
     
     
 
-with st.sidebar:
-    components.html(my_html1)
+
 
 
 
 components.html(my_html1)
 
 st.sidebar.write("PARTNERS")
-a,b,c = st.sidebar.columns(3)
-a.image('CSIRO.png',width=100)
-b.image('ANU.png',width=100)
-c.image('DFAT.png',width=100)
+st.sidebar.image('partners.png')
+# a1,b1,c1 = st.sidebar.columns(3)
+# a1.image('CSIRO.png',width=100)
+# b1.image('ANU.png',width=100)
+# c1.image('DFAT.png',width=100)
+
 # st.write("__Please share your experience here__")
 
+with st.sidebar:
+    components.html(my_html1)
 
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
