@@ -320,6 +320,15 @@ def linePlot(df,i,var,c1,shock=None):
   fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
   # fig.update_traces(mode = "markers")
   fig.update_layout(width = 800)
+  fig.update_layout(
+    # title="Plot Title",
+    # xaxis_title="X Axis Title",
+    # yaxis_title="Y Axis Title",
+    # legend_title="Legend Title",
+    font=dict(
+        family="Arial Black",
+        size=9,
+    ))
 
   
   c1.plotly_chart(fig)
