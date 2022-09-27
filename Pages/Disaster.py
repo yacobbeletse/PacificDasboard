@@ -175,6 +175,38 @@ world['name'] = world['name'].str.lower()
 flags = {
    'Afghanistan': 'af', 'Albania': 'al', 'Algeria': 'dz', 'American Samoa': 'as', 'Andorra': 'ad', 'Angola': 'ao', 'Anguilla': 'ai', 'Antarctica': 'aq', 'Antigua and Barbuda': 'ag', 'Argentina': 'ar', 'Armenia': 'am', 'Aruba': 'aw', 'Australia': 'au', 'Austria': 'at', 'Azerbaijan': 'az', 'Bahamas': 'bs', 'Bahrain': 'bh', 'Bangladesh': 'bd', 'Barbados': 'bb', 'Belarus': 'by', 'Belgium': 'be', 'Belize': 'bz', 'Benin': 'bj', 'Bermuda': 'bm', 'Bhutan': 'bt', 'Bolivia, Plurinational State of': 'bo', 'Bolivia': 'bo', 'Bosnia and Herzegovina': 'ba', 'Botswana': 'bw', 'Bouvet Island': 'bv', 'Brazil': 'br', 'British Indian Ocean Territory': 'io', 'Brunei Darussalam': 'bn', 'Brunei': 'bn', 'Bulgaria': 'bg', 'Burkina Faso': 'bf', 'Burundi': 'bi', 'Cambodia': 'kh', 'Cameroon': 'cm', 'Canada': 'ca', 'Cape Verde': 'cv', 'Cayman Islands': 'ky', 'Central African Republic': 'cf', 'Chad': 'td', 'Chile': 'cl', 'China': 'cn', 'Christmas Island': 'cx', 'Cocos (Keeling) Islands': 'cc', 'Colombia': 'co', 'Comoros': 'km', 'Congo': 'cg', 'Congo, the Democratic Republic of the': 'cd', 'Cook Islands': 'ck', 'Costa Rica': 'cr', "Côte d'Ivoire": 'ci', 'Ivory Coast': 'ci', 'Croatia': 'hr', 'Cuba': 'cu', 'Cyprus': 'cy', 'Czech Republic': 'cz', 'Denmark': 'dk', 'Djibouti': 'dj', 'Dominica': 'dm', 'Dominican Republic': 'do', 'Ecuador': 'ec', 'Egypt': 'eg', 'El Salvador': 'sv', 'Equatorial Guinea': 'gq', 'Eritrea': 'er', 'Estonia': 'ee', 'Ethiopia': 'et', 'Falkland Islands (Malvinas)': 'fk', 'Faroe Islands': 'fo', 'Fiji': 'fj', 'Finland': 'fi', 'France': 'fr', 'French Guiana': 'gf', 'French Polynesia': 'pf', 'French Southern Territories': 'tf', 'Gabon': 'ga', 'Gambia': 'gm', 'Georgia': 'ge', 'Germany': 'de', 'Ghana': 'gh', 'Gibraltar': 'gi', 'Greece': 'gr', 'Greenland': 'gl', 'Grenada': 'gd', 'Guadeloupe': 'gp', 'Guam': 'gu', 'Guatemala': 'gt', 'Guernsey': 'gg', 'Guinea': 'gn', 'Guinea-Bissau': 'gw', 'Guyana': 'gy', 'Haiti': 'ht', 'Heard Island and McDonald Islands': 'hm', 'Holy See (Vatican City State)': 'va', 'Honduras': 'hn', 'Hong Kong': 'hk', 'Hungary': 'hu', 'Iceland': 'is', 'India': 'in', 'Indonesia': 'id', 'Iran, Islamic Republic of': 'ir', 'Iraq': 'iq', 'Ireland': 'ie', 'Isle of Man': 'im', 'Israel': 'il', 'Italy': 'it', 'Jamaica': 'jm', 'Japan': 'jp', 'Jersey': 'je', 'Jordan': 'jo', 'Kazakhstan': 'kz', 'Kenya': 'ke', 'Kiribati': 'ki', "Korea, Democratic People's Republic of": 'kp', 'Korea, Republic of': 'kr', 'South Korea': 'kr', 'Kuwait': 'kw', 'Kyrgyzstan': 'kg', "Lao People's Democratic Republic": 'la', 'Latvia': 'lv', 'Lebanon': 'lb', 'Lesotho': 'ls', 'Liberia': 'lr', 'Libyan Arab Jamahiriya': 'ly', 'Libya': 'ly', 'Liechtenstein': 'li', 'Lithuania': 'lt', 'Luxembourg': 'lu', 'Macao': 'mo', 'Macedonia, the former Yugoslav Republic of': 'mk', 'Madagascar': 'mg', 'Malawi': 'mw', 'Malaysia': 'my', 'Maldives': 'mv', 'Mali': 'ml', 'Malta': 'mt', 'Marshall Islands': 'mh', 'Martinique': 'mq', 'Mauritania': 'mr', 'Mauritius': 'mu', 'Mayotte': 'yt', 'Mexico': 'mx', 'Micronesia, Federated States of': 'fm', 'Moldova, Republic of': 'md', 'Monaco': 'mc', 'Mongolia': 'mn', 'Montenegro': 'me', 'Montserrat': 'ms', 'Morocco': 'ma', 'Mozambique': 'mz', 'Myanmar': 'mm', 'Burma': 'mm', 'Namibia': 'na', 'Nauru': 'nr', 'Nepal': 'np', 'Netherlands': 'nl', 'Netherlands Antilles': 'an', 'New Caledonia': 'nc', 'New Zealand': 'nz', 'Nicaragua': 'ni', 'Niger': 'ne', 'Nigeria': 'ng', 'Niue': 'nu', 'Norfolk Island': 'nf', 'Northern Mariana Islands': 'mp', 'Norway': 'no', 'Oman': 'om', 'Pakistan': 'pk', 'Palau': 'pw', 'Palestinian Territory, Occupied': 'ps', 'Panama': 'pa', 'Papua New Guinea': 'pg', 'Paraguay': 'py', 'Peru': 'pe', 'Philippines': 'ph', 'Pitcairn': 'pn', 'Poland': 'pl', 'Portugal': 'pt', 'Puerto Rico': 'pr', 'Qatar': 'qa', 'Réunion': 're', 'Romania': 'ro', 'Russian Federation': 'ru', 'Russia': 'ru', 'Rwanda': 'rw', 'Saint Helena, Ascension and Tristan da Cunha': 'sh', 'Saint Kitts and Nevis': 'kn', 'Saint Lucia': 'lc', 'Saint Pierre and Miquelon': 'pm', 'Saint Vincent and the Grenadines': 'vc', 'Saint Vincent & the Grenadines': 'vc', 'St. Vincent and the Grenadines': 'vc', 'Samoa': 'ws', 'San Marino': 'sm', 'Sao Tome and Principe': 'st', 'Saudi Arabia': 'sa', 'Senegal': 'sn', 'Serbia': 'rs', 'Seychelles': 'sc', 'Sierra Leone': 'sl', 'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'Solomon Islands': 'sb', 'Somalia': 'so', 'South Africa': 'za', 'South Georgia and the South Sandwich Islands': 'gs', 'South Sudan': 'ss', 'Spain': 'es', 'Sri Lanka': 'lk', 'Sudan': 'sd', 'Suriname': 'sr', 'Svalbard and Jan Mayen': 'sj', 'Swaziland': 'sz', 'Sweden': 'se', 'Switzerland': 'ch', 'Syrian Arab Republic': 'sy', 'Taiwan, Province of China': 'tw', 'Taiwan': 'tw', 'Tajikistan': 'tj', 'Tanzania': 'tz', 'Thailand': 'th', 'Timor-Leste': 'tl', 'Togo': 'tg', 'Tokelau': 'tk', 'Tonga': 'to', 'Trinidad and Tobago': 'tt', 'Tunisia': 'tn', 'Turkey': 'tr', 'Turkmenistan': 'tm', 'Turks and Caicos Islands': 'tc', 'Tuvalu': 'tv', 'Uganda': 'ug', 'Ukraine': 'ua', 'United Arab Emirates': 'ae', 'United Kingdom': 'gb', 'United States': 'us', 'United States Minor Outlying Islands': 'um', 'Uruguay': 'uy', 'Uzbekistan': 'uz', 'Vanuatu': 'vu', 'Venezuela, Bolivarian Republic of': 've', 'Venezuela': 've', 'Viet Nam': 'vn', 'Vietnam': 'vn', 'Virgin Islands, British': 'vg', 'Virgin Islands, U.S.': 'vi', 'Wallis and Futuna': 'wf', 'Western Sahara': 'eh', 'Yemen': 'ye', 'Zambia': 'zm', 'Zimbabwe': 'zw'
    }
+
+countryRename = {
+    'Bahamas (the)': 'Bahamas',
+    'Bolivia (Plurinational State of)': 'Bolivia',
+    'Brunei Darussalam': 'Brunei',
+    'CÃ´te dÂ’Ivoire': 'Ivory Coast',
+    'Cayman Islands (the)': 'Cayman Islands',
+    'Comoros (the)': 'Comoros',
+    'Congo (the Democratic Republic of the)': 'DR Congo',
+    'Congo (the)': 'Congo Republic',
+    'Czech Republic (the)': 'Czech Republic',
+    'Dominican Republic (the)': 'Dominican Republic',
+    'Gambia (the)': 'Gambia',
+    'Iran (Islamic Republic of)': 'Iran',
+    "Korea (the Democratic People's Republic of)": 'North Korea',
+    'Korea (the Republic of)': 'South Korea',
+    "Lao People's Democratic Republic (the)": 'Laos',
+    'Moldova (the Republic of)': 'Moldova',
+    'Netherlands (the)': 'Netherlands',
+    'Niger (the)': 'Niger',
+    'Palestine, State of': 'Palestine',
+    'Philippines (the)': 'Philippines',
+    'Russian Federation (the)':'Russia',
+    'Sudan (the)': 'Sudan',
+    'Syrian Arab Republic': 'Syria',
+    'Tanzania, United Republic of':'Tanzania',
+    'United Arab Emirates (the)': 'United Arab Emirates',
+    'United Kingdom of Great Britain and Northern Ireland (the)': 'United Kingdom',
+    'Venezuela (Bolivarian Republic of)': 'Venezuela',
+    'Viet Nam': 'Vietnam',
+    'Yemen Arab Rep': 'Yemen'
+}
 # alldata1 = pd.read_csv("restructure.csv")
 
 
@@ -270,6 +302,7 @@ capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
 def app():
     global dff
     df = pd.read_csv("alldisaster.csv")
+    df = df.replace(countryRename)
     years_df = df['Year'].unique()
     low = min(years_df)
     high = max(years_df)
@@ -362,85 +395,94 @@ def app():
         ranger = st.sidebar.slider('Choose the range!', min_value=int(low),max_value=int(high),value=(2000,2022))
         shock = st.sidebar.selectbox('Select a shock',damages.keys())
         df = df[(df["Year"]>=ranger[0]) & (df["Year"]<=ranger[1]) & (df["Country"]==country)]
-        fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum()
-        fd = fd.assign(intensity=lambda x: x[['Total Deaths_new','Total Affected_new','AdjustedDamages_new']].mean(axis=1)).reset_index()
-        fd = fd[["Country","Disaster Type","intensity"]]
-        print(fd)
-
-        fd["intensity"] = fd["intensity"].apply(np.ceil)
-        print(fd.head())
-
-        d1,d2 = st.columns([1,10])
-        d1.image("Con_Flags/"+flags[country]+".png",width=50)
-        d2.subheader(str.upper(country))
-        fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
-        fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
-                size =18,
-        )
-        )
-        fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-        fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
-        fig3.update_traces(textposition='outside')
-        st.subheader("Impacts of Food Shocks")
-        st.plotly_chart(fig3)
-
-        capital = st.sidebar.selectbox('FSRS/Capital',capitals)
-        indicator1=None
-        if capital=="Natural":
-            indicator1 = st.sidebar.selectbox("Indicator",natural1)
-        elif capital=="Human":
-            indicator1 = st.sidebar.selectbox("Indicator",human1)
-        elif capital=="Social":
-            indicator1 = st.sidebar.selectbox("Indicator",social1)
-        elif capital=="Financial":
-            indicator1 = st.sidebar.selectbox("Indicator",financial1)
-        elif capital=="Manufactured":
-            indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
-        else:
-            indicator1 = "Food System Resilience Score"
-        
-        df = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
-        print(df)
-
-
         if df.empty:
-          st.subheader("NO "+ shock + " reported in chosen time range")
-
+            st.subheader("NO DISASTERS REPORTED IN "+country)
         else:
-          fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+            fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum()
+            fd = fd.assign(intensity=lambda x: x[['Total Deaths_new','Total Affected_new','AdjustedDamages_new']].mean(axis=1)).reset_index()
+            fd = fd[["Country","Disaster Type","intensity"]]
+            print(fd)
 
-          fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
-          print("fd11")
-          print(fd11)
-          fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
+            fd["intensity"] = fd["intensity"].apply(np.ceil)
+            print(fd.head())
 
-          # fd = fd["intensity"].apply(np.round)
-          
+            d1,d2 = st.columns([1,10])
+            d1.image("Con_Flags/"+flags[country]+".png",width=50)
+            d2.subheader(str.upper(country))
+            fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
+            fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
+                    size =18,
+            )
+            )
+            fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+            fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+            fig3.update_traces(textposition='outside')
+            st.subheader("Impacts of Food Shocks")
+            st.plotly_chart(fig3)
+
+            sdf = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
+            # print(dff)
+
+
+            if sdf.empty:
+                st.subheader("No "+ shock + " reported in chosen time range")
+
+            else:
+                fd1 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+
+                fd11 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
+                print("fd1")
+                print(fd1)
+                fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
+                print("fd11")
+                print(fd11)
+
+                capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+                indicator1=None
+                if capital=="Natural":
+                    indicator1 = st.sidebar.selectbox("Indicator",natural1)
+                elif capital=="Human":
+                    indicator1 = st.sidebar.selectbox("Indicator",human1)
+                elif capital=="Social":
+                    indicator1 = st.sidebar.selectbox("Indicator",social1)
+                elif capital=="Financial":
+                    indicator1 = st.sidebar.selectbox("Indicator",financial1)
+                elif capital=="Manufactured":
+                    indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+                else:
+                    indicator1 = "Food System Resilience Score"
+            
+            
+
+            
+
+                # fd = fd["intensity"].apply(np.round)
+                
 
 
 
-          
-          # choice = st.sidebar.selectbox("Choose a Disaster Impact",["Deaths","Total Affected","Economic Damages"])
-          # intensity_score = st.sidebar.slider('Enter the shock intensity', min_value=0,max_value=10,value=0)
-          # ranger = st.sidebar.slider('Choose the range!', min_value=int(low),max_value=int(high),value=(2000,2022))
+                
+                # choice = st.sidebar.selectbox("Choose a Disaster Impact",["Deaths","Total Affected","Economic Damages"])
+                # intensity_score = st.sidebar.slider('Enter the shock intensity', min_value=0,max_value=10,value=0)
+                # ranger = st.sidebar.slider('Choose the range!', min_value=int(low),max_value=int(high),value=(2000,2022))
 
 
 
-          print("Country")
-          print(dff.head())
-          avgdata = dff[(dff.index==country)][[all_factors[indicator1],"Year"]].groupby("Year")[all_factors[indicator1]].mean().reset_index()
-          # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
-          print(avgdata)
+                print("Country")
+                print(dff.head())
+                avgdata = dff[(dff.index==country)][[all_factors[indicator1],"Year"]].groupby("Year")[all_factors[indicator1]].mean().reset_index()
+                # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
+                print(avgdata)
 
-          # df1= df[indexes]
+                # df1= df[indexes]
 
-          merged = fd11.merge(avgdata,on = "Year",how = "right")
-          merged = merged.merge(fd1,on = "Year", how = "left")
-          print(merged.head())
+                merged = fd11.merge(avgdata,on = "Year",how = "right")
+                merged = merged.merge(fd1,on = "Year", how = "left")
+                print(merged.head())
 
-          var = ["Count","Total Deaths_new","Total Affected_new","AdjustedDamages_new"]
-          # c1,c2,c3 = st.columns([1,8,1])
-          linePlot(merged, all_factors[indicator1],var,st)
+                var = ["Count","Total Deaths_new","Total Affected_new","AdjustedDamages_new"]
+                # c1,c2,c3 = st.columns([1,8,1])
+                linePlot(merged, all_factors[indicator1],var,st)
           # coll = int(len(var)/2)
           # print("printing coll")
           # print(coll)
