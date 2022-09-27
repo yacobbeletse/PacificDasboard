@@ -24,8 +24,8 @@ for i in years:
     abc["Year"]=i
     tempData[i]=abc
     dff =pd.concat([dff,tempData[i]])
-print("Printing DFF")
-print(dff)
+# print("Printing DFF")
+# print(dff)
 damages = {
     'Drought': [1,4,7,10,12.36,13.83,14.62,15.24,15.59,16.33],
     'Earthquake':[1,6,10,12.39,13.34,14.24,15.12,15.82,16.18,16.79],
@@ -235,6 +235,29 @@ countryRename = {
 # visualizeMap1(gdf,conPlots)
 
 # @st.cache(suppress_st_warning=True)
+
+def coloredPlot(df,c1,i):
+    df = df.sort_values(by="Value",ascending=True)
+    df.index =df.index.str.title()
+    df["Value"] = np.round(df["Value"],2)
+    fig1 = px.bar(df, x = i,y = df.index,orientation='h',text = i)
+    
+    # fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285)
+    fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 700)
+    fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+    # # fig1['layout']['xaxis'].update(autorange = True)
+    fig1.update_xaxes(tickfont=dict(size =12, family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =12,family = "Arial Black"))
+    fig1.layout.showlegend = False
+    # fig1.update_traces(textposition='outside')
+    # c1.subheader(capital) 
+    # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+    # if i not in all_factors1.keys():
+    #     c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
+    # else:
+    #     c1.subheader(capital)
+
+    c1.plotly_chart(fig1)
 def visualizeMap1(gdf):
 
 
@@ -250,7 +273,11 @@ def visualizeMap1(gdf):
 
 
     #  fig.colorbar.lim(0,100)
-     st.plotly_chart(fig)
+     col1, col2, col3= st.columns([3,1,1])
+     col1.plotly_chart(fig)
+     col2.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
+    #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
+     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col2,"Value")
 # @st.cache(suppress_st_warning=True)
 
 def linePlot(df,i,var,c1,shock=None):
@@ -369,8 +396,8 @@ def app():
         df1["Country"]=df1["Country"].str.lower()
         # df["Year"] = df["Year"].astype("int")
         merged = pd.merge(left = world, right = df1, right_on = "Country", left_on = 'name', how = 'left')
-        print(world['name'].unique())
-        print(df1['Country'].unique())
+        # print(world['name'].unique())
+        # print(df1['Country'].unique())
         
 
         gdf = geopandas.GeoDataFrame(merged, geometry="geometry").dropna()
@@ -384,7 +411,7 @@ def app():
         st.subheader(str.upper(choice))
         
         gdf = gdf.replace({"United States":"United States of America"})
-        print(gdf['name'].unique())
+        print(gdf.sort_values(by = "Value", ascending = False))
 
 
         avgdata = dff[[all_factors[indicator1],"Year"]].groupby("Year")[all_factors[indicator1]].mean().reset_index()
