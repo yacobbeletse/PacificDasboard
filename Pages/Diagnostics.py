@@ -274,7 +274,7 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
             
                 fd = df1[df1["Income Group"]==j].sort_values(i,ascending=True)
                 fd.index = fd["Country"]
-                print(c)
+                # print(c)
                 coloredPlot(fd,c[k],j,i)
                 k=k+1
         else:
@@ -283,7 +283,7 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
             
                 fd = df1[df1["Region"]==j].sort_values(i,ascending=True)
                 fd.index = fd["Country"]
-                print(c)
+                # print(c)
                 coloredPlot(fd,c[k],j,i)
                 k=k+1
 
