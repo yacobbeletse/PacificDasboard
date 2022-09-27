@@ -267,6 +267,9 @@ my_html1 = """<h3>Please share your experience of using this tool
 
 components.html(my_html1)
 
+expander = st.expander("FAQ")
+expander.write("Here you could put in some really, really long explanations...")
+
 st.sidebar.write("PARTNERS")
 st.sidebar.image('partners.png')
 # a1,b1,c1 = st.sidebar.columns(3)
@@ -279,5 +282,3 @@ st.sidebar.image('partners.png')
 with st.sidebar:
     components.html(my_html1)
 
-expander = st.expander("FAQ")
-expander.write("Here you could put in some really, really long explanations...")
