@@ -9,7 +9,7 @@ import plotly.express as px
 import base64
 from streamlit_option_menu import option_menu
 
-from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster
+from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster, Compare
 
 import copy
 
@@ -194,7 +194,8 @@ apps = [
     {"func": WorldMap.app, "title": "World Map", "icon": "map"},
     {"func": Diagnostics.app, "title": "Diagnostics", "icon": "tools"},
     {"func": TimeSeries.app, "title": "Time-Series Analysis", "icon": "graph-up-arrow"},
-    {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"}
+    {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
+    {"func": Compare.app, "title": "Compare", "icon": "arrow-down-up"}
 ]
 
 titles = [app["title"] for app in apps]
