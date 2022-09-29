@@ -11,7 +11,6 @@ from streamlit_option_menu import option_menu
 
 from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster, Compare
 import copy
-
 from pathlib import Path
 import seaborn as sns
 import geopandas
