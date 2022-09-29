@@ -158,10 +158,7 @@ for i in years:
     dataColl[i] = abc
 # org_data=pd.read_csv(DATA_URL + "\\"+str(2012)+'.csv',index_col= 'Country')
 org_data=dataColl[2020]
-print("original data")
-print(org_data.head())
 trans_data = org_data.transpose()
-print(trans_data.head())
 countries = org_data.index
 print(list(countries))
 flags = {
@@ -207,14 +204,12 @@ def traffic(df,index = "country",visType="Des",check="nice",present=pd.DataFrame
         st.metric("Food Systems Resilience Score", np.round(df[i].mean(),2))
 
         c1,c2,c3,c4,c5 = st.columns(5)
-
-        colored = df.sort_values(i,ascending=True).copy()[[i]]
-        print(colored.head())
+        colored = df.sort_values(i,ascending=True).copy()
         
         colored["Color"] = "green"
         colored.loc[colored[i]<40,"Color"] = "red"
         colored.loc[(colored[i]>=40) & (colored[i]<80),"Color"]= "yellow"
-        # colored.index = colored.index.map(all_factors1)
+        colored.index = colored.index.map(all_factors1)
 
         print(colored)
                
@@ -244,8 +239,8 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
         
         
 
-        if i in all_factors.keys():
-            st.subheader(str.upper(i))
+        if i in all_factors1.keys():
+            st.subheader(str.upper(all_factors1[i]))
             df["Color"] = "green"
             df.loc[df[i]<40,"Color"] = "red"
             df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
@@ -351,9 +346,7 @@ def visualizeOp(op,yearChoice=2020):
         
         # print(trans_data)
         # print(all_factors[indicator1])
-        print("Printing trans data")
-        print(trans_data)
-        df1 = trans_data[[indicator1]]
+        df1 = trans_data.loc[:,[all_factors[indicator1]]]
         print(df1)
 
         showPlot(df1,index='country',visType=vistype)

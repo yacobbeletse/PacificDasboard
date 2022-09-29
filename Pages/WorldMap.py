@@ -190,7 +190,6 @@ print(years)
 def app():
     print(alldata1)
     df = alldata1.copy()
-    Year = st.sidebar.selectbox("Year",years)
     capital = st.sidebar.selectbox('FSRS/Capital',capitals)
     indicator1=None
     if capital=="Natural":
@@ -209,7 +208,7 @@ def app():
 
 
     print(indicator1)
-   
+    Year = st.sidebar.selectbox("Year",years)
     # indicator = all_factors[indicator1]
     df = df[["Year","Country",'Indicator',"Value"]][(df["Indicator"]==indicator1) & (df["Year"]==Year)]
     df["Country"]=df["Country"].str.lower()

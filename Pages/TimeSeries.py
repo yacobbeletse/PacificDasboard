@@ -189,7 +189,7 @@ def coloredPlot(df,c1,capital,i):
 
     c1.plotly_chart(fig1)
 
-def linePlotter(df,countrySelect,capital):
+def linePlotter(df,countrySelect,method = "cvsc"):
   print(df)
   if(len(countrySelect)!=0):
     for i in countrySelect:
@@ -279,26 +279,68 @@ def linePlot(df,countrySelect):
                 c1.subheader(str.upper(all_factors1[df.columns[2*i]]))
 
 
-            fig,axs = plt.subplots(figsize=(6,4))
+            # fig,axs = plt.subplots(figsize=(6,4))
 
-            df.reset_index().set_index("Year").groupby("index")[df.columns[2*i]].plot(legend = True,style='.-')
+            fig = px.line(check,x=check.index,y=df.columns[2*i],color = "index",markers=True)
+            fig.update_layout(
+                yaxis_title="Score",
+    legend_title="Country",
+    font=dict(
+        family="Arial Black",
+        size=12,
+    ))
+            fig1 = px.line(check,x=check.index,y=df.columns[2*i+1],color = "index",markers=True)
+            fig1.update_layout(
+                yaxis_title="Score",               
+    legend_title="Country",
+    font=dict(
+        family="Arial Black",
+        size=12,
+    ))
 
-            plt.ylim([0,100])
-            plt.legend(loc='lower left')
-            # plt.show()
-            c1.pyplot(fig)
+            c1.plotly_chart(fig)
 
-            # c2.write(str.upper(df.columns[2*i+1]))
             c2.subheader(str.upper(all_factors1[df.columns[2*i+1]]))
-            # c2.write(df[i].sort_values(ascending= True).head(10))
-            fig1,axs1 = plt.subplots(figsize=(6,4))
-            plt.style.use(plt_style)
-            # c1.write(df[i].sort_values(ascending= False).head(10))
-            df.reset_index().set_index("Year").groupby("index")[df.columns[2*i+1]].plot(legend = True,style='.-')
-            plt.ylim([0,100])
-            plt.legend(loc='lower left')
-            # plt.show()
-            c2.pyplot(fig1)
+            c2.plotly_chart(fig1)
+
+
+# def linePlot(df,countrySelect):
+#     df.index.name=None
+#     # c1.write(df)
+#     c1,c2 = st.columns(2)
+#     if(len(countrySelect)!=0):
+#         df =df[df.index.isin(countrySelect)]
+#         check = df.reset_index().set_index("Year")
+#         print(check)
+#         # c1.write(df)
+#         plt.style.use(plt_style)
+#         for i in range(int(len(df.columns)/2)):
+
+#             if(df.columns[2*i] in all_factors1.keys()):
+        
+#                 c1.subheader(str.upper(all_factors1[df.columns[2*i]]))
+
+
+#             fig,axs = plt.subplots(figsize=(6,4))
+
+#             df.reset_index().set_index("Year").groupby("index")[df.columns[2*i]].plot(legend = True,style='.-')
+
+#             plt.ylim([0,100])
+#             plt.legend(loc='lower left')
+#             # plt.show()
+#             c1.pyplot(fig)
+
+#             # c2.write(str.upper(df.columns[2*i+1]))
+#             c2.subheader(str.upper(all_factors1[df.columns[2*i+1]]))
+#             # c2.write(df[i].sort_values(ascending= True).head(10))
+#             fig1,axs1 = plt.subplots(figsize=(6,4))
+#             plt.style.use(plt_style)
+#             # c1.write(df[i].sort_values(ascending= False).head(10))
+#             df.reset_index().set_index("Year").groupby("index")[df.columns[2*i+1]].plot(legend = True,style='.-')
+#             plt.ylim([0,100])
+#             plt.legend(loc='lower left')
+#             # plt.show()
+#             c2.pyplot(fig1)
 
          
 def visualizeComp(op,choiceDiff):
@@ -326,7 +368,7 @@ def visualizeComp(op,choiceDiff):
         # df = org_data[countrySelect]
         print('*****')
         print(original.head())
-        traffic(df,index = "indicator",present = original[original.index.isin(all_factors.keys())])
+        traffic(df,index = "indicator",present = original[original.index.isin(all_factors1.keys())])
         # showPlot1(df,"Comp","indx",present = original)
     elif op =="Countryvs":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
