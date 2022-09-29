@@ -9,7 +9,7 @@ import plotly.express as px
 import base64
 from streamlit_option_menu import option_menu
 
-from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster, Compare
+from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster
 
 import copy
 from pathlib import Path
