@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
 
 natural = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
 human = ['Access to Agricultural Resources','Food Dietary Diversity','Food Loss','Food Safety','Food Supply Sufficiency','Labor Force Participation Rate','Literacy Rate','Micronutrient Availability','Population Growth Rate','Poverty Population','Protein Quality']
@@ -74,7 +74,7 @@ def app():
     elif capital=="Manufactured":
       indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
     else:
-      indicator1 = "FSRS"
+      indicator1 = "Food System Resilience Score"
 
 
 
@@ -82,7 +82,7 @@ def app():
    
     df = pd.DataFrame()
     # indicator = all_factors[indicator1]
-    if(indicator1=="FSRS"):
+    if(indicator1=="Food System Resilience Score"):
       df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
       df["Indicator"] = indicator1
       df =df.rename(columns={Year:"value"})

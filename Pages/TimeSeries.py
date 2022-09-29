@@ -18,9 +18,9 @@ flags = {
 
 
 # capitals = ['Score','natural','human','social','financial','manufactured']
-capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
 capitalHeaders = {
-    'FSRS':'Food Systems Resilience Score',
+    'Food Systems Resilience Score':'Food Systems Resilience Score',
     'Natural': 'Natural Capital',
     'Human': 'Human Capital',
     'Social': 'Social Capital',
@@ -184,7 +184,7 @@ def linePlot(df,countrySelect,indicator1):
         fd = pd.DataFrame()
         dff = df.copy()
         # dff =df[df["Country"]==i]
-        fd = dff.groupby(["Year","Country"])["value"].mean().reset_index().rename(columns = {"value":"FSRS"})
+        fd = dff.groupby(["Year","Country"])["value"].mean().reset_index().rename(columns = {"value":"Food Systems Resilience Score"})
         fd["Natural"] = dff[dff["Indicator"].isin(natural)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
         fd["Human"] = dff[dff["Indicator"].isin(human)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
         fd["Social"] = dff[dff["Indicator"].isin(social)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
@@ -273,7 +273,7 @@ def visualizeComp(op,choiceDiff,yearChoice):
         elif capital=="Manufactured":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured)
         else:
-            indicator1 = "FSRS"
+            indicator1 = "Food Systems Resilience Score"
         # indexes = ["Score","natural","human","social","financial","manufactured","Year"]
         # tempData ={}
         # df = pd.DataFrame()
@@ -355,14 +355,14 @@ def visualizeComp(op,choiceDiff,yearChoice):
         elif capital=="Manufactured":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
-            indicator1 = "FSRS"
+            indicator1 = "Food Systems Resilience Score"
         # Year = yearChoice
         df = pd.DataFrame()
         temp = alldata_pivot.copy()
         temp["diff"] = alldata_pivot[yearChoice[0]] - alldata_pivot[yearChoice[-1]]
         print(temp.head())
 
-        if(indicator1=="FSRS"):
+        if(indicator1=="Food Systems Resilience Score"):
             df = temp[["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
             df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
             # print(temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]])

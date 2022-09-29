@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 # st.sidebar.title("Control Center")
 years = range(2012,2023)
-capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
 
 natural = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
 human = ['Access to Agricultural Resources','Food Dietary Diversity','Food Loss','Food Safety','Food Supply Sufficiency','Labor Force Participation Rate','Literacy Rate','Micronutrient Availability','Population Growth Rate','Poverty Population','Protein Quality']
@@ -239,7 +239,7 @@ def visualizeOp(op,yearChoice=2022):
         elif capital=="Manufactured":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
-            indicator1 = "FSRS"
+            indicator1 = "Food Systems Resilience Score"
         # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
         # # trans_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country').transpose()
         # indSelect = [all_factors[i] for i in indSelect1]
@@ -252,7 +252,7 @@ def visualizeOp(op,yearChoice=2022):
         df = pd.DataFrame()
     # indicator = all_factors[indicator1]
         Year = yearChoice
-        if(indicator1=="FSRS"):
+        if(indicator1=="Food Systems Resilience Score"):
             df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
             df["Indicator"] = indicator1
             df =df.rename(columns={Year:"value"})

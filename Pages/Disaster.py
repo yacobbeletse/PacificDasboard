@@ -206,7 +206,7 @@ def linePlot(df,i,var,c1,shock=None):
   
   c1.plotly_chart(fig)
 
-capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
 
 
 
@@ -250,7 +250,7 @@ def app():
         elif capital=="Manufactured":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
-            indicator1 = "FSRS"
+            indicator1 = "Food Systems Resilience Score"
      
         df = df[(df["Year"]>=ranger[0]) & (df["Year"]<=ranger[1])]
    
@@ -304,7 +304,7 @@ def app():
 
 #NO MAPS REQUIRED
         df = pd.DataFrame()
-        if(indicator1=="FSRS"):
+        if(indicator1=="Food Systems Resilience Score"):
             # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
             df = alldata1.groupby("Year")["value"].mean().reset_index()
            
@@ -408,7 +408,7 @@ def app():
                 elif capital=="Manufactured":
                     indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
                 else:
-                    indicator1 = "FSRS"
+                    indicator1 = "Food Systems Resilience Score"
             
                 df = df[(df["Year"]>=ranger[0]) & (df["Year"]<=ranger[1])]
         
@@ -422,7 +422,7 @@ def app():
 
                 print(alldata1.head())
                 df = pd.DataFrame()
-                if(indicator1=="FSRS"):
+                if(indicator1=="Food Systems Resilience Score"):
                     # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
                     df = alldata1.groupby("Year")["value"].mean().reset_index()
                 
