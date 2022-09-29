@@ -20,21 +20,6 @@ from PIL import Image
 import plotly.graph_objects as go
 
 
-spreadsheets = ['Best Interventions', 'Experience']
-
-
-# damages = {
-#     'Drought': [1,4,7,10,12.36,13.83,14.62,15.24,15.59,16.33],
-#     'Earthquake':[1,6,10,12.39,13.34,14.24,15.12,15.82,16.18,16.79],
-#     'Flood':[1,5,10,12.54,14.94,15.79,16.12,16.63,17.04,17.58],
-#     'Landslide':[1,2.5,4,5.5,7,8.5,9.12,11.24,12.26,13.69],
-#     'Storm':[1,8,11.9,13.3,13.99,15.45,15.93,16.49,17.17,17.93],
-#     'Volcanic Activity':[1,2,3,4,5,6,7,9.5,11.39,13.09],
-#     'Wildfire':[1,4,7,8.46,11.77,12.96,13.94,14.61,15.19,15.89],
-#     'Economic Crises':[1,3,5,7,9,11,13,15,17,19,21]
-#     # 'Political Conflict':[1,3,5,7,9,11,13,15,17,19,21]
-# }
-
 
 all_factors1 = {
     'Score': 'Food System Resilience Score',
@@ -160,23 +145,6 @@ all_factors = {
 }
 
 
-natural = ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']
-human = ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']
-social = ['urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']
-financial = ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']
-manufactured = ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']
-
-natural1 = [all_factors1[i] for i in ['BDH.new', 'ECS', 'Sealevel', 'Forest', 'Land', 'energy', 'Water', 'GHP.new', 'WaterQuant', 'WaterQual']]
-human1 = [all_factors1[i] for i in ['Demographics', 'literacy', 'HDI', 'labrate', 'agprod', 'agVol', 'obesity', 'foodsafe', 'drinking', 'Micro', 'Protein', 'Diversity']]
-social1 = [all_factors1[i] for i in ['urbancap', 'safetynet', 'policyfood', 'nutritional', 'gender', 'political', 'corruption', 'conflict']]
-financial1 = [all_factors1[i] for i in ['perCapita', 'edu', 'tariff', 'agGDP', 'finance', 'priceVol', 'foodloss']]
-manufactured1 = [all_factors1[i] for i in ['kofgi', 'agadaptpolicy', 'climatesma', 'disman', 'Nindex', 'RND', 'mobile', 'transport', 'storage']]
-
-capitals = ['Score','natural','human','social','financial','manufactured']
-
-plt_style = 'bmh'
-
-
 # 
 # st.set_page_config(layout="wide")
 st.set_page_config(page_title="Food Systems Resilience Diagnostics", layout="wide")
@@ -235,21 +203,16 @@ def load_data(data_url):
     data=pd.read_csv(data_url)
     return data
 
-DATA_URL = r"C:\Users\kc003\OneDrive - CSIRO\Projects\Composite Score\masterDataset\Yearwisedata"
+alldata1 = pd.read_csv("FinalData.csv")
 
-alldata = pd.read_csv("LL1.csv")
-
-alldata1 = pd.read_csv("restructure.csv")
-
-years = range(2012,2021)
+years = range(2012,2023)
 dataColl = {}
 for i in years:
-    abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
+    # abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
     # dataColl[i] = pd.read_csv(DATA_URL + "\\"+str(i)+'.csv',index_col= 'Country')
-    dataColl[i] = abc
+    dataColl[i] = alldata1[alldata1["Year"]==i]
 
-org_data=dataColl[2020]
-trans_data = org_data.transpose()
+org_data=dataColl[2022]
 
 
     
