@@ -244,8 +244,8 @@ def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFram
         
         
 
-        if i in all_factors1.keys():
-            st.subheader(str.upper(all_factors1[i]))
+        if i in all_factors.keys():
+            st.subheader(str.upper(i))
             df["Color"] = "green"
             df.loc[df[i]<40,"Color"] = "red"
             df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
@@ -314,7 +314,7 @@ def visualizeOp(op,yearChoice=2020):
             yearChoice = yearChoice[0]
         else:
             yearChoice=2020
-    # trans_data=dataColl[yearChoice]
+    trans_data=dataColl[yearChoice]
     if op=="Country":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
         print("choice of year = " + str(yearChoice))
@@ -351,8 +351,9 @@ def visualizeOp(op,yearChoice=2020):
         
         # print(trans_data)
         # print(all_factors[indicator1])
+        print("Printing trans data")
         print(trans_data)
-        df1 = trans_data.loc[:,[all_factors[indicator1]]]
+        df1 = trans_data[[indicator1]]
         print(df1)
 
         showPlot(df1,index='country',visType=vistype)

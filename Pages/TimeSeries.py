@@ -326,7 +326,7 @@ def visualizeComp(op,choiceDiff):
         # df = org_data[countrySelect]
         print('*****')
         print(original.head())
-        traffic(df,index = "indicator",present = original[original.index.isin(all_factors1.keys())])
+        traffic(df,index = "indicator",present = original[original.index.isin(all_factors.keys())])
         # showPlot1(df,"Comp","indx",present = original)
     elif op =="Countryvs":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
