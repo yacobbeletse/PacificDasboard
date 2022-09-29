@@ -256,7 +256,7 @@ def visualizeComp(op,choiceDiff,yearChoice):
         # df = org_data[countrySelect]
         print('*****')
         # print(original.head())
-        traffic(df,index = "Country",yearChoice=yearChoice)
+        traffic(df,index = "Country",yearChoice=yearChoice,extra = "diff")
         # showPlot1(df,"Comp","indx",present = original)
     elif op =="Countryvs":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
@@ -422,7 +422,7 @@ def visualizeComp(op,choiceDiff,yearChoice):
 
         showPlot(df,index='country',visType=vistype,indicator=indicator1,present = df[["Present"]])
 
-def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None):
+def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,extra = "value"):
     print("Entered Traffic" + str(yearChoice))
     print(df)
     # df=df.transpose()
@@ -462,13 +462,13 @@ def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None):
         # present_man = present[present.index.isin(manufactured)]
         print(nat)
         
-        coloredPlot(nat,c1,"Natural Capital",i,visType="Indicator",present = yearChoice[0])
-        coloredPlot(hum,c2,"Human Capital",i,visType="Indicator",present = yearChoice[0])
-        coloredPlot(soc,c3,"Social Capital",i,visType="Indicator",present = yearChoice[0])
-        coloredPlot(fin,c4,"Financial Capital",i,visType="Indicator",present = yearChoice[0])
-        coloredPlot(man,c5,"Manufactured Capital",i,visType="Indicator",present = yearChoice[0])
+        coloredPlot(nat,c1,"Natural Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(hum,c2,"Human Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(soc,c3,"Social Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(fin,c4,"Financial Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(man,c5,"Manufactured Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
 
-def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500):
+def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra = "diff"):
     df[i] = np.round(df[i],1)
     fig1 = px.bar(df, x = i,y = visType,orientation='h', text = i,color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
     
@@ -490,7 +490,7 @@ def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500):
 
     # else:
     #     c1.subheader(capital)
-    c1.metric(label=capital,value=np.round(df[present].mean(),2),delta = np.round(df["value"].mean(),1))
+    c1.metric(label=capital,value=np.round(df[present].mean(),2),delta = np.round(df[extra].mean(),1))
     c1.plotly_chart(fig1)
 
 # def showPlot1(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
@@ -683,7 +683,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             fd.loc[fd["value"]<0,"Color"] = "red"
             # fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
             # print(c)
-            coloredPlot(fd.dropna(),c[k],j,"value",height = 1000)
+            coloredPlot(fd.dropna(),c[k],j,"value",height = 1000,extra="value")
             k=k+1
     else:
         k=0
@@ -696,7 +696,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             fd.loc[fd["value"]<0,"Color"] = "red"
             # fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
             # print(c)
-            coloredPlot(fd,c[k],j,"value",height=1000)
+            coloredPlot(fd,c[k],j,"value",height=1000,extra = "value")
             k=k+1
 
             if(k>3):

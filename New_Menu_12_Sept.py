@@ -10,11 +10,13 @@ import base64
 from streamlit_option_menu import option_menu
 
 from Pages import About,WorldMap, Diagnostics, TimeSeries, Disaster, Compare
+
 import copy
 
 from pathlib import Path
 import seaborn as sns
 import geopandas
+
 # import plotly.express as px
 from PIL import Image
 import plotly.graph_objects as go
