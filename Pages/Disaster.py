@@ -53,7 +53,7 @@ countryRename = {
     'Bahamas (the)': 'Bahamas',
     'Bolivia (Plurinational State of)': 'Bolivia',
     'Brunei Darussalam': 'Brunei',
-    'CÃ´te dÂ’Ivoire': 'Ivory Coast',
+    "CÃ´te dÂ’Ivoire": 'Ivory Coast',
     'Cayman Islands (the)': 'Cayman Islands',
     'Comoros (the)': 'Comoros',
     'Congo (the Democratic Republic of the)': 'DR Congo',
@@ -81,33 +81,7 @@ countryRename = {
     'Viet Nam': 'Vietnam',
     'Yemen Arab Rep': 'Yemen'
 }
-# alldata1 = pd.read_csv("restructure.csv")
 
-
-# print(df.head())
-# # visualizeMap(c1,c2,conPlots)    
-# indicator1 = st.sidebar.selectbox('Indicator',all_factors.keys())
-# indicator = all_factors[indicator1]
-# df = df[["Year","Country",'Indicator',"Value"]][df["Indicator"]==indicator1]
-# print(df.head())
-
-# df["Country"]=df["Country"].str.lower()
-# df["Year"] = df["Year"].astype("int")
-# # world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
-# # world = world[(world.pop_est>0) & (world.name!="Antarctica")] 
-# # world['name'] = world['name'].str.lower()  
-# # merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'left').drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
-# merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'left')
-
-# gdf = geopandas.GeoDataFrame(merged, geometry="geometry").dropna()
-
-# print(gdf.head())
-# gdf.index = gdf.name
-# gdf["Year"]=gdf["Year"].astype("int")
-# conPlots.subheader(str.upper(indicator1))
-# visualizeMap1(gdf,conPlots)
-
-# @st.cache(suppress_st_warning=True)
 
 def coloredPlot(df,c1,i):
     df = df.sort_values(by="Value",ascending=True)
