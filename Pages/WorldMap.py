@@ -61,8 +61,9 @@ years.sort(reverse=True)
 print(years)
 
 def app():
-    print(alldata1)
+    # print(alldata1)
     df = alldata1.copy()
+    Year = st.sidebar.selectbox("Year",years)
     print("*******************")
     print("Number of Countries = "+str(len(world['name'].unique())))
     capital = st.sidebar.selectbox('FSRS/Capital',capitals)
