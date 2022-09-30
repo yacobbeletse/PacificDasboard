@@ -21,6 +21,7 @@ manufactured1 = ["Manufactured Capital",'Agricultural R&D','Crop Storage Facilit
 world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
 world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
 world['name'] = world['name'].str.lower() 
+print("*******************")
 print("Number of Countries = "+str(len(world['name'].unique())))
 
 alldata1 = pd.read_csv("FinalData.csv")
@@ -42,11 +43,12 @@ def visualizeMap1(gdf):
 
     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
     #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index.dropna(), color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
      hover_name=gdf.index)
      fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-     fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
+     fig.update_geos(fitbounds="locations", visible=False,landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
      fig.update_traces(marker_line_width=2)
+
     #  cb_ax = fig.axes[1] 
     #  cb_ax.tick_params(labelsize=5)
 
@@ -61,7 +63,10 @@ print(years)
 
 def app():
     # print(alldata1)
+    df = alldata1.copy()
     Year = st.sidebar.selectbox("Year",years)
+    print("*******************")
+    print("Number of Countries = "+str(len(world['name'].unique())))
     capital = st.sidebar.selectbox('FSRS/Capital',capitals)
     indicator1=None
     if capital=="Natural":
@@ -111,10 +116,10 @@ def app():
     #   if indicator1==
     print(df)
     df["Country"]=df["Country"].str.lower()
-    # df["Year"] = df["Year"].astype("int")
-    # print("alldata country = "+ str(len(df["Country"].unique())))
-    # print(df["Country"].unique())
-    merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'right')
+    df["Year"] = df["Year"].astype("int")
+    print("alldata country = "+ str(len(df["Country"].unique())))
+    print(df["Country"].unique())
+    merged = pd.merge(left = world, right = df, right_on = "Country", left_on = 'name', how = 'left')
 
     gdf = geopandas.GeoDataFrame(merged, geometry="geometry")
 
@@ -123,4 +128,4 @@ def app():
     # gdf["Year"]=gdf["Year"].astype("int")
     st.subheader(str.upper(indicator1))
     visualizeMap1(gdf)
-    
+
