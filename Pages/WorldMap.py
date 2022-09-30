@@ -58,6 +58,7 @@ years =[*range(2012,2023)]
 years.sort(reverse=True)
 print(years)
 
+
 def app():
     # print(alldata1)
     Year = st.sidebar.selectbox("Year",years)
