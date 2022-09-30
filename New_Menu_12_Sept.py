@@ -189,7 +189,7 @@ selected = option_menu(
 if(selected!="About"):
     st.sidebar.title("Control Center")
 
-st.title("Food Systems Resilience Diagnostic (FSRD) Tool")
+st.title("Food Systems Resilience Diagnostics (FSRD) Tool")
 st.markdown('The FSRD gives the scores for several food system resilience indicators based on the performance of the countries.')
 st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 
