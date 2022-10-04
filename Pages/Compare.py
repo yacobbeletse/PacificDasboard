@@ -4,7 +4,6 @@ import geopandas
 import pandas as pd
 import plotly.express as px
 import numpy as np
-
 capitals1 = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
 capitals = ['fsrs','natural','human','social','financial','manufactured']
