@@ -26,7 +26,8 @@ manufactured1 = ["Manufactured Capital",'Agricultural R&D','Crop Storage Facilit
 # print("Number of Countries = "+str(len(world['name'].unique())))
 
 alldata1 = pd.read_csv("finalCapital.csv")
-alldata1 = alldata1.replace({'United States':'United States of America'})
+alldata1 = alldata1.replace({'United States':'United States of America',
+                            'Dominican Rep.':'Dominican Republic'})
 print(alldata1.head())
 
 # countries = ['Algeria', 'Angola', 'Argentina', 'Australia', 'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Benin', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'DR Congo', 'Costa Rica', 'Ivory Coast', 'Czech Republic', 'Denmark', 'Dominican Rep.', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Finland', 'France', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Laos', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Mexico', 'Morocco', 'Mozambique', 'Myanmar', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Sierra Leone', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tunisia', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia']
@@ -100,8 +101,11 @@ def app():
     for i in countrySelect:
       data = fd[fd["Country"]==i]
       # d1,d2 = d[k].columns([1,10])
-      d[k].image("Con_Flags/"+flags[i]+".png",width=50)
-      d[k].subheader(str.upper(i))
+      try:
+        d[k].image("Con_Flags/"+flags[i]+".png",width=50)
+        d[k].subheader(str.upper(i))
+      except:
+        d[k].subheader(str.upper(i))
 
       for m in range(len(capitals1)):
         rank = int(data.loc[(data["Capital"]==capitals[m]),"rank"])
