@@ -123,7 +123,8 @@ def app():
       data = compare_data[compare_data["Country"]==j].melt("Country", value_vars=[i for i in compare_data.columns if i not in [ "Country", "Capital"]],var_name="Indicators", value_name="Rank")
       # d1,d2 = d[k].columns([1,10])
       print(data.head())
-      data["Rank"] = data["Rank"].apply(lambda x: int(x) if (isinstance(x,int) or isinstance(x,float)) else "NA")
+      data["Rank"] = data["Rank"].apply(lambda x: int(x) if ((type(x)==float) or (type(x)==int)) else "NA")
+      # if (type(x)=="int" or type(x)=="float") else "NA"
       renameCols = {}
       for i in data["Indicators"].unique():
           renameCols[i] = i.split("_")[1]
