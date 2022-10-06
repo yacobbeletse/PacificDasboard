@@ -50,22 +50,22 @@ flags = {
    'Afghanistan': 'af', 'Albania': 'al', 'Algeria': 'dz', 'American Samoa': 'as', 'Andorra': 'ad', 'Angola': 'ao', 'Anguilla': 'ai', 'Antarctica': 'aq', 'Antigua and Barbuda': 'ag', 'Argentina': 'ar', 'Armenia': 'am', 'Aruba': 'aw', 'Australia': 'au', 'Austria': 'at', 'Azerbaijan': 'az', 'Bahamas': 'bs', 'Bahrain': 'bh', 'Bangladesh': 'bd', 'Barbados': 'bb', 'Belarus': 'by', 'Belgium': 'be', 'Belize': 'bz', 'Benin': 'bj', 'Bermuda': 'bm', 'Bhutan': 'bt', 'Bolivia, Plurinational State of': 'bo', 'Bolivia': 'bo', 'Bosnia and Herzegovina': 'ba', 'Botswana': 'bw', 'Bouvet Island': 'bv', 'Brazil': 'br', 'British Indian Ocean Territory': 'io', 'Brunei Darussalam': 'bn', 'Brunei': 'bn', 'Bulgaria': 'bg', 'Burkina Faso': 'bf', 'Burundi': 'bi', 'Cambodia': 'kh', 'Cameroon': 'cm', 'Canada': 'ca', 'Cape Verde': 'cv', 'Cayman Islands': 'ky', 'Central African Republic': 'cf', 'Chad': 'td', 'Chile': 'cl', 'China': 'cn', 'Christmas Island': 'cx', 'Cocos (Keeling) Islands': 'cc', 'Colombia': 'co', 'Comoros': 'km', 'Congo': 'cg', 'Congo, the Democratic Republic of the': 'cd', 'Cook Islands': 'ck', 'Costa Rica': 'cr', "Côte d'Ivoire": 'ci', 'Ivory Coast': 'ci', 'Croatia': 'hr', 'Cuba': 'cu', 'Cyprus': 'cy', 'Czech Republic': 'cz', 'Denmark': 'dk', 'Djibouti': 'dj', 'Dominica': 'dm', 'Dominican Republic': 'do', 'Ecuador': 'ec', 'Egypt': 'eg', 'El Salvador': 'sv', 'Equatorial Guinea': 'gq', 'Eritrea': 'er', 'Estonia': 'ee', 'Ethiopia': 'et', 'Falkland Islands (Malvinas)': 'fk', 'Faroe Islands': 'fo', 'Fiji': 'fj', 'Finland': 'fi', 'France': 'fr', 'French Guiana': 'gf', 'French Polynesia': 'pf', 'French Southern Territories': 'tf', 'Gabon': 'ga', 'Gambia': 'gm', 'Georgia': 'ge', 'Germany': 'de', 'Ghana': 'gh', 'Gibraltar': 'gi', 'Greece': 'gr', 'Greenland': 'gl', 'Grenada': 'gd', 'Guadeloupe': 'gp', 'Guam': 'gu', 'Guatemala': 'gt', 'Guernsey': 'gg', 'Guinea': 'gn', 'Guinea-Bissau': 'gw', 'Guyana': 'gy', 'Haiti': 'ht', 'Heard Island and McDonald Islands': 'hm', 'Holy See (Vatican City State)': 'va', 'Honduras': 'hn', 'Hong Kong': 'hk', 'Hungary': 'hu', 'Iceland': 'is', 'India': 'in', 'Indonesia': 'id', 'Iran, Islamic Republic of': 'ir', 'Iraq': 'iq', 'Ireland': 'ie', 'Isle of Man': 'im', 'Israel': 'il', 'Italy': 'it', 'Jamaica': 'jm', 'Japan': 'jp', 'Jersey': 'je', 'Jordan': 'jo', 'Kazakhstan': 'kz', 'Kenya': 'ke', 'Kiribati': 'ki', "Korea, Democratic People's Republic of": 'kp', 'Korea, Republic of': 'kr', 'South Korea': 'kr', 'Kuwait': 'kw', 'Kyrgyzstan': 'kg', "Lao People's Democratic Republic": 'la', 'Latvia': 'lv', 'Lebanon': 'lb', 'Lesotho': 'ls', 'Liberia': 'lr', 'Libyan Arab Jamahiriya': 'ly', 'Libya': 'ly', 'Liechtenstein': 'li', 'Lithuania': 'lt', 'Luxembourg': 'lu', 'Macao': 'mo', 'Macedonia, the former Yugoslav Republic of': 'mk', 'Madagascar': 'mg', 'Malawi': 'mw', 'Malaysia': 'my', 'Maldives': 'mv', 'Mali': 'ml', 'Malta': 'mt', 'Marshall Islands': 'mh', 'Martinique': 'mq', 'Mauritania': 'mr', 'Mauritius': 'mu', 'Mayotte': 'yt', 'Mexico': 'mx', 'Micronesia, Federated States of': 'fm', 'Moldova, Republic of': 'md', 'Monaco': 'mc', 'Mongolia': 'mn', 'Montenegro': 'me', 'Montserrat': 'ms', 'Morocco': 'ma', 'Mozambique': 'mz', 'Myanmar': 'mm', 'Burma': 'mm', 'Namibia': 'na', 'Nauru': 'nr', 'Nepal': 'np', 'Netherlands': 'nl', 'Netherlands Antilles': 'an', 'New Caledonia': 'nc', 'New Zealand': 'nz', 'Nicaragua': 'ni', 'Niger': 'ne', 'Nigeria': 'ng', 'Niue': 'nu', 'Norfolk Island': 'nf', 'Northern Mariana Islands': 'mp', 'Norway': 'no', 'Oman': 'om', 'Pakistan': 'pk', 'Palau': 'pw', 'Palestinian Territory, Occupied': 'ps', 'Panama': 'pa', 'Papua New Guinea': 'pg', 'Paraguay': 'py', 'Peru': 'pe', 'Philippines': 'ph', 'Pitcairn': 'pn', 'Poland': 'pl', 'Portugal': 'pt', 'Puerto Rico': 'pr', 'Qatar': 'qa', 'Réunion': 're', 'Romania': 'ro', 'Russian Federation': 'ru', 'Russia': 'ru', 'Rwanda': 'rw', 'Saint Helena, Ascension and Tristan da Cunha': 'sh', 'Saint Kitts and Nevis': 'kn', 'Saint Lucia': 'lc', 'Saint Pierre and Miquelon': 'pm', 'Saint Vincent and the Grenadines': 'vc', 'Saint Vincent & the Grenadines': 'vc', 'St. Vincent and the Grenadines': 'vc', 'Samoa': 'ws', 'San Marino': 'sm', 'Sao Tome and Principe': 'st', 'Saudi Arabia': 'sa', 'Senegal': 'sn', 'Serbia': 'rs', 'Seychelles': 'sc', 'Sierra Leone': 'sl', 'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'Solomon Islands': 'sb', 'Somalia': 'so', 'South Africa': 'za', 'South Georgia and the South Sandwich Islands': 'gs', 'South Sudan': 'ss', 'Spain': 'es', 'Sri Lanka': 'lk', 'Sudan': 'sd', 'Suriname': 'sr', 'Svalbard and Jan Mayen': 'sj', 'Swaziland': 'sz', 'Sweden': 'se', 'Switzerland': 'ch', 'Syrian Arab Republic': 'sy', 'Taiwan, Province of China': 'tw', 'Taiwan': 'tw', 'Tajikistan': 'tj', 'Tanzania': 'tz', 'Thailand': 'th', 'Timor-Leste': 'tl', 'Togo': 'tg', 'Tokelau': 'tk', 'Tonga': 'to', 'Trinidad and Tobago': 'tt', 'Tunisia': 'tn', 'Turkey': 'tr', 'Turkmenistan': 'tm', 'Turks and Caicos Islands': 'tc', 'Tuvalu': 'tv', 'Uganda': 'ug', 'Ukraine': 'ua', 'United Arab Emirates': 'ae', 'United Kingdom': 'gb', 'United States of America':'us','United States': 'us', 'United States Minor Outlying Islands': 'um', 'Uruguay': 'uy', 'Uzbekistan': 'uz', 'Vanuatu': 'vu', 'Venezuela, Bolivarian Republic of': 've', 'Venezuela': 've', 'Viet Nam': 'vn', 'Vietnam': 'vn', 'Virgin Islands, British': 'vg', 'Virgin Islands, U.S.': 'vi', 'Wallis and Futuna': 'wf', 'Western Sahara': 'eh', 'Yemen': 'ye', 'Zambia': 'zm', 'Zimbabwe': 'zw'
    }
 # @st.cache(suppress_st_warning=True)
-def visualizeMap1(gdf):
+# def visualizeMap1(gdf):
 
 
-    #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
-    #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
-     hover_name=gdf.index)
-     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-     fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
-     fig.update_traces(marker_line_width=2)
-    #  cb_ax = fig.axes[1] 
-    #  cb_ax.tick_params(labelsize=5)
+#     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
+#     #  hover_name=gdf.index,animation_frame="Year")
+#      fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
+#      hover_name=gdf.index)
+#      fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+#      fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
+#      fig.update_traces(marker_line_width=2)
+#     #  cb_ax = fig.axes[1] 
+#     #  cb_ax.tick_params(labelsize=5)
 
 
-    #  fig.colorbar.lim(0,100)
-     st.plotly_chart(fig)
+#     #  fig.colorbar.lim(0,100)
+#      st.plotly_chart(fig)
 # @st.cache(suppress_st_warning=True)
 years =[*range(2012,2023)]
 years.sort(reverse=True)
@@ -80,63 +80,151 @@ def app():
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
     print("choice of year = " + str(type(yearChoice)))
 
-    df = alldata_pivot[["Country","Capital",yearChoice]]
+    df = alldata_pivot[["Country","Capital",yearChoice]].pivot("Country",columns = "Capital", values = yearChoice)
 
-    print(df.columns)
+    print(df.head())
 
 
 
     # df_hdi = hdi.filter(["Country",yearChoice],axis =1)
     # df_hdi = hdi[["Country",yearChoice]]
-
-    fd = pd.DataFrame()
-    for i in df["Capital"].unique():
-      temp = df[df["Capital"]==i]
-      temp["rank"] = temp[yearChoice].rank(ascending = False).astype(int)
-      fd = fd.append(temp,ignore_index=False)
+    # fd = pd.DataFrame()
+    for i in df.columns:
+      # temp = df[[df.index]]
+      
+      df["rank_"+i] = df[i].dropna().rank(ascending = False).astype(int) if not df[i].dropna().empty else 'NA'
+      df = df.drop(columns = [i])
+      # fd = fd.append(temp,ignore_index=False)
+    fd =df.reset_index()
     print(fd.head())
-    d = st.columns(4)
 
-    k=0
-    for i in countrySelect:
-      data = fd[fd["Country"]==i]
-      # d1,d2 = d[k].columns([1,10])
-      try:
-        d[k].image("Con_Flags/"+flags[i]+".png",width=50)
-        d[k].subheader(str.upper(i))
-      except:
-        d[k].subheader(str.upper(i))
+    # for i in df["Capital"].unique():
+    #   temp = df[df["Capital"]==i]
+    #   temp["rank"] = temp[yearChoice].rank(ascending = False).astype(int)
+    #   fd = fd.append(temp,ignore_index=False)
+    # print(fd.head())
 
-      for m in range(len(capitals1)):
-        rank = int(data.loc[(data["Capital"]==capitals[m]),"rank"])
+    compare_data = fd.copy()
 
-        if(capitals[m]=="fsrs"):
-           d[k].subheader(capitals1[m]+ ' : ' + str(rank))
-        else:
-          d[k].write(capitals1[m]+ ' : ' + str(rank))
+    d = st.columns(3)
 
-      for m in other:
+    for m in other:
         print(m)
         other_data = other_db[m].filter(["Country",str(yearChoice)])
+        other_data = other_data.rename(columns = {str(yearChoice):m})
         other_data = other_data[other_data["Country"].isin(countries)]
+        other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False).astype(int) if not other_data[m].dropna().empty else 'NA'
+        other_data = other_data.drop(columns = [m])
+        compare_data = pd.merge(compare_data,other_data, on="Country",how = "inner")
+        print(compare_data.head())
 
-        print(other_data.head())
-      
-        if (m=="HDI"):
-          other_data["rank"] = other_data[str(yearChoice)].rank(ascending=False).astype(int) if not other_data[str(yearChoice)].dropna().empty else "NA"
+    k=0
+    for j in countrySelect:
+      data = compare_data[compare_data["Country"]==j].melt("Country", value_vars=[i for i in compare_data.columns if i not in [ "Country", "Capital"]],var_name="Indicators", value_name="Rank")
+      # d1,d2 = d[k].columns([1,10])
+      print(data.head())
+      data["Rank"] = data["Rank"].apply(lambda x: int(x) if isinstance(x,int) else "NA")
+      renameCols = {}
+      for i in data["Indicators"].unique():
+          renameCols[i] = i.split("_")[1]
+      data = data.replace(renameCols)
+      try:
+        d[k].image("Con_Flags/"+flags[j]+".png",width=50)
+        d[k].subheader(str.upper(j))
+      except:
+        d[k].subheader(str.upper(j))
+      print(data.head())
+
+      catOrder = [ 'HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score','Natural Capital',
+                  'Human Capital','Social Capital','Financial Capital', 'Manufactured Capital']
+      for l in catOrder:
+        if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
+          rank = int(data.loc[data["Indicators"]==l,"Rank"].iloc[0]) if isinstance(data.loc[data["Indicators"]==l,"Rank"].iloc[0],int) else "NA"
+          d[k].subheader(l+" : "+ str(data.loc[data["Indicators"]==l,"Rank"].iloc[0])) 
         else:
-          # print(other_data[str(yearChoice)].rank())
-          other_data["rank"] = other_data[str(yearChoice)].rank(ascending=True) 
-          if not other_data[str(yearChoice)].dropna().empty:
-            other_data["rank"] = other_data["rank"].fillna(0).astype(int)
-            other_data["rank"] = other_data["rank"].replace({0:'NA'})
-          else:
-            other_data["rank"] = 'NA'
+          d[k].write(l+" : "+ str(data.loc[data["Indicators"]==l,"Rank"].iloc[0]))
+
+      k = k+1
+      if k >2:
+        k=0
+
+
+
+      # fig3 = px.bar(data, x ="Rank" , y = 'Indicators',orientation='h',text = 'Rank')
+      # fig3.update_layout(xaxis_title=None, yaxis_title = None, font = dict(
+      #         size =18
+      # ), width = 500
+      # )
+      # fig3.update_xaxes(showticklabels = False)
+      # fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+      # fig3.update_traces(textposition='auto')
+      # fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+      # # st.subheader("Impacts of Food Shocks")
+      # d[k].plotly_chart(fig3)
+      # k = k+1
+      # if(k>2):
+      #   k=0
+      # for m in capitals1:
+      #   rank = int(data.loc[(data["Capital"]==m),"rank"])
+
+      #   if(capitals[m]=="fsrs"):
+      #      d[k].subheader(capitals1[m]+ ' : ' + str(rank))
+      #   else:
+      #     d[k].write(capitals1[m]+ ' : ' + str(rank))
 
       
-        print(other_data.head())
-        d[k].subheader( m + ": "+ str((other_data.loc[other_data["Country"]==i,"rank"].iloc[0])))
-      k = k+1
+      
+      #   if (m=="HDI"):
+      #     other_data["rank"] = other_data[str(yearChoice)].rank(ascending=False).astype(int) if not other_data[str(yearChoice)].dropna().empty else "NA"
+      #   else:
+      #     # print(other_data[str(yearChoice)].rank())
+      #     other_data["rank"] = other_data[str(yearChoice)].rank(ascending=True) 
+      #     if not other_data[str(yearChoice)].dropna().empty:
+      #       other_data["rank"] = other_data["rank"].fillna(0).astype(int)
+      #       other_data["rank"] = other_data["rank"].replace({0:'NA'})
+      #     else:
+      #       other_data["rank"] = 'NA'
+
+      
+      #   print(other_data.head())
+      #   d[k].subheader( m + ": "+ str((other_data.loc[other_data["Country"]==i,"rank"].iloc[0])))
+      # k = k+1
+    
+
+    # for i in countrySelect:
+    #   data = fd[fd["Country"]==i]
+    #   # d1,d2 = d[k].columns([1,10])
+    #   try:
+    #     d[k].image("Con_Flags/"+flags[i]+".png",width=50)
+    #     d[k].subheader(str.upper(i))
+    #   except:
+    #     d[k].subheader(str.upper(i))
+
+    #   for m in range(len(capitals1)):
+    #     rank = int(data.loc[(data["Capital"]==capitals[m]),"rank"])
+
+    #     if(capitals[m]=="fsrs"):
+    #        d[k].subheader(capitals1[m]+ ' : ' + str(rank))
+    #     else:
+    #       d[k].write(capitals1[m]+ ' : ' + str(rank))
+
+      
+      
+    #     if (m=="HDI"):
+    #       other_data["rank"] = other_data[str(yearChoice)].rank(ascending=False).astype(int) if not other_data[str(yearChoice)].dropna().empty else "NA"
+    #     else:
+    #       # print(other_data[str(yearChoice)].rank())
+    #       other_data["rank"] = other_data[str(yearChoice)].rank(ascending=True) 
+    #       if not other_data[str(yearChoice)].dropna().empty:
+    #         other_data["rank"] = other_data["rank"].fillna(0).astype(int)
+    #         other_data["rank"] = other_data["rank"].replace({0:'NA'})
+    #       else:
+    #         other_data["rank"] = 'NA'
+
+      
+    #     print(other_data.head())
+    #     d[k].subheader( m + ": "+ str((other_data.loc[other_data["Country"]==i,"rank"].iloc[0])))
+    #   k = k+1
     
     
 # capital = st.sidebar.selectbox('FSRS/Capital',capitals)
@@ -158,7 +246,7 @@ def app():
 
     # print(indicator1)
    
-    df = pd.DataFrame()
+    # df = pd.DataFrame()
     # indicator = all_factors[indicator1]
     # if(indicator1=="Food System Resilience Score"):
     #   df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
