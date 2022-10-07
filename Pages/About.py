@@ -77,6 +77,7 @@ This component allows the comparison of the ranks of the chosen countries for fo
 |Labor Force Participation Rate|	World Bank|	Positive|
 |Literacy Rate|	World Bank|	Positive|
 |Micronutrient Availability|	GFSI, Global Nutrient Database|	Positive|
+|Protein Quality | GFSI| Postive |
 |-------------------|----------------------|----------------------|
 |**Social Capital** ||||
 |Agricultural Women Empowerment|	GFSI|	Positive|
