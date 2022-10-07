@@ -91,7 +91,7 @@ def coloredPlot(df,c1,i):
     
     # fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285)
     # fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 400,height =400)
-    fig1.update_layout(yaxis_title=None, xaxis_title=None,height =400)
+    fig1.update_layout(yaxis_title=None, xaxis_title=None)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     # # fig1['layout']['xaxis'].update(autorange = True)
     fig1.update_xaxes(tickfont=dict(size =12, family = "Arial Black"))
