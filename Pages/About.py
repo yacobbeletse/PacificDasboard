@@ -100,7 +100,7 @@ This component allows the comparison of the ranks of the chosen countries for fo
 |Food Price Volatility|	GFSI, FAO|	Negative|
 |Income Inequality|	GFSI,UNDP|	Negative|
 |-------------------|----------------------|----------------------|
-|**Manufacture Capital**||||
+|**Manufactured Capital**||||
 |Adaptation of Innovative Technologies|	GFSI|	Positive|
 |Agricultural R&D Expenses|	GFSI|	Positive|
 |Crop Storage Facilities|	GFSI|	Positive|
