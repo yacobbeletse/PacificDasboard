@@ -111,7 +111,7 @@ def visualizeMap1(gdf):
 
     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
     #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn_r",
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
      hover_name=gdf.index)
      fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
      hover_name=gdf.index)
