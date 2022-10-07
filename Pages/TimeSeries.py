@@ -86,10 +86,12 @@ def linePlotter(df,countrySelect,method = "cvsc"):
     for i in df["Country"].dropna().unique():
         df1=df[df["Country"]==i]
         print(df1)
-        d1,d2 = st.columns([1,20])
-        
-        d1.image("Con_Flags/"+flags[i]+".png",width=50)
-        d2.subheader(str.upper(i))
+        # d1,d2 = st.columns([1,20])
+        try:
+            st.image("Con_Flags/"+flags[i]+".png",width=50)
+            st.subheader(str.upper(i))
+        except:
+            st.subheader(str.upper(i))
         # dfm =df1.melt('Year',var_name="Indicators",value_name="Score")
         # dfm = dfm.replace(all_factors1)
         fig = px.line(df1,x="Year", y = "value", color = "Indicator",markers=True,symbol ="Indicator")
@@ -131,10 +133,11 @@ def linePlot1(df,countrySelect,capital):
         for i in countrySelect:
             df1=df[df.index==i]
             print(df1)
-            d1,d2 = st.columns([1,10])
-            
-            d1.image("Con_Flags/"+flags[i]+".png",width=50)
-            d2.subheader(str.upper(i))
+            try:
+                st.image("Con_Flags/"+flags[i]+".png",width=50)
+                st.subheader(str.upper(i))
+            except:
+                st.subheader(str.upper(i))
             # st.subheader(str.upper(i))
         
 
@@ -433,8 +436,11 @@ def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,ext
         dff = df[df[index]==i]
         # print(present)
         d1,d2 = st.columns([1,15])
-        d1.image("Con_Flags/"+flags[i]+".png",width=50)
-        d2.subheader(str.upper(i))
+        try:
+            st.image("Con_Flags/"+flags[i]+".png",width=50)
+            st.subheader(str.upper(i))
+        except:
+            st.subheader(str.upper(i))
         
         st.metric("Food Systems Resilience Score", np.round(dff[yearChoice[0]].mean(),2),delta = np.round(float(dff["diff"].mean()),1))
 

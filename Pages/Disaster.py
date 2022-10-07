@@ -338,9 +338,12 @@ def app():
             fd["intensity"] = fd["intensity"].apply(np.ceil)
             print(fd.head())
 
-            d1,d2 = st.columns([1,10])
-            d1.image("Con_Flags/"+flags[country]+".png",width=50)
-            d2.subheader(str.upper(country))
+            # d1,d2 = st.columns([1,10])
+            try:
+                st.image("Con_Flags/"+flags[country]+".png",width=50)
+                st.subheader(str.upper(country))
+            except:
+                st.subheader(str.upper(country))
             fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
             fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
                     size =18,
