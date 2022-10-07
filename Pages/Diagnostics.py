@@ -60,7 +60,7 @@ def coloredPlot(df,c1,capital,i,height =600):
     df = df.sort_values(i,ascending = True).fillna("NA")
     fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
     
-    fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 350,height =height)
+    fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,height =height)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     # # fig1['layout']['xaxis'].update(autorange = True)
     fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))

@@ -90,7 +90,8 @@ def coloredPlot(df,c1,i):
     fig1 = px.bar(df, x = i,y = df.index,orientation='h',text = i)
     
     # fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285)
-    fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 400,height =400)
+    # fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 400,height =400)
+    fig1.update_layout(yaxis_title=None, xaxis_title=None,height =400)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     # # fig1['layout']['xaxis'].update(autorange = True)
     fig1.update_xaxes(tickfont=dict(size =12, family = "Arial Black"))
@@ -111,6 +112,8 @@ def visualizeMap1(gdf):
     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
     #  hover_name=gdf.index,animation_frame="Year")
      fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn_r",
+     hover_name=gdf.index)
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
      hover_name=gdf.index)
      fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
      fig.update_geos(fitbounds="locations", visible=False,landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
@@ -166,7 +169,7 @@ def linePlot(df,i,var,c1,shock=None):
   fig.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
   fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
   # fig.update_traces(mode = "markers")
-  fig.update_layout(width = 800)
+#   fig.update_layout(width = 800)
   fig.update_layout(
     # title="Plot Title",
     # xaxis_title="X Axis Title",
