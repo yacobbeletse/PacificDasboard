@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
 
-# st.sidebar.title("Control Center")
+# st.sidebar.title("Control Center")ff
 years = range(2012,2023)
 capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
@@ -30,6 +30,8 @@ incomeCat=pd.read_csv("IncomeCat.csv")
 years = range(2012,2023)
 # capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
 alldata1 = pd.read_csv("FinalData.csv")
+alldata1 = alldata1.replace({'United States':'United States of America',
+                            'Dominican Rep.':'Dominican Republic'})
 countries = alldata1["Country"].unique()
 # print(countries)
 dataColl = {}
