@@ -61,10 +61,11 @@ def coloredPlot(df,c1,capital,i,height =600):
     fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
     
     fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,height =height)
+    # fig1.update_layout(yaxis_title=None, xaxis_title=None)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     # # fig1['layout']['xaxis'].update(autorange = True)
-    fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
-    fig1.update_yaxes(tickfont=dict(size =9,family = "Arial Black"))
+    fig1.update_xaxes(tickfont=dict(size =9, family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
     fig1.layout.showlegend = False
     # fig1.update_traces(textposition='outside')
     # c1.subheader(capital) 
@@ -74,9 +75,10 @@ def coloredPlot(df,c1,capital,i,height =600):
     # else:
     #   
     df = df.replace({"NA":np.nan})
-    c1.metric(label=str(capital),value=(np.round(df[i].mean(),1)))  
-    # c1.subheader(capital+ " Capital")
-    c1.plotly_chart(fig1)
+    with c1:
+        c1.metric(label=str(capital),value=(np.round(df[i].mean(),1)))  
+        # c1.subheader(capital+ " Capital")
+        c1.plotly_chart(fig1,use_container_width=True)
 
 def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFrame()):
     df1 = df1.replace({0:0.1})
@@ -114,11 +116,11 @@ def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFram
         fin = colored[colored.index.isin(financial)]
         man = colored[colored.index.isin(manufactured)]
         print(nat)
-        coloredPlot(nat,c1,"Natural","value")
-        coloredPlot(hum,c2,"Human","value")
-        coloredPlot(soc,c3,"Social","value")
-        coloredPlot(fin,c4,"Financial","value")
-        coloredPlot(man,c5,"Manufactured","value")
+        coloredPlot(nat,c1,"Natural Capital","value")
+        coloredPlot(hum,c2,"Human Capital","value")
+        coloredPlot(soc,c3,"Social Capital","value")
+        coloredPlot(fin,c4,"Financial Capital","value")
+        coloredPlot(man,c5,"Manufactured Capital","value")
 
 
 def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.DataFrame()):

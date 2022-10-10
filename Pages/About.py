@@ -4,13 +4,22 @@ import streamlit as st
 
 
 def app():
-    abc = """**Food Systems Resilience Diagnostics Tool**
+    about = st.sidebar.selectbox("More about...", ["Abstract","Using the Tool", "Adapted Five-Capitals Framework"])
+    
+    showText(about)
+    
+
+
+
+def showText(option):
+    abstract = """**Food Systems Resilience Diagnostics Tool**
 
 **Abstract**
 
-The food system is a complex web of actors/agents and interactions that spans production to the consumption of food. The global food system has been severely disrupted by the COVID-19 pandemic putting millions of people at risk of hunger and malnutrition. In a post-COVID-19 era, a stock-take will be required to see how our food system changed in response to current drivers/pressures and what lessons we learnt regarding the actions required to improve its resilience. The ability to understand, interpret, evaluate, and monitor key aspects of the food system is pivotal in building resilient food systems, as it is through this collection and analysis of information that we can improve resource allocation and effective decision-making. Thus, we present a diagnostic tool that can identify and monitor food stress using a food system resilience score. This score is derived from several indicators that describe natural, human, social, financial, and manufactured dimensions of the food system. The tool incorporates three major functionalities - situational awareness, scenario analysis, and intervention analysis. The situational awareness component helps derive a clear understanding of the strengths and weaknesses of food systems, while the scenario analysis component enables the anticipation of how various aspects within food systems may change when exposed to food shocks. The intervention analysis component points out the most effective and realistic interventions against anticipated food shocks. We have constructed the tool so that it can be deployed at various levels to enable better-informed decision-making toward building resilient food systems in the long term.
+The food system is a complex web of actors/agents and interactions that spans production to the consumption of food. The global food system has been severely disrupted by the COVID-19 pandemic putting millions of people at risk of hunger and malnutrition. In a post-COVID-19 era, a stock-take will be required to see how our food system changed in response to current drivers/pressures and what lessons we learnt regarding the actions required to improve its resilience. The ability to understand, interpret, evaluate, and monitor key aspects of the food system is pivotal in building resilient food systems, as it is through this collection and analysis of information that we can improve resource allocation and effective decision-making. Thus, we present a diagnostic tool that can identify and monitor food stress using a food system resilience score. This score is derived from several indicators that describe natural, human, social, financial, and manufactured dimensions of the food system. The tool incorporates three major functionalities - situational awareness, scenario analysis, and intervention analysis. The situational awareness component helps derive a clear understanding of the strengths and weaknesses of food systems, while the scenario analysis component enables the anticipation of how various aspects within food systems may change when exposed to food shocks. The intervention analysis component points out the most effective and realistic interventions against anticipated food shocks. We have constructed the tool so that it can be deployed at various levels to enable better-informed decision-making toward building resilient food systems in the long term."""
 
-**A. Using the tool**
+    tool ="""
+    **A. Using the tool**
 
 **1. About**
 
@@ -46,7 +55,8 @@ This component represents the vulnerability of countries to several forms of haz
 
 **2.5 Compare**
 This component allows the comparison of the ranks of the chosen countries for food systems resilience score and five capitals score against the rank of the countries in terms of HDI, the proprotion of undernourished population, and the proportion of food insecure population.
-
+"""
+    framework = """
 **3. Five Capitals based framework for food system resilience assessment**
 
 **The five capitals approach provides a holistic way to measure value.**
@@ -112,7 +122,12 @@ This component allows the comparison of the ranks of the chosen countries for fo
 |Telecommunications|	GFSI, ITU|	Positive|
 |Early Warning Measures|	GFSI, CCAFS|	Positive|   
 """    
-    st.markdown(abc)
+    if option=="Abstract":
+        st.markdown(abstract)
+    elif option =="Using the Tool":
+        st.markdown(tool)
+    else:
+        st.markdown(framework)
     
 
     # st.subheader('Abstract')

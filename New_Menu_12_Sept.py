@@ -104,7 +104,7 @@ my_html1 = """<h3>Please share your experience of using this tool
 
 
 
-components.html(my_html1)
+# components.html(my_html1)
 
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")

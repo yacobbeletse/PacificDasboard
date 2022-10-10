@@ -105,7 +105,7 @@ def coloredPlot(df,c1,i):
     # else:
     #     c1.subheader(capital)
 
-    c1.plotly_chart(fig1)
+    c1.plotly_chart(fig1,use_container_width=True)
 def visualizeMap1(gdf):
 
 
@@ -123,11 +123,11 @@ def visualizeMap1(gdf):
 
 
     #  fig.colorbar.lim(0,100)
-     col1, col2, col3= st.columns([3,1,1])
+     col1, col2, col3= st.columns([3,1,2])
      col1.plotly_chart(fig)
-     col2.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
+     col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
     #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
-     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col2,"Value")
+     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col3,"Value")
 # @st.cache(suppress_st_warning=True)
 
 def linePlot(df,i,var,c1,shock=None):
@@ -181,7 +181,7 @@ def linePlot(df,i,var,c1,shock=None):
     ))
 
   
-  c1.plotly_chart(fig)
+  c1.plotly_chart(fig,use_container_width=True)
 
 capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
 
@@ -356,7 +356,7 @@ def app():
             fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
             fig3.update_traces(textposition='outside')
             st.subheader("Impacts of Food Shocks")
-            st.plotly_chart(fig3)
+            st.plotly_chart(fig3,use_container_width=True)
 
             sdf = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
             # print(dff)

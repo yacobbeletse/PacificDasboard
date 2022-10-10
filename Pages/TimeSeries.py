@@ -80,7 +80,7 @@ def coloredPlot(df,c1,capital,i):
 
     c1.subheader(capital)
 
-    c1.plotly_chart(fig1)
+    c1.plotly_chart(fig1,use_container_width=True)
 
 def linePlotter(df,countrySelect,method = "cvsc"):
   print(df)
@@ -110,7 +110,7 @@ def linePlotter(df,countrySelect,method = "cvsc"):
         size=12,
     )
 )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
 
 
 
@@ -156,7 +156,7 @@ def linePlot1(df,countrySelect,capital):
             plt.ylim([-5,105])
             plt.legend(ltitle,loc='center left',bbox_to_anchor=(1.1, 0.5),prop={'size': 3})
             plt.show()
-            st.pyplot(fig2)
+            st.pyplot(fig2,use_container_width=True)
 
 def linePlot(df,countrySelect,indicator1):
     
