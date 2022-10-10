@@ -123,7 +123,7 @@ def visualizeMap1(gdf):
 
 
     #  fig.colorbar.lim(0,100)
-     col1, col2, col3= st.columns([3,1,2])
+     col1, col2, col3= st.columns([4,1,2])
      col1.plotly_chart(fig)
      col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
     #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
@@ -151,6 +151,7 @@ def linePlot(df,i,var,c1,shock=None):
 
     fig.update_yaxes(title_text = "Score for Indicator",secondary_y = False)
     fig.update_yaxes(title_text = "Standardized Value for the Shock",secondary_y = True)
+    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
 
     fig.update_layout(legend=dict(
     orientation="h",
@@ -352,11 +353,12 @@ def app():
                     size =18,
             )
             )
+            fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
             fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
             fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
             fig3.update_traces(textposition='outside')
             st.subheader("Impacts of Food Shocks")
-            st.plotly_chart(fig3,use_container_width=True)
+            st.plotly_chart(fig3,use_container_width=False)
 
             sdf = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
             # print(dff)
