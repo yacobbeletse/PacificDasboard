@@ -63,13 +63,13 @@ This component allows the comparison of the ranks of the chosen countries for fo
 
 **Table 1: Categorization of the variables under five capitals**
 
-**A positive influence of an indicator signifies higher scores for the indicator more resilient the national food system is and vice-versa.*
+**A positive influence of an indicator signifies higher the indicator more resilient the national food system is and vice-versa.*
 
 |**Indicator**	                    |**Source**	     |**Influence** |
 |-------------------|----------------------|----------------------|
 |**Natural Capital**  |       |           |           |
 |Agricultural Water Quality|	    |GFSI  	 |Positive   |
-|Agricultural Water Quantity|	GFS		Positive|
+|Agricultural Water Quantity|	GFS	|	Positive|
 |Biodiversity and Habitat|	EPI	|Positive|
 |Ecosystem Services|	EPI		|Positive|
 |Forest Change|	GFSI, World Bank	|	Negative|
