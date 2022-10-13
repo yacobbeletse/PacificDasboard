@@ -84,34 +84,59 @@ def coloredPlot(df,c1,capital,i):
     c1.plotly_chart(fig1,use_container_width=True)
 
 def linePlotter(df,countrySelect,method = "cvsc"):
-  print(df)
+#   print(df)
+  c = st.columns(3)
+  k=0
   if(len(df["Country"].dropna().unique())!=0):
-    for i in df["Country"].dropna().unique():
-        df1=df[df["Country"]==i]
-        print(df1)
-        # d1,d2 = st.columns([1,20])
-        try:
-            st.image("Con_Flags/"+flags[i]+".png",width=50)
-            st.subheader(str.upper(i))
-        except:
-            st.subheader(str.upper(i))
-        # dfm =df1.melt('Year',var_name="Indicators",value_name="Score")
-        # dfm = dfm.replace(all_factors1)
-        fig = px.line(df1,x="Year", y = "value", color = "Indicator",markers=True,symbol ="Indicator")
+    for i in df["Indicator"].unique():
+        df1 = df[df["Indicator"]==i]
+        c[k].subheader(i)
+        fig = px.line(df1,x="Year", y = "value", color = "Country",markers=True,symbol ="Country")
         fig.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
         fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
         fig.update_layout(width = 1000)
         fig.update_layout(
     # title="Plot Title",
     # xaxis_title="X Axis Title",
-    # yaxis_title="Y Axis Title",
+    yaxis_title="Score",
     # legend_title="Legend Title",
     font=dict(
         family="Arial Black",
         size=12,
     )
 )
-        st.plotly_chart(fig,use_container_width=True)
+        c[k].plotly_chart(fig,use_container_width=True)
+        k=k+1
+        if k >2:
+            k=0
+
+#   if(len(df["Country"].dropna().unique())!=0):
+#     for i in df["Country"].dropna().unique():
+#         df1=df[df["Country"]==i]
+#         print(df1)
+#         # d1,d2 = st.columns([1,20])
+#         try:
+#             st.image("Con_Flags/"+flags[i]+".png",width=50)
+#             st.subheader(str.upper(i))
+#         except:
+#             st.subheader(str.upper(i))
+#         # dfm =df1.melt('Year',var_name="Indicators",value_name="Score")
+#         # dfm = dfm.replace(all_factors1)
+#         fig = px.line(df1,x="Year", y = "value", color = "Indicator",markers=True,symbol ="Indicator")
+#         fig.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+#         fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+#         fig.update_layout(width = 1000)
+#         fig.update_layout(
+#     # title="Plot Title",
+#     # xaxis_title="X Axis Title",
+#     # yaxis_title="Y Axis Title",
+#     # legend_title="Legend Title",
+#     font=dict(
+#         family="Arial Black",
+#         size=12,
+#     )
+# )
+#         st.plotly_chart(fig,use_container_width=True)
 
 
 
@@ -160,12 +185,13 @@ def linePlot1(df,countrySelect,capital):
             st.pyplot(fig2,use_container_width=True)
 
 def linePlot(df,countrySelect,indicator1):
-    
+    print(df)
 
     # df_ind = df[df["Indicator"]==indicator1]
-    df_ind = df[["Country","Year",indicator1]]
-    print(df_ind)
-    if not df_ind.empty:
+    
+    # print(df_ind)
+    try:
+        df_ind = df[["Country","Year",indicator1]]
         st.subheader(indicator1)
         fig_ind = px.line(df_ind,x="Year",y=indicator1,color = "Country",markers=True,symbol="Country")
         fig_ind.update_layout(
@@ -175,8 +201,9 @@ def linePlot(df,countrySelect,indicator1):
         family="Arial Black",
         size=12,
     ))
+        fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
         st.plotly_chart(fig_ind)
-    else:
+    except:
         st.subheader("No data for "+indicator1 )
     # df.index.name=None
     # c1.write(df)
@@ -211,6 +238,7 @@ def linePlot(df,countrySelect,indicator1):
                 family="Arial Black",
                 size=12,
             ))
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
             c[k].plotly_chart(fig)
             k=k+1
             if k>1:
@@ -299,21 +327,21 @@ def visualizeComp(op,choiceDiff,yearChoice):
 
     elif op =="Capitals":
         # indexes=[]
-        capital = st.sidebar.selectbox("Choose a capital", ["Natural", "Human","Social","Financial","Manufactured"])
+        capital = st.sidebar.selectbox("Choose a capital", ["Natural Capital", "Human Capital","Social Capital","Financial Capital","Manufactured Capital"])
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
         # print(alldata1.head())
         df = alldata1[alldata1["Country"].isin(countrySelect)].copy()
-        if capital=="Natural":
+        if capital=="Natural Capital":
             # indexes = natural
             df = df[df["Indicator"].isin(natural)]
-        elif capital=="Human":
+        elif capital=="Human Capital":
             # indexes = human
              df = df[df["Indicator"].isin(human)]
-        elif capital=="Social":
+        elif capital=="Social Capital":
             # indexes = social
              df = df[df["Indicator"].isin(social)]
 
-        elif capital=="Financial":
+        elif capital=="Financial Capital":
             # indexes = financial
              df = df[df["Indicator"].isin(financial)]
         else:
@@ -452,20 +480,21 @@ def visualizeComp(op,choiceDiff,yearChoice):
 def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,extra = "value"):
     print("Entered Traffic" + str(yearChoice))
     print(df)
-
+    k=0
+    c = st.columns(5)
     for i in df[index].unique():
         dff = df[df[index]==i]
         # print(present)
-        d1,d2 = st.columns([1,15])
+        # d1,d2 = st.columns([1,15])
         try:
-            st.image("Con_Flags/"+flags[i]+".png",width=50)
-            st.subheader(str.upper(i))
+            c[k].image("Con_Flags/"+flags[i]+".png",width=50)
+            c[k].subheader(str.upper(i))
         except:
-            st.subheader(str.upper(i))
+            c[k].subheader(str.upper(i))
         
-        st.metric("Food Systems Resilience Score", np.round(dff[yearChoice[0]].mean(),2),delta = np.round(float(dff["diff"].mean()),1))
+        c[k].metric("Food Systems Resilience Score", np.round(dff[yearChoice[0]].mean(),2),delta = np.round(float(dff["diff"].mean()),1))
 
-        c1,c2,c3,c4,c5 = st.columns(5)
+        # c1,c2,c3,c4,c5 = st.columns(5)
         # colored = dff.sort_values(yearChoice[0],ascending=True).copy()
         colored = dff.copy()
         i="diff"
@@ -475,30 +504,38 @@ def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,ext
         # colored.index = colored.index.map(all_factors1)
 
         # print(colored)
-               
-        nat = colored[colored["Indicator"].isin(natural)]
-        hum =colored[colored["Indicator"].isin(human)]
-        soc = colored[colored["Indicator"].isin(social)]
-        fin = colored[colored["Indicator"].isin(financial)]
-        man = colored[colored["Indicator"].isin(manufactured)]
+        
+        nat = colored[colored["Indicator"].isin(natural)].sort_values("Indicator")
+        hum =colored[colored["Indicator"].isin(human)].sort_values("Indicator")
+        soc = colored[colored["Indicator"].isin(social)].sort_values("Indicator")
+        fin = colored[colored["Indicator"].isin(financial)].sort_values("Indicator")
+        man = colored[colored["Indicator"].isin(manufactured)].sort_values("Indicator")
+
+        print(nat)
 
         # present_nat = present[present.index.isin(natural)]
         # present_hum = present[present.index.isin(human)]
         # present_soc = present[present.index.isin(social)]
         # present_fin = present[present.index.isin(financial)]
         # present_man = present[present.index.isin(manufactured)]
-        print(nat)
+        # print(nat)
         
-        coloredPlot(nat,c1,"Natural Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(hum,c2,"Human Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(soc,c3,"Social Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(fin,c4,"Financial Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(man,c5,"Manufactured Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(nat,c[k],"Natural Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(hum,c[k],"Human Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(soc,c[k],"Social Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(fin,c[k],"Financial Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(man,c[k],"Manufactured Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        k=k+1
+        if k >4:
+            k=0
 
 def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra = "diff"):
+    # print(df.head())
+    # df = df.sort_values(visType,ascending = True)
+    df = df.replace({0:0.1})
     df[i] = np.round(df[i],1)
     fig1 = px.bar(df, x = i,y = visType,orientation='h', text = i,color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
-    
+    fig1.update_layout(xaxis=dict(type='category'))
     fig1.update_layout(yaxis_title=None, xaxis_title=None,height = height)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     fig1.update_layout(xaxis_range = [-100,100])
@@ -506,6 +543,7 @@ def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra
     fig1.update_yaxes(tickfont=dict(size =10,family = "Arial Black"))
     fig1.layout.showlegend = False
     fig1.update_traces(textposition = "auto")
+    
     # fig1.update_traces(textposition='outside')
     # c1.subheader(capital) 
     # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])

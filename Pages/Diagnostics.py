@@ -59,7 +59,7 @@ def coloredPlot(df,c1,capital,i,height =600):
     df[i] = np.round(df[i],1)
     print(df.head())
     df = df.sort_values(i,ascending = True).fillna("NA")
-    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
+    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red", "orange": "#FFA500"})
     
     fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,height =height)
     # fig1.update_layout(yaxis_title=None, xaxis_title=None)
@@ -106,7 +106,8 @@ def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFram
         
         colored["Color"] = "green"
         colored.loc[colored["value"]<40,"Color"] = "red"
-        colored.loc[(colored["value"]>=40) & (colored["value"]<80),"Color"]= "yellow"
+        colored.loc[(colored["value"]>=40) & (colored["value"]<60),"Color"]= "orange"
+        colored.loc[(colored["value"]>=60) & (colored["value"]<80),"Color"]= "yellow"
         # colored.index = colored.index.map(all_factors1)
 
         print(colored)
@@ -151,7 +152,8 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             fd.index = fd["Country"]
             fd["Color"]="green"
             fd.loc[fd["value"]<40,"Color"] = "red"
-            fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
+            fd.loc[(fd["value"]>=40) & (fd["value"]<60),"Color"]= "orange"
+            fd.loc[(fd["value"]>=60) & (fd["value"]<80),"Color"]= "yellow"
             # print(c)
             coloredPlot(fd.dropna(),c[k],j,"value",height = 1000)
             k=k+1
@@ -164,7 +166,8 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             fd.index = fd["Country"]
             fd["Color"]="green"
             fd.loc[fd["value"]<40,"Color"] = "red"
-            fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
+            fd.loc[(fd["value"]>=40) & (fd["value"]<60),"Color"]= "orange"
+            fd.loc[(fd["value"]>=60) & (fd["value"]<80),"Color"]= "yellow"
             # print(c)
             coloredPlot(fd,c[k],j,"value",height=1000)
             k=k+1
