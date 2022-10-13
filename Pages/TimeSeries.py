@@ -479,7 +479,7 @@ def visualizeComp(op,choiceDiff,yearChoice):
 
 def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,extra = "value"):
     print("Entered Traffic" + str(yearChoice))
-    print(df)
+    # print(df)
     k=0
     c = st.columns(5)
     for i in df[index].unique():
@@ -497,9 +497,9 @@ def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,ext
         # c1,c2,c3,c4,c5 = st.columns(5)
         # colored = dff.sort_values(yearChoice[0],ascending=True).copy()
         colored = dff.copy()
-        i="diff"
+        m="diff"
         colored["Color"] = "green"
-        colored.loc[colored[i]<0,"Color"] = "red"
+        colored.loc[colored[m]<0,"Color"] = "red"
         # colored.loc[(colored[i]>=40) & (colored[i]<80),"Color"]= "yellow"
         # colored.index = colored.index.map(all_factors1)
 
@@ -520,23 +520,24 @@ def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,ext
         # present_man = present[present.index.isin(manufactured)]
         # print(nat)
         
-        coloredPlot(nat,c[k],"Natural Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(hum,c[k],"Human Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(soc,c[k],"Social Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(fin,c[k],"Financial Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
-        coloredPlot(man,c[k],"Manufactured Capital",i,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(nat,c[k],"Natural Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(hum,c[k],"Human Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(soc,c[k],"Social Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(fin,c[k],"Financial Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
+        coloredPlot(man,c[k],"Manufactured Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
         k=k+1
         if k >4:
             k=0
 
 def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra = "diff"):
+    # print(i)
     # print(df.head())
     # df = df.sort_values(visType,ascending = True)
     df = df.replace({0:0.1})
     df[i] = np.round(df[i],1)
     fig1 = px.bar(df, x = i,y = visType,orientation='h', text = i,color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
-    fig1.update_layout(xaxis=dict(type='category'))
-    fig1.update_layout(yaxis_title=None, xaxis_title=None,height = height)
+    # fig1.update_layout(xaxis=dict(type='category'))
+    fig1.update_layout(xaxis_range=[-100,100],yaxis_title=None, xaxis_title=None,height = height)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     fig1.update_layout(xaxis_range = [-100,100])
     fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
