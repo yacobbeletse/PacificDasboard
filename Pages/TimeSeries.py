@@ -1,4 +1,4 @@
-from cmath import acosh
+from cmath import acosh, nan
 from tkinter.ttk import Style
 from turtle import color
 import streamlit as st
@@ -18,15 +18,16 @@ flags = {
 
 
 # capitals = ['Score','natural','human','social','financial','manufactured']
-capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
-capitalHeaders = {
-    'Food Systems Resilience Score':'Food Systems Resilience Score',
-    'Natural': 'Natural Capital',
-    'Human': 'Human Capital',
-    'Social': 'Social Capital',
-    'Financial': 'Financial Capital',
-    'Manufactured': 'Manufactured Capital',
-}
+# capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
+# capitalHeaders = {
+#     'Food Systems Resilience Score':'Food Systems Resilience Score',
+#     'Natural': 'Natural Capital',
+#     'Human': 'Human Capital',
+#     'Social': 'Social Capital',
+#     'Financial': 'Financial Capital',
+#     'Manufactured': 'Manufactured Capital',
+# }
 
 
 natural = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
@@ -54,7 +55,7 @@ for i in years:
 org_data=dataColl[2022]
 alldata_pivot = alldata1.pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
 countries = org_data["Country"].unique()
-
+capitalsOnly = pd.read_csv("finalCapital.csv")
 
 def showOption():
     opts = ['Country','Indicator']
@@ -161,11 +162,12 @@ def linePlot1(df,countrySelect,capital):
 def linePlot(df,countrySelect,indicator1):
     
 
-    df_ind = df[df["Indicator"]==indicator1]
+    # df_ind = df[df["Indicator"]==indicator1]
+    df_ind = df[["Country","Year",indicator1]]
     print(df_ind)
     if not df_ind.empty:
         st.subheader(indicator1)
-        fig_ind = px.line(df_ind,x="Year",y="value",color = "Country",markers=True,symbol="Country")
+        fig_ind = px.line(df_ind,x="Year",y=indicator1,color = "Country",markers=True,symbol="Country")
         fig_ind.update_layout(
         yaxis_title="Score",
     legend_title="Country",
@@ -186,20 +188,21 @@ def linePlot(df,countrySelect,indicator1):
         # c1.write(df)
         # plt.style.use(plt_style)
         # for i in df["Country"].dropna().unique():
-        fd = pd.DataFrame()
-        dff = df.copy()
+        fd = df.drop(columns = [indicator1])
+        # dff = df[df["Indicator"]!=indicator1].copy()
         # dff =df[df["Country"]==i]
-        fd = dff.groupby(["Year","Country"])["value"].mean().reset_index().rename(columns = {"value":"Food Systems Resilience Score"})
-        fd["Natural"] = dff[dff["Indicator"].isin(natural)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
-        fd["Human"] = dff[dff["Indicator"].isin(human)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
-        fd["Social"] = dff[dff["Indicator"].isin(social)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
-        fd["Financial"] = dff[dff["Indicator"].isin(financial)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
-        fd["Manufactured"] = dff[dff["Indicator"].isin(manufactured)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
+        # fd = dff.groupby(["Year","Country"])["value"].mean().reset_index().rename(columns = {"value":"Food Systems Resilience Score"})
+        # fd["Natural"] = dff[dff["Indicator"].isin(natural)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
+        # fd["Human"] = dff[dff["Indicator"].isin(human)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
+        # fd["Social"] = dff[dff["Indicator"].isin(social)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
+        # fd["Financial"] = dff[dff["Indicator"].isin(financial)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
+        # fd["Manufactured"] = dff[dff["Indicator"].isin(manufactured)].groupby(["Year","Country"])["value"].mean().reset_index()["value"]
         #     # fd["Country"]=i
-        print(fd)
+        # print(fd)
         k=0
         for j in capitals:
-            c[k].subheader(capitalHeaders[j]) 
+            # if j!="Food Systems Resilience Score":
+            c[k].subheader(j) 
             fig = px.line(fd,x="Year",y=j,color = "Country",markers=True)
             fig.update_layout(
                 yaxis_title="Score",
@@ -232,16 +235,6 @@ def visualizeComp(op,choiceDiff,yearChoice):
     global dataColl
     print(choiceDiff)
 
-    # yearChoice = []
-    # if choiceDiff=="1-year Analysis":
-    #     yearChoice=[2022,2021]
-    # elif choiceDiff=="5-year Analysis":
-    #     yearChoice=[2022,2017]
-    # elif choiceDiff == "YTD Analysis":
-    #      yearChoice=[2022,2012]
-    # else:
-    #     yearChoice=[i for i in range(2012,2023)]
-    # print(yearChoice)
     if not (isinstance(yearChoice,list)):
         yearChoice = list(yearChoice)
     yearChoice.reverse()
@@ -252,46 +245,56 @@ def visualizeComp(op,choiceDiff,yearChoice):
         dff = alldata_pivot.loc[alldata_pivot["Country"].isin(countrySelect),:]
         df = dff[["Country","Indicator",yearChoice[0]]]
         df["diff"] = dff[yearChoice[0]] - dff[yearChoice[-1]]
-        # abc = abc.append(i for i in countrySelect)
-        # df = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[countrySelect]
-        # df = dff[yearChoice[0]].subtract(dff[yearChoice[1]])
+
         print(df)
-        # df = df[df["Country"].isin(countrySelect)].transpose()
-        # original = dataColl[yearChoice[0]][dataColl[yearChoice[0]].index.isin(countrySelect)].transpose()
-        # df = org_data[countrySelect]
+
         print('*****')
-        # print(original.head())
+
         traffic(df,index = "Country",yearChoice=yearChoice,extra = "diff")
-        # showPlot1(df,"Comp","indx",present = original)
+
     elif op =="Countryvs":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-        capital = st.sidebar.selectbox('Capital',['Natural','Human','Social','Financial','Manufactured'])
+        capital = st.sidebar.selectbox('Capital',['Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital'])
         indicator1=None
-        if capital=="Natural":
+        if capital=="Natural Capital":
             indicator1 = st.sidebar.selectbox("Indicator",natural)
-        elif capital=="Human":
+        elif capital=="Human Capital":
             indicator1 = st.sidebar.selectbox("Indicator",human)
-        elif capital=="Social":
+        elif capital=="Social Capital":
             indicator1 = st.sidebar.selectbox("Indicator",social)
-        elif capital=="Financial":
+        elif capital=="Financial Capital":
             indicator1 = st.sidebar.selectbox("Indicator",financial)
-        elif capital=="Manufactured":
+        elif capital=="Manufactured Capital":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured)
         else:
             indicator1 = "Food Systems Resilience Score"
-        # indexes = ["Score","natural","human","social","financial","manufactured","Year"]
-        # tempData ={}
-        # df = pd.DataFrame()
-        # for i in yearChoice:
-        #     abc = dataColl[i]
-        #     abc["Year"]=i
-        #     tempData[i]=abc
-        #     df =pd.concat([df,tempData[i]])
+
+        df = alldata1[(alldata1["Indicator"]==indicator1) & (alldata1["Country"].isin(countrySelect))]
+        # print(df1.head())
+
+        df_cap = capitalsOnly[capitalsOnly["Country"].isin(countrySelect)].rename(columns = {"Capital":"Indicator"})
+        df11 = pd.concat([df,df_cap])
+        
+        df1 = df11.pivot(index = ["Country","Year"], columns= "Indicator",values="value").reset_index()
+        # print(df1.head())
+
+        # dff_capital = capitalsOnly[(capitalsOnly["Country"].isin(countrySelect))]
+        # print("indicator = "+indicator1)
+        # Year = yearChoice
+        # if(indicator1 in capitals):
+        #     df = capitalsOnly[(capitalsOnly["Capital"]==indicator1) & (capitalsOnly["Country"].isin(countrySelect))]
+
+        # else:
+            # dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
+           
+            # print(df.head())
+
+
+        # df["Indicator"] = indicator1
+        # df =df.rename(columns={Year:"value"})
+        # df = alldata1.copy()
         # print(df)
-        # df1= df[indexes]
-        df = alldata1.copy()
-        print(df)
-        df1 = df[df["Country"].isin(countrySelect)]
+        # df1 = df[df["Country"].isin(countrySelect)]
         linePlot(df1,countrySelect,indicator1)
 
     elif op =="Capitals":
@@ -340,62 +343,81 @@ def visualizeComp(op,choiceDiff,yearChoice):
         linePlotter(df,countrySelect,capital)
 
     else:
-        # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
-        # indSelect = [all_factors[i] for i in indSelect1]
-        # df1 = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[indSelect]
-        # print(df1)
-        # showPlot(df1,index="country",visType="Comp")
 
-        vistype = st.sidebar.selectbox("Visualization by:",["Income Category","Region"])
+
+        vistype = st.sidebar.selectbox("Visualization by:",["Overall", "Income Category","Region"])
         capital = st.sidebar.selectbox('FSRS/Capital',capitals)
         indicator1=None
-        if capital=="Natural":
+        if capital=="Natural Capital":
             indicator1 = st.sidebar.selectbox("Indicator",natural1)
-        elif capital=="Human":
+        elif capital=="Human Capital":
             indicator1 = st.sidebar.selectbox("Indicator",human1)
-        elif capital=="Social":
+        elif capital=="Social Capital":
             indicator1 = st.sidebar.selectbox("Indicator",social1)
-        elif capital=="Financial":
+        elif capital=="Financial Capital":
             indicator1 = st.sidebar.selectbox("Indicator",financial1)
-        elif capital=="Manufactured":
+        elif capital=="Manufactured Capital":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
             indicator1 = "Food Systems Resilience Score"
         # Year = yearChoice
         df = pd.DataFrame()
-        temp = alldata_pivot.copy()
-        temp["diff"] = alldata_pivot[yearChoice[0]] - alldata_pivot[yearChoice[-1]]
-        print(temp.head())
+        temp = pd.DataFrame()
 
-        if(indicator1=="Food Systems Resilience Score"):
-            df = temp[["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
-            # print(temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]])
-            
-            # df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Natural Capital"):
-            df = temp.loc[temp["Indicator"].isin(natural),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
-            # df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Human Capital"):
-            df = temp.loc[temp["Indicator"].isin(human),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
-            # df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Social Capital"):
-            df = temp.loc[temp["Indicator"].isin(social),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
-            # df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Financial Capital"):
-            df = temp.loc[temp["Indicator"].isin(financial),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            # df =df.rename(columns={Year:"value"})
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
-        elif(indicator1=="Manufactured Capital"):
-            df = temp.loc[temp["Indicator"].isin(manufactured),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
-            # df =df.rename(columns={Year:"value"})
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        # df = pd.DataFrame()
+        print("indicator = "+indicator1)
+
+
+        if(indicator1 in capitals):
+            temp = capitalsOnly.pivot(index = ["Country", "Capital"],columns="Year",values="value").reset_index()
+            print(temp.head())
+            temp["diff"] = temp[yearChoice[0]] - temp[yearChoice[-1]]
+            df = temp[(temp["Capital"]==indicator1)]
+            print(df.head())
+
         else:
+            temp = alldata_pivot.copy()
+            temp["diff"] = alldata_pivot[yearChoice[0]] - alldata_pivot[yearChoice[-1]]
             df = temp[temp["Indicator"]==indicator1].groupby("Country")["diff"].mean().reset_index()
-            df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        
+        df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().round(1).reset_index()[yearChoice[0]]
+
+
+        # df["Indicator"] = indicator1
+        # df =df.rename(columns={Year:"value"})
+        # temp = alldata_pivot.copy()
+        # temp["diff"] = alldata_pivot[yearChoice[0]] - alldata_pivot[yearChoice[-1]]
+        # print(temp.head())
+
+        # if(indicator1=="Food Systems Resilience Score"):
+        #     df = temp[["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        #     # print(temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]])
+            
+        #     # df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Natural Capital"):
+        #     df = temp.loc[temp["Indicator"].isin(natural),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        #     # df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Human Capital"):
+        #     df = temp.loc[temp["Indicator"].isin(human),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        #     # df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Social Capital"):
+        #     df = temp.loc[temp["Indicator"].isin(social),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        #     # df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Financial Capital"):
+        #     df = temp.loc[temp["Indicator"].isin(financial),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     # df =df.rename(columns={Year:"value"})
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        # elif(indicator1=="Manufactured Capital"):
+        #     df = temp.loc[temp["Indicator"].isin(manufactured),["Country","Indicator","diff"]].groupby("Country")["diff"].mean().reset_index()
+        #     # df =df.rename(columns={Year:"value"})
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
+        # else:
+        #     df = temp[temp["Indicator"]==indicator1].groupby("Country")["diff"].mean().reset_index()
+        #     df["Present"]=temp.groupby("Country")[yearChoice[0]].mean().reset_index()[yearChoice[0]]
             # df =df.rename(columns={Year:"value"})
         
         df = df.rename(columns={"diff":"value"})
@@ -408,7 +430,7 @@ def visualizeComp(op,choiceDiff,yearChoice):
         # original = df[["CountyearChoice[0]]]
 
         # df = dataColl[yearChoice[0]].subtract(dataColl[yearChoice[1]])[[all_factors[indicator1]]]
-        print(df)
+        print(df.head())
         # df = df[df.index.isin(countrySelect)].transpose()
         # original = dataColl[yearChoice[0]][dataColl[yearChoice[0]].index.isin(countrySelect)].transpose()
         # original = dataColl[yearChoice[0]][[all_factors[indicator1]]]
@@ -430,11 +452,8 @@ def visualizeComp(op,choiceDiff,yearChoice):
 def traffic(df,index = "Country",visType="Time",check="nice",yearChoice=None,extra = "value"):
     print("Entered Traffic" + str(yearChoice))
     print(df)
-    # df=df.transpose()
-    # c1.write(df)
-    # df.index.name=None
-    # plt.style.use(plt_style)
-    for i in df[index].dropna().unique():
+
+    for i in df[index].unique():
         dff = df[df[index]==i]
         # print(present)
         d1,d2 = st.columns([1,15])
@@ -480,13 +499,13 @@ def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra
     df[i] = np.round(df[i],1)
     fig1 = px.bar(df, x = i,y = visType,orientation='h', text = i,color = "Color",color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red"})
     
-    fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 350,height = height)
+    fig1.update_layout(yaxis_title=None, xaxis_title=None,height = height)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     fig1.update_layout(xaxis_range = [-100,100])
     fig1.update_xaxes(tickfont=dict(size =10, family = "Arial Black"))
-    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
+    fig1.update_yaxes(tickfont=dict(size =10,family = "Arial Black"))
     fig1.layout.showlegend = False
-    fig1.update_traces(textposition = "outside")
+    fig1.update_traces(textposition = "auto")
     # fig1.update_traces(textposition='outside')
     # c1.subheader(capital) 
     # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
@@ -498,177 +517,25 @@ def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra
 
     # else:
     #     c1.subheader(capital)
-    c1.metric(label=capital,value=np.round(df[present].mean(),2),delta = np.round(df[extra].mean(),1))
-    c1.plotly_chart(fig1)
+    value = nan
+    delta = nan
+    try:
+        value=np.round(df[present].mean(),2)
+        delta = np.round(df[extra].mean(),1)
+    except:
+        pass
 
-# def showPlot1(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
-    
-    
-#     print("showplot1")
-#     print(df)
-#     # df.index = df["Country"]
+    c1.metric(label=capital,value=value,delta = delta)
+    # c1.subheader(capital)
+    c1.plotly_chart(fig1,use_container_width=True)
 
-#     # plt.style.use(plt_style)
-#     for i in df.columns:
-#         print(i)
-        
-        
-
-#         if i in all_factors1.keys():
-#             st.subheader(str.upper(all_factors1[i]))
-#             df["Color"] = "green"
-#             df.loc[df[i]<0,"Color"] = "red"
-#             # df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
-#         else:
-#             d1,d2 = st.columns([1,10])
-#             d1.image("Con_Flags/"+flags[i]+".png",width=50)
-#             d2.subheader(str.upper(i))
-#         # else:
-#         #     d1.subheader(str.upper(i))
-#         print(df.head())
-
-
-
-#         # if index!="country":
-#         #     df["var_name"] = [all_factors1[i] for i in df.index]
-#         # else:
-#         #      df["var_name"]  = df.index
-
-#         df1 =df.merge(incomeCat,left_on = df.index,right_on="Country",how="left")
-#         print(df1.head())
-
-#         print("Income = "+ str(len(df1["Income Group"].unique())))
-#         print("region = "+ str(len(df1["Region"].unique())))
-#         c = []
-        
-
-
-        
-
-#         if visType == "Income Category":
-#             c = st.columns(4)
-#             k=0
-#             for j in df1["Income Group"].unique():
-            
-#                 fd = df1[df1["Income Group"]==j].sort_values(i,ascending=True)
-#                 fd.index = fd["Country"]
-#                 print(c)
-#                 coloredPlot(fd,c[k],j,i)
-#                 k=k+1
-#         else:
-#             c = st.columns(5)
-#             k=0
-#             for j in df1["Region"].unique():
-            
-#                 fd = df1[df1["Region"]==j].sort_values(i,ascending=True)
-#                 fd.index = fd["Country"]
-#                 print(c)
-#                 coloredPlot(fd,c[k],j,i)
-#                 k=k+1
-
-#                 if(k>4):
-#                     k=0
-
-
-# def showPlot(df,index = "country",visType="Des",check="nice",present=pd.DataFrame()):
-
-#     plt.style.use(plt_style)
-#     for i in df.columns:
-#         print(i)
-        
-#         d1,d2 = st.columns([1,10])
-
-#         if i in all_factors1.keys():
-#             d2.subheader(str.upper(all_factors1[i]))
-#         else:
-#             d1.image("Con_Flags/"+flags[i]+".png",width=50)
-#             d2.subheader(str.upper(i))
-
-
-
-#         if index!="country":
-#             df["var_name"] = [all_factors1[i] for i in df.index]
-#         else:
-#              df["var_name"]  = df.index
-
-#         print(df.head())
-
-#         if(index!="country"):
-#             a1,a2,a3,a4,a5,a6 = st.columns(6)
-
-#             if(present.empty):    
-#                 print("Present Empty")   
-
-#                 a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
-#                 a2.metric(label="Natural Capital",value=df.loc[df["var_name"]=="Natural Capital",i])
-#                 a3.metric(label="Human Capital",value=df.loc[df["var_name"]=="Human Capital",i])
-#                 a4.metric(label="Social Capital",value=df.loc[df["var_name"]=="Social Capital",i])
-#                 a5.metric(label="Financial Capital",value=df.loc[df["var_name"]=="Financial Capital",i])
-#                 a6.metric(label="Manufactured Capital",value=df.loc[df["var_name"]=="Manufactured Capital",i])
-#             else:
-#                 print(present.head())
-#                 print("OKOK")
-#                 print(df.head())
-#                 a1.metric(label="Food System Resilience Score",value=present.loc[present.index=="Score",i][0],delta=str(np.round(df.loc[df["var_name"]=="Food System Resilience Score",i][0],2)))
-#                 a2.metric(label="Natural Capital",value=present.loc[present.index=="natural",i][0],delta=str(np.round(df.loc[df["var_name"]=="Natural Capital",i][0],2)))
-#                 a3.metric(label="Human Capital",value=present.loc[present.index=="human",i][0],delta=str(np.round(df.loc[df["var_name"]=="Human Capital",i][0],2)))
-#                 a4.metric(label="Social Capital",value=present.loc[present.index=="social",i][0],delta=str(np.round(df.loc[df["var_name"]=="Social Capital",i][0],2)))
-#                 a5.metric(label="Financial Capital",value=present.loc[present.index=="financial",i][0],delta=str(np.round(df.loc[df["var_name"]=="Financial Capital",i][0],2)))
-#                 a6.metric(label="Manufactured Capital",value=present.loc[present.index=="manufactured",i][0],delta=str(np.round(df.loc[df["var_name"]=="Manufactured Capital",i][0],2)))   
-            
-       
-#         best_10 = df.sort_values(i,ascending = False).head(10)
-#         best_10[i] = best_10[i].apply(np.round)
-#         best_10 = best_10.sort_values(i,ascending=True)
-
-#         print(best_10)
-
-#         c1,c2 = st.columns(2)
-
-
-#         fig1 = px.bar(best_10, x = i,y = "var_name",orientation='h',text=i)
-        
-#         fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-#         fig1.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-#         fig1.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
-#         fig1.update_traces(textposition='outside')
-    
-#         c1.plotly_chart(fig1)
-
-
-
-#         worst_10 = df.sort_values(i,ascending = True).head(10)
-#         worst_10[i] = worst_10[i].apply(np.round)
-#         worst_10 = worst_10.sort_values(i,ascending=False)
-#         print(worst_10)
-
-#         fig2 = px.bar(worst_10, x = i,y = "var_name",orientation='h',text=i)
-
-
-#         fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-#         fig2.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-#         fig2.update_traces(textposition='outside')
-#         fig2.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
-
-
-#         if(visType=="Des"):
-#             fig2.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None)
-#         else:
-#             fig2.update_layout(xaxis_range=[-100,5],yaxis_title=None, xaxis_title=None)
-   
-#         c2.plotly_chart(fig2)
-
-#         del d1,d2,c1,c2
-
-#         if index!="country":
-#             del a1,a2,a3,a4,a5,a6
 
 def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.DataFrame()):
     
     st.subheader(indicator)
 
-    df11 =df.merge(incomeCat,on="Country",how="left").dropna()
-    print(df11)
+    df11 =df.merge(incomeCat,on="Country",how="left")
+    print(df11["Country"].unique())
 
     print("Income = "+ str(len(df11["Income Group"].unique())))
     print("region = "+ str(len(df11["Region"].unique())))
@@ -681,7 +548,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
     if visType == "Income Category":
         c = st.columns(4)
         k=0
-        for j in df11["Income Group"].unique():
+        for j in df11["Income Group"].dropna().unique():
             print(j)
             print(df11.head())
         
@@ -691,12 +558,14 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             fd.loc[fd["value"]<0,"Color"] = "red"
             # fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
             # print(c)
-            coloredPlot(fd.dropna(),c[k],j,"value",height = 1000,extra="value")
+            coloredPlot(fd,c[k],j,"value",height = 1000,extra="value")
             k=k+1
-    else:
+            if k>3:
+                k=0
+    elif visType == "Region":
         k=0
         c = st.columns(4)
-        for j in df11["Region"].unique():
+        for j in df11["Region"].dropna().unique():
         
             fd = df11[df11["Region"]==j].sort_values("value",ascending=True)
             fd.index = fd["Country"]
@@ -709,6 +578,19 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
 
             if(k>3):
                 k=0
+    else:
+        c1,c2,c3,c4 = st.columns(4)
+        fd = df.dropna()
+        print(fd.head())
+        fd.index = fd["Country"]
+        fd["Color"]="green"
+        fd.loc[fd["value"]<0,"Color"] = "red"
+        # fd = fd.sort_values("value",ascending=True)
+        # bottom = fd.sort_values("value",ascending = False).tail(15)
+        # print(bottom.sort_values("value",ascending=True))
+        # print(c)
+        coloredPlot(fd.sort_values("value",ascending = True).tail(15),c1,"Top Ranked Countries","value",height=1000,extra = "value")
+        coloredPlot(fd.sort_values("value",ascending=False).tail(15),c3,"Bottom Ranked Countries","value",height=1000,extra = "value")
 
 
 

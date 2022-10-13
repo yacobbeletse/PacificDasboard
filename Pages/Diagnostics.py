@@ -51,6 +51,7 @@ flags = {
 # st.image("Con_Flags/"+flags['Afghanistan']+".png",width=50)
 # flags = pd.read_csv('Flag.csv',index_col="Country").T.to_dict("index")
 # print(flags)
+capitalsOnly = pd.read_csv("finalCapital.csv")
 
 
 
@@ -127,34 +128,6 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
     
     st.subheader(indicator)
 
-    # print(df)
-    # df.index = df["Country"]
-
-    # plt.style.use(plt_style)
-    # for i in df.columns:
-    #     print(i)
-        
-        
-
-    # if i in all_factors1.keys():
-    #     st.subheader(str.upper(all_factors1[i]))
-    #     df["Color"] = "green"
-    #     df.loc[df[i]<40,"Color"] = "red"
-    #     df.loc[(df[i]>=40) & (df[i]<80),"Color"]= "yellow"
-    # else:
-    #     d1,d2 = st.columns([1,10])
-    #     d1.image("Con_Flags/"+flags[i]+".png",width=50)
-    #     d2.subheader(str.upper(i))
-    # # else:
-    # #     d1.subheader(str.upper(i))
-    # print(df.head())
-
-
-
-        # if index!="country":
-        #     df["var_name"] = [all_factors1[i] for i in df.index]
-        # else:
-        #      df["var_name"]  = df.index
 
     df11 =df.merge(incomeCat,on="Country",how="left").dropna()
     print(df11.head())
@@ -182,7 +155,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
             # print(c)
             coloredPlot(fd.dropna(),c[k],j,"value",height = 1000)
             k=k+1
-    else:
+    elif(visType=="Region"):
         k=0
         c = st.columns(4)
         for j in df11["Region"].unique():
@@ -198,6 +171,19 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
 
             if(k>3):
                 k=0
+    else:
+        print(df.head())
+        c1,c2,c3,c4 = st.columns(4)
+        fd = df.dropna()
+        fd.index = fd["Country"]
+        fd["Color"]="green"
+        fd.loc[fd["value"]<40,"Color"] = "red"
+        fd.loc[(fd["value"]>=40) & (fd["value"]<80),"Color"]= "yellow"
+        # bottom = fd.sort_values("value",ascending = True).head(20)
+        # print(bottom.sort_values("value",ascending=True))
+        # print(c)
+        coloredPlot(fd.sort_values("value",ascending = True).tail(15),c1,"Top Ranked Countries","value",height=1000)
+        coloredPlot(fd.sort_values("value",ascending=False).tail(15),c3,"Bottom Ranked Countries","value",height=1000)
 
 
 
@@ -233,18 +219,19 @@ def visualizeOp(op,yearChoice=2022):
 
      
     else:
-        vistype = st.sidebar.selectbox("Visualization by:",["Income Category","Region"])
+        vistype = st.sidebar.selectbox("Visualization by:",["Overall", "Income Category","Region"])
         capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+        # indicator1=None
         indicator1=None
-        if capital=="Natural":
+        if capital=="Natural Capital":
             indicator1 = st.sidebar.selectbox("Indicator",natural1)
-        elif capital=="Human":
+        elif capital=="Human Capital":
             indicator1 = st.sidebar.selectbox("Indicator",human1)
-        elif capital=="Social":
+        elif capital=="Social Capital":
             indicator1 = st.sidebar.selectbox("Indicator",social1)
-        elif capital=="Financial":
+        elif capital=="Financial Capital":
             indicator1 = st.sidebar.selectbox("Indicator",financial1)
-        elif capital=="Manufactured":
+        elif capital=="Manufactured Capital":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
             indicator1 = "Food Systems Resilience Score"
@@ -257,30 +244,45 @@ def visualizeOp(op,yearChoice=2022):
         # print(all_factors[indicator1])
         # df1 = trans_data.loc[:,[all_factors[indicator1]]]
         # print(df1)
+        # df = pd.DataFrame()
         df = pd.DataFrame()
-    # indicator = all_factors[indicator1]
+        print("indicator = "+indicator1)
         Year = yearChoice
-        if(indicator1=="Food Systems Resilience Score"):
-            df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df["Indicator"] = indicator1
-            df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Natural Capital"):
-            df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(natural),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Human Capital"):
-            df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(human),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Social Capital"):
-            df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(social),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Financial Capital"):
-            df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(financial),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Manufactured Capital"):
-            df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(manufactured),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df =df.rename(columns={Year:"value"})
+        if(indicator1 in capitals):
+            df = capitalsOnly[(capitalsOnly["Capital"]==indicator1) & (capitalsOnly['Year']==Year)]
+            print(df.head())
+
         else:
-            df = alldata1[(alldata1["Year"]==Year) & (alldata1["Indicator"]==indicator1)]
+            dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
+            df = dff[dff["Indicator"]==indicator1]
+            print(df.head())
+
+
+        df["Indicator"] = indicator1
+        df =df.rename(columns={Year:"value"})
+    # indicator = all_factors[indicator1]
+        # Year = yearChoice
+        # if(indicator1=="Food Systems Resilience Score"):
+        #     df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df["Indicator"] = indicator1
+        #     df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Natural Capital"):
+        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(natural),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Human Capital"):
+        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(human),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Social Capital"):
+        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(social),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Financial Capital"):
+        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(financial),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Manufactured Capital"):
+        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(manufactured),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df =df.rename(columns={Year:"value"})
+        # else:
+        #     df = alldata1[(alldata1["Year"]==Year) & (alldata1["Indicator"]==indicator1)]
         # print(df)
         # df = df[(df["Year"]==Year) & (df["Indicator"]==indicator1)]
         # print(df)

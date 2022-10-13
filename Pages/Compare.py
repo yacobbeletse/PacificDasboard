@@ -24,26 +24,38 @@ manufactured1 = ["Manufactured Capital",'Agricultural R&D','Crop Storage Facilit
 # world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
 # world['name'] = world['name'].str.lower() 
 # print("Number of Countries = "+str(len(world['name'].unique())))
-
+countries = ['Algeria', 'Angola', 'Argentina', 'Australia', 'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Benin', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'DR Congo', 'Costa Rica', 'Ivory Coast', 'Czech Republic', 'Denmark', 'Dominican Rep.', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Finland', 'France', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Laos', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Mexico', 'Morocco', 'Mozambique', 'Myanmar', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Sierra Leone', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tunisia', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia']
+print("total Countries = "+ str(len(countries)))
+print(countries)
 alldata1 = pd.read_csv("finalCapital.csv")
-alldata1 = alldata1.replace({'United States':'United States of America',
-                            'Dominican Rep.':'Dominican Republic'})
-print(alldata1.head())
+alldata1 = alldata1[alldata1["Country"].isin(countries)]
+# alldata1 = alldata1.replace({'United States':'United States of America',
+#                             'Dominican Rep.':'Dominican Republic'})
+# print(alldata1.head())
+# if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
 
 # countries = ['Algeria', 'Angola', 'Argentina', 'Australia', 'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Benin', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'DR Congo', 'Costa Rica', 'Ivory Coast', 'Czech Republic', 'Denmark', 'Dominican Rep.', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Finland', 'France', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Laos', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Mexico', 'Morocco', 'Mozambique', 'Myanmar', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Sierra Leone', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tunisia', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia']
-countries = alldata1["Country"].unique()
-alldata1 = alldata1[alldata1["Country"].isin(countries)]
 
-alldata_pivot = alldata1.pivot(["Country","Capital"],columns="Year",values="value").reset_index()
+
+alldata_pivot = alldata1.pivot(index = ["Country", "Capital"],columns="Year",values="value").reset_index()
 print("Printing Pivot PD")
 print(alldata_pivot.head())
 
+# capitalsOnly = pd.read_csv("finalCapital.csv")
 
 other = ["HDI","Proportion of Undernourished", "Proportion of food insecure"]
 other_db = {}
+total_country = {}
 other_db["HDI"] = pd.read_csv('HDI.csv')
+total_country["HDI"] = other_db["HDI"].shape[0]
 other_db["Proportion of Undernourished"]  = pd.read_csv('Proportion of Undernourished.csv')
+total_country["Proportion of Undernourished"] = other_db["Proportion of Undernourished"].shape[0]
 other_db["Proportion of food insecure"]  = pd.read_csv('Proportion of food insecure.csv')
+total_country["Proportion of food insecure"] = other_db["Proportion of food insecure"].shape[0]
+total_country["Food Systems Resilience Score"] = len(alldata1["Country"].unique())
+
+# countries = alldata1["Country"].unique()
+# alldata1 = alldata1[alldata1["Country"].isin(countries)]
 
 
 flags = {
@@ -71,6 +83,12 @@ years =[*range(2012,2023)]
 years.sort(reverse=True)
 print(years)
 
+def tryconvert(x):
+  try:
+    return(int(x))
+  except:
+    return("NA")
+
 def app():
     st.header('RANK COMPARISON')
 
@@ -78,7 +96,7 @@ def app():
     # print(alldata1)
     yearChoice = int(st.sidebar.selectbox("Year",years))
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-    print("choice of year = " + str(type(yearChoice)))
+    print("choice of year = " + str(yearChoice))
 
     df = alldata_pivot[["Country","Capital",yearChoice]].pivot("Country",columns = "Capital", values = yearChoice)
 
@@ -98,11 +116,6 @@ def app():
     fd =df.reset_index()
     print(fd.head())
 
-    # for i in df["Capital"].unique():
-    #   temp = df[df["Capital"]==i]
-    #   temp["rank"] = temp[yearChoice].rank(ascending = False).astype(int)
-    #   fd = fd.append(temp,ignore_index=False)
-    # print(fd.head())
 
     compare_data = fd.copy()
 
@@ -113,18 +126,22 @@ def app():
         other_data = other_db[m].filter(["Country",str(yearChoice)])
         other_data = other_data.rename(columns = {str(yearChoice):m})
         other_data = other_data[other_data["Country"].isin(countries)]
-        other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False).astype(int) if not other_data[m].dropna().empty else 'NA'
+        # other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False) if not other_data[m].dropna().empty else 'NA'
+        other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False) 
         other_data = other_data.drop(columns = [m])
         compare_data = pd.merge(compare_data,other_data, on="Country",how = "inner")
-        print(compare_data.head())
+    print(compare_data.head())
 
     k=0
     for j in countrySelect:
       data = compare_data[compare_data["Country"]==j].melt("Country", value_vars=[i for i in compare_data.columns if i not in [ "Country", "Capital"]],var_name="Indicators", value_name="Rank")
       # d1,d2 = d[k].columns([1,10])
       print(data.head())
-      data["Rank"] = data["Rank"].apply(lambda x: int(x) if ((type(x)==float) or (type(x)==int)) else "NA")
+      # data["Rank"] = data["Rank"].apply(lambda x: int(x) if  not (x.isnull()) else "NA")
+      # data["Rank"].apply(lambda x: tryconvert(x))
+      # data["Rank"] = data["Rank"].astype('Int64')
       # if (type(x)=="int" or type(x)=="float") else "NA"
+      print(data)
       renameCols = {}
       for i in data["Indicators"].unique():
           renameCols[i] = i.split("_")[1]
@@ -134,16 +151,17 @@ def app():
         d[k].subheader(str.upper(j))
       except:
         d[k].subheader(str.upper(j))
-      print(data.head())
+      # print(data)
 
       catOrder = [ 'HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score','Natural Capital',
                   'Human Capital','Social Capital','Financial Capital', 'Manufactured Capital']
       for l in catOrder:
+        rank = tryconvert(data.loc[data["Indicators"]==l,"Rank"].iloc[0])
         if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
-          rank = int(data.loc[data["Indicators"]==l,"Rank"].iloc[0]) if isinstance(data.loc[data["Indicators"]==l,"Rank"].iloc[0],int) else "NA"
-          d[k].subheader(l+" : "+ str(data.loc[data["Indicators"]==l,"Rank"].iloc[0])) 
+          
+          d[k].subheader(l+" : "+ str(rank)+" / " + str(total_country[l])) 
         else:
-          d[k].write(l+" : "+ str(data.loc[data["Indicators"]==l,"Rank"].iloc[0]))
+          d[k].write(l+" : "+ str(rank))
 
       k = k+1
       if k >2:

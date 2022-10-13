@@ -104,12 +104,13 @@ my_html1 = """<h3>Please share your experience of using this tool
 
 
 
-# components.html(my_html1)
+
 
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
+components.html(my_html1)
 
-st.sidebar.write("PARTNERS")
+st.sidebar.subheader("PARTNERS")
 st.sidebar.image('partners.PNG')
 # a1,b1,c1 = st.sidebar.columns(3)
 # a1.image('CSIRO.png',width=100)
@@ -118,6 +119,6 @@ st.sidebar.image('partners.PNG')
 
 # st.write("__Please share your experience here__")
 
-with st.sidebar:
-    components.html(my_html1)
+# with st.sidebar:
+#     components.html(my_html1)
 

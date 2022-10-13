@@ -68,7 +68,7 @@ This component allows the comparison of the ranks of the chosen countries for fo
 |**Indicator**	                    |**Source**	     |**Influence** |
 |-------------------|----------------------|----------------------|
 |**Natural Capital**  |       |           |           |
-|Agricultural Water Quality|	    |GFSI  	 |Positive   |
+|Agricultural Water Quality|	GFSI  	 |Positive   |
 |Agricultural Water Quantity|	GFS	|	Positive|
 |Biodiversity and Habitat|	EPI	|Positive|
 |Ecosystem Services|	EPI		|Positive|
