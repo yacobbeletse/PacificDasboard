@@ -23,5 +23,6 @@
     background-color: orange;
   }
   .tab{
-    tab-size: 4;
+    display: inline-block;
+    margin-left: 40px;
   }

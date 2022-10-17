@@ -96,27 +96,31 @@ def tryconvert(x):
 
 def app():
     st.header('RANK COMPARISON')
-    legend = "<div> <b> Legend : </b> <span class = 'highlight green' > Q1 </span> <span class = 'highlight yellow' > Q2 </span> <span class = 'highlight orange' > Q3 </span> <span class = 'highlight red' > Q4 </span><br><br>"
-    st.markdown(legend,unsafe_allow_html=True)
+
 
     # print(hdi.columns)
     # print(alldata1)
     yearChoice = int(st.sidebar.selectbox("Year",years))
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
+    print(countrySelect)
     print("choice of year = " + str(yearChoice))
 
     df = alldata_pivot[["Country","Capital",yearChoice]].pivot("Country",columns = "Capital", values = yearChoice)
 
     print(df.head())
 
-
-
+    if  len(countrySelect)!=0:
+      legend = "<b> Legend  </b> <span class = 'highlight green tab'> Q1 </span> <span class = 'highlight yellow'> Q2 </span> <span class = 'highlight orange'> Q3 </span> <span class = 'highlight red'> Q4 </span><br><br>"
+      print(legend)
+      st.markdown(legend,unsafe_allow_html=True)
     # df_hdi = hdi.filter(["Country",yearChoice],axis =1)
     # df_hdi = hdi[["Country",yearChoice]]
     # fd = pd.DataFrame()
     for i in df.columns:
       # temp = df[[df.index]]
-      
+      # if i in ["Proportion of Undernourished", "Proportion of food insecure"]:
+      #   df["rank_"+i] = df[i].dropna().rank(ascending = True).astype(int) if not df[i].dropna().empty else 'NA'
+      # else:
       df["rank_"+i] = df[i].dropna().rank(ascending = False).astype(int) if not df[i].dropna().empty else 'NA'
       df = df.drop(columns = [i])
       # fd = fd.append(temp,ignore_index=False)
@@ -134,7 +138,10 @@ def app():
         other_data = other_data.rename(columns = {str(yearChoice):m})
         other_data = other_data[other_data["Country"].isin(countries)]
         # other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False) if not other_data[m].dropna().empty else 'NA'
-        other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False) 
+        if m in ["Proportion of Undernourished", "Proportion of food insecure"]:
+          other_data["rank_"+m] = other_data[m].dropna().rank(ascending = True) 
+        else:
+          other_data["rank_"+m] = other_data[m].dropna().rank(ascending = False)
         other_data = other_data.drop(columns = [m])
         compare_data = pd.merge(compare_data,other_data, on="Country",how = "inner")
     print(compare_data.head())
