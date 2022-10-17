@@ -53,6 +53,11 @@ total_country["Proportion of Undernourished"] = other_db["Proportion of Undernou
 other_db["Proportion of food insecure"]  = pd.read_csv('Proportion of food insecure.csv')
 total_country["Proportion of food insecure"] = other_db["Proportion of food insecure"].shape[0]
 total_country["Food Systems Resilience Score"] = len(alldata1["Country"].unique())
+total_country["Natural Capital"] = len(alldata1["Country"].unique())
+total_country["Human Capital"] = len(alldata1["Country"].unique())
+total_country["Social Capital"] = len(alldata1["Country"].unique())
+total_country["Financial Capital"] = len(alldata1["Country"].unique())
+total_country["Manufactured Capital"] = len(alldata1["Country"].unique())
 
 # countries = alldata1["Country"].unique()
 # alldata1 = alldata1[alldata1["Country"].isin(countries)]
@@ -91,6 +96,8 @@ def tryconvert(x):
 
 def app():
     st.header('RANK COMPARISON')
+    legend = "<div> <b> Legend : </b> <span class = 'highlight green' > Q1 </span> <span class = 'highlight yellow' > Q2 </span> <span class = 'highlight orange' > Q3 </span> <span class = 'highlight red' > Q4 </span><br><br>"
+    st.markdown(legend,unsafe_allow_html=True)
 
     # print(hdi.columns)
     # print(alldata1)
@@ -155,13 +162,35 @@ def app():
 
       catOrder = [ 'HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score','Natural Capital',
                   'Human Capital','Social Capital','Financial Capital', 'Manufactured Capital']
+      with open('style.css') as f:
+        st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
       for l in catOrder:
         rank = tryconvert(data.loc[data["Indicators"]==l,"Rank"].iloc[0])
-        if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
+        color = "" 
+        if rank!="NA":
+          if rank > total_country[l]/2 and rank <=total_country[l]*3/4:
+            color = "orange"
+          elif rank > total_country[l]/4 and rank <=total_country[l]/2:
+            color = "yellow"
+          elif rank <= total_country[l]/4:
+            color = "green"
+          else:
+            color = "red"
+          style_text =" "
+          if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
+            style_text = "<div> <b style='font-size:25px;'> {} : </b> <span class = 'highlight {}' > {} / {} </span><br><br>".format(l,color,rank,total_country[l])
+          else:
+            style_text = "<div style = 'text-indent: 40px'> <b style='font-size:20px;'> {} : </b> <span class = 'highlight {}' > {} / {} </span>".format(l,color,rank,total_country[l])
           
-          d[k].subheader(l+" : "+ str(rank)+" / " + str(total_country[l])) 
+            
+          print(style_text)
+          d[k].markdown(style_text, unsafe_allow_html=True)
         else:
-          d[k].write(l+" : "+ str(rank))
+
+          if l in ['HDI', 'Proportion of Undernourished', 'Proportion of food insecure','Food Systems Resilience Score']:
+            d[k].subheader(l+" : "+ str(rank)+" / " + str(total_country[l])) 
+          else:
+            d[k].write(l+" : "+ str(rank))
 
       k = k+1
       if k >2:

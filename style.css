@@ -1,0 +1,27 @@
+.highlight {
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    color: black;
+    font-weight: 700;
+    
+  }
+  .bold {
+    padding-left: 1rem;
+    font-weight: 700;
+  }
+  .green {
+    background-color: green;
+  }
+  .red {
+    background-color: red;
+  }
+  .yellow {
+    background-color: yellow;
+  }
+  .orange {
+    background-color: orange;
+  }
+  .tab{
+    tab-size: 4;
+  }
