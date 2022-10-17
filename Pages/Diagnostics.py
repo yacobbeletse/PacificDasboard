@@ -31,9 +31,20 @@ years = range(2012,2023)
 # capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
 alldata1 = pd.read_csv("FinalData.csv")
 alldata1 = alldata1.replace({'United States':'United States of America',
-                            'Dominican Rep.':'Dominican Republic'})
+                            'Dominican Rep.':'Dominican Republic',
+                            "Korea, Dem People's Rep":"North Korea",
+                            "St. Kitts and Nevis":"St Kitts and Nevis",
+                            "Saint Kitts and Nevis":"St Kitts and Nevis",
+                            "St. Vincent and the Grenadines": "St Vincent and the Grenadines",
+                            "Saint Vincent and the Grenadines": "St Vincent and the Grenadines",
+                            "St. Lucia": "St Lucia",
+                            "Saint Lucia": "St Lucia",
+                            "Micronesia, Fed. Sts.":"Mirconesia",
+                            "Micronesia, Fed Sts":"Micronesia",
+                            "Virgin Islands(U.S.)": "Virgin Islands (US)",
+                            "Sint Marteen": "Sint Marteen (Dutch part)"})
 countries = alldata1["Country"].unique()
-# print(countries)
+print(countries)
 dataColl = {}
 for i in years:
     # abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()

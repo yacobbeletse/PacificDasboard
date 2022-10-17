@@ -215,7 +215,7 @@ def linePlot(df,countrySelect,indicator1):
         # c1.write(df)
         # plt.style.use(plt_style)
         # for i in df["Country"].dropna().unique():
-        fd = df.drop(columns = [indicator1])
+        
         # dff = df[df["Indicator"]!=indicator1].copy()
         # dff =df[df["Country"]==i]
         # fd = dff.groupby(["Year","Country"])["value"].mean().reset_index().rename(columns = {"value":"Food Systems Resilience Score"})
@@ -229,20 +229,27 @@ def linePlot(df,countrySelect,indicator1):
         k=0
         for j in capitals:
             # if j!="Food Systems Resilience Score":
-            c[k].subheader(j) 
-            fig = px.line(fd,x="Year",y=j,color = "Country",markers=True)
-            fig.update_layout(
-                yaxis_title="Score",
-            legend_title="Country",
-            font=dict(
-                family="Arial Black",
-                size=12,
-            ))
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-            c[k].plotly_chart(fig)
-            k=k+1
+            try:
+                c[k].subheader(j) 
+                fig = px.line(df,x="Year",y=j,color = "Country",markers=True)
+                fig.update_layout(
+                    yaxis_title="Score",
+                legend_title="Country",
+                font=dict(
+                    family="Arial Black",
+                    size=12,
+                ))
+                fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+                c[k].plotly_chart(fig)
+                # k=k+1
+                # if k>1:
+                #     k=0
+            except:
+                c[k].write("Not data for "+ j)
+            k = k+1
             if k>1:
                 k=0
+
     #         fig1 = px.line(check,x=check.index,y=df.columns[2*i+1],color = "index",markers=True)
     #         fig1.update_layout(
     #             yaxis_title="Score",               
@@ -369,6 +376,84 @@ def visualizeComp(op,choiceDiff,yearChoice):
         # print(df1.index)
         # linePlot1(df1,countrySelect,capital)
         linePlotter(df,countrySelect,capital)
+
+    elif op =="Change Analysis":
+        print("Entered Change Analaysis")
+        st.write("Change Analysis on development..")
+        countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
+        capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+        indicator1=None
+        if capital=="Natural Capital":
+            indicator1 = st.sidebar.selectbox("Indicator",natural1)
+        elif capital=="Human Capital":
+            indicator1 = st.sidebar.selectbox("Indicator",human1)
+        elif capital=="Social Capital":
+            indicator1 = st.sidebar.selectbox("Indicator",social1)
+        elif capital=="Financial Capital":
+            indicator1 = st.sidebar.selectbox("Indicator",financial1)
+        elif capital=="Manufactured Capital":
+            indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+        else:
+            indicator1 = "Food Systems Resilience Score"
+
+        df = pd.DataFrame()
+        temp = pd.DataFrame()
+
+        # df = pd.DataFrame()
+        print("indicator = "+indicator1)
+
+        index = range(2012,2023)
+        if(indicator1 in capitals):
+            
+            # print(capitalsOnly.head())
+            temp = capitalsOnly[capitalsOnly["Capital"]==indicator1].pivot(index = ["Country", "Capital"],columns="Year",values="value").reset_index()
+            # print(temp.head())
+        else:
+            temp = alldata_pivot[alldata_pivot["Indicator"]==indicator1].copy()
+            
+            # temp["diff"] = temp[yearChoice[0]] - temp[yearChoice[-1]]
+            # df = temp[(temp["Capital"]==indicator1)]
+        # print(temp.head())
+        print(temp[temp["Country"].isin(countrySelect)])
+        m=0
+        for k in temp.columns:
+            # print(k)
+            if(index[m]!=2022):
+                if not k in ["Country","Capital","Indicator"]:
+                    # print(k)
+                    temp[str(int(k)+1)] = temp[index[m+1]] - temp[index[m]]
+                    temp = temp.drop(columns = [k])
+                    m = m+1
+        
+        df = temp.drop(columns = index[-1]).rename(columns = {"Capital":"Indicator"})
+        dataonly = [c for c in df.columns if c not in ["Country","Capital","Indicator",2022]]
+        # print(dataonly)
+        # print(df[dataonly].cumsum()[df.columns[-1]])
+        countryPlot = df[df["Country"].isin(countrySelect)].drop(columns="Indicator").copy().melt("Country", var_name = "Year", value_name="Trend" )
+        df["Trend"] = df[dataonly].sum(axis=1,skipna = True)
+        df["Color"] = "green"
+        df.loc[df["Trend"]<0,"Color"]="red"
+        print(df.head())
+        c1,c2,c3,c4 = st.columns(4)
+        coloredPlot(df.sort_values("Trend",ascending = True).tail(10),c1,"Top Ranked Countries","Trend", visType = "Country",present = "2022",height=500,extra = "Trend")
+        coloredPlot(df.sort_values("Trend",ascending = False).tail(10),c3,"Bottom Ranked Countries","Trend", visType = "Country",present = "2022",height=500,extra = "Trend")
+        # coloredPlot(df.sort_values("Trend",ascending=False).tail(15),c3,"Bottom Ranked Countries","Trend",height=1000,extra = "Trend")
+        # coloredPlot(nat,c[k],"Natural Capital",m,visType="Indicator",present = yearChoice[0],extra = "diff")
+        print(countryPlot)
+        fig = px.line(countryPlot,x="Year",y="Trend",color = "Country",markers=True)
+        fig.update_layout(
+            yaxis_title="Trend",
+        legend_title="Country",
+        font=dict(
+            family="Arial Black",
+            size=12,
+        ))
+        fig.add_hline(y=0,line_dash = "dash",line_color = "red")
+        fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig)
+        
+
+
 
     else:
 
@@ -556,6 +641,7 @@ def coloredPlot(df,c1,capital,i,visType=None,present="Present",height =500,extra
 
     # else:
     #     c1.subheader(capital)
+    print(df.head(3))
     value = nan
     delta = nan
     try:
@@ -635,7 +721,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
 
 def app():
     yearChoice = [*range(2012,2023)]
-    choiceDiff =  st.sidebar.selectbox('Select a type',["Year-on-Year Analysis", "Country vs Country", "Capitals"])
+    choiceDiff =  st.sidebar.selectbox('Select a type',["Year-on-Year Analysis", "Change Analysis","Country vs Country", "Capitals"])
     if choiceDiff=="Year-on-Year Analysis":
         yearChoice = st.sidebar.slider("Choose Year Range",2012,2022,(2012,2022))
         #  in ["1-year Analysis","5-Year Analysis", "YTD Analysis"]:
