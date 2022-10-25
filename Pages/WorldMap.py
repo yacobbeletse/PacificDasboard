@@ -1,19 +1,20 @@
+from turtle import color
 import streamlit as st
 import geopandas
 import pandas as pd
 import plotly.express as px
 import numpy as np
 
-countryRename = {
- 'Dem. Rep. Congo': 'DR Congo',
- 'Dominican Rep.': 'Dominican Republic',
- "Côte d'Ivoire": 'Ivory Coast',
- 'Central African Rep.': 'Central African Republic',
-  'Congo':'Congo Republic',
- 'Solomon Is.': 'Solomon Island',
- 'Czechia':'Czech Republic',
- 'Bosnia and Herz.': 'Bosnia and Herzegovina',
-}
+# countryRename = {
+#  'Dem. Rep. Congo': 'DR Congo',
+#  'Dominican Rep.': 'Dominican Republic',
+#  "Côte d'Ivoire": 'Ivory Coast',
+#  'Central African Rep.': 'Central African Republic',
+#   'Congo':'Congo Republic',
+#  'Solomon Is.': 'Solomon Island',
+#  'Czechia':'Czech Republic',
+#  'Bosnia and Herz.': 'Bosnia and Herzegovina',
+# }
 
 capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 capitals1 = ['Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
@@ -32,17 +33,18 @@ manufactured1 = ["Manufactured Capital",'Agricultural R&D','Crop Storage Facilit
 
 world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
 world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
-world = world.replace(countryRename)
-print(world["name"].unique())
+# world = world.replace(countryRename)
+# print(world["name"].unique())
 world['name'] = world['name'].str.upper() 
-print("Number of Countries = "+str(len(world['name'].unique())))
+# print("Number of Countries = "+str(len(world['name'].unique())))
 
-alldata1 = pd.read_csv("FinalData.csv")
+alldata1 = pd.read_csv("allIndicatorData.csv")
+
 
 alldata1 = alldata1.replace({'United States':'United States of America'})
 
 alldata_pivot = alldata1.pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
-capitalsOnly = pd.read_csv("finalCapital.csv")
+# capitalsOnly = pd.read_csv("finalCapital.csv")
 # print("Printing Pivot PD")
 # print(alldata_pivot.head())
 
@@ -65,12 +67,9 @@ def visualizeMap1(gdf):
 # @st.cache(suppress_st_warning=True)
 years =[*range(2012,2023)]
 years.sort(reverse=True)
-print(years)
+# print(years)
 
 def app():
-    # print(alldata1)
-    print(alldata_pivot["Indicator"].unique())
-    print(len(alldata_pivot["Indicator"].unique()))
     Year = st.sidebar.selectbox("Year",years)
     capital = st.sidebar.selectbox('FSRS/Capital',capitals)
     indicator1=None
@@ -89,20 +88,25 @@ def app():
 
 
 
-    df = pd.DataFrame()
+    # df = pd.DataFrame()
     print("indicator = "+indicator1)
-    if(indicator1 in capitals):
-      df = capitalsOnly[(capitalsOnly["Capital"]==indicator1) & (capitalsOnly['Year']==Year)]
-      print(df.head())
+    # print(alldata1["Indicator"].unique())
+    # print(len(alldata1["Indicator"].unique()))
+    # if(indicator1 in capitals):
+    #   df = capitalsOnly[(capitalsOnly["Capital"]==indicator1) & (capitalsOnly['Year']==Year)]
+    #   print(df.head())
 
-    else:
-      dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
-      df = dff[dff["Indicator"]==indicator1]
-      print(df.head())
-
-
-    df["Indicator"] = indicator1
-    df =df.rename(columns={Year:"value"})
+    # else:
+    #   dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
+    #   df = dff[dff["Indicator"]==indicator1]
+    #   print(df.head())
+    # print(alldata_pivot.head())
+    # print(alldata1)
+    # dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
+    df = alldata1.loc[(alldata1["Year"]==Year) & (alldata1["Indicator"]==indicator1),["Country","Indicator","value"]]
+    # df = dff[dff["Indicator"]==indicator1]
+    # df["Indicator"] = indicator1
+    # df =df.rename(columns={Year:"value"})
 
     
     df["Country"]=df["Country"].str.upper()
@@ -113,13 +117,30 @@ def app():
 
     gdf = geopandas.GeoDataFrame(merged, geometry="geometry")
 
-    # print(gdf)
+    # # print(gdf)
     gdf.index = gdf.name
 
     st.subheader(str.upper(indicator1))
     if not gdf["value"].dropna().empty:
       st.write('Global Average: ' + str(df["value"].mean(skipna = True).round(1)))
       st.write('Countries Covered: ' + str(len(df.dropna()["Country"].unique())))
+      with open('style.css') as f:
+        st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
+      # c = st.columns(4)
+      # colors = ['red','orange','yellow','green']
+      # legend = ['Weak [0-40]' , 'Moderate [40-60]', 'Good [60-80]', 'Very Good [80 -100]' ]
+      # for i in range(4):
+      #   style_text = "<div span class = 'rectangle {}'></span></div> {}".format(colors[i],legend[i])
+      #   print(style_text)
+      #   c[i].markdown(style_text,unsafe_allow_html=True)
+      # style_text=""
+      # for i in range(4):
+      #   colors = ['red','orange','yellow','green']
+      #   legend = ['Weak [0-40]' , 'Moderate [40-60]', 'Good [60-80]', 'Very Good [80 -100]' ]
+      #   style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
+      # print(style_text)
+      # st.markdown(style_text,unsafe_allow_html=True)
+
       visualizeMap1(gdf)
     else:
       st.write("No Data Available for " + indicator1 + " for "+ str(Year))

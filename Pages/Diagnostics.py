@@ -67,38 +67,48 @@ capitalsOnly = pd.read_csv("finalCapital.csv")
 
 
 def coloredPlot(df,c1,capital,i,height =600):
-    df[i] = np.round(df[i],1)
+    print(df.info())
+    df = df.replace({0:0.01, 0.0:0.01})
     print(df.head())
-    df = df.sort_values(i,ascending = True).fillna("NA")
-    fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red", "orange": "#FFA500"})
-    
-    fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,height =height)
-    # fig1.update_layout(yaxis_title=None, xaxis_title=None)
-    fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-    # # fig1['layout']['xaxis'].update(autorange = True)
-    fig1.update_xaxes(tickfont=dict(size =9, family = "Arial Black"))
-    fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
-    fig1.layout.showlegend = False
-    # fig1.update_traces(textposition='outside')
-    # c1.subheader(capital) 
-    # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
-    # if i not in all_factors1.keys():
-    #     c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
-    # else:
-    #   
-    df = df.replace({"NA":np.nan})
-    with c1:
-        c1.metric(label=str(capital),value=(np.round(df[i].mean(),1)))  
-        # c1.subheader(capital+ " Capital")
-        c1.plotly_chart(fig1,use_container_width=True)
+    if not df.empty:
+        df[i] = np.round(df[i],1)
+        print(df.head())
+        df = df.sort_values(i,ascending = True).fillna("NA")
+        fig1 = px.bar(df, x = i,y = df.index,orientation='h', color = "Color",text = i,color_discrete_map={"yellow":"Yellow", "green":"green", "red":"red", "orange": "#FFA500"})
+        
+        fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,height =height)
+        # fig1.update_layout(yaxis_title=None, xaxis_title=None)
+        fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+        # # fig1['layout']['xaxis'].update(autorange = True)
+        fig1.update_xaxes(tickfont=dict(size =9, family = "Arial Black"))
+        fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
+        fig1.layout.showlegend = False
+        fig1.update_traces(textposition='auto')
+        # c1.subheader(capital) 
+        # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
+        # if i not in all_factors1.keys():
+        #     c1.metric(label=capital+" Capital",value=(np.round(df[i].mean(),1)))
+        # else:
+        #   
+        df = df.replace({"NA":np.nan})
+        with c1:
+            c1.metric(label=str(capital),value=(np.round(df[i].mean(),1)))  
+            # c1.subheader(capital+ " Capital")
+            c1.plotly_chart(fig1,use_container_width=True)
+    else:
+        c1.write("No data for "+capital)
+
 
 def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFrame()):
     df1 = df1.replace({0:0.1})
+    df1 = df1.replace({0.0:0.1})
     # df=df.transpose()
     # c1.write(df)
     # df.index.name=None
     # plt.style.use(plt_style)
-    print(df1[index].unique())
+    #The loop is countrywise
+    # print(df1[index].unique())
+    # print(df1[df1!="NA"].dropna()[index].unique())
     for i in df1[index].unique():
         print(i)
         df = df1[(df1[index]==i)].replace({0:0.1})
@@ -112,7 +122,7 @@ def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFram
         st.metric("Food Systems Resilience Score", np.round(df["value"].mean(),2))
 
         c1,c2,c3,c4,c5 = st.columns(5)
-        colored = df.sort_values("value",ascending=True).copy().set_index("Indicator")
+        colored = df.dropna().sort_values("value",ascending=True).copy().set_index("Indicator")
         print(colored)
         
         colored["Color"] = "green"
@@ -128,12 +138,28 @@ def traffic(df1,index = "Country",visType="Des",check="nice",present=pd.DataFram
         soc = colored[colored.index.isin(social)]
         fin = colored[colored.index.isin(financial)]
         man = colored[colored.index.isin(manufactured)]
-        print(nat)
-        coloredPlot(nat,c1,"Natural Capital","value")
-        coloredPlot(hum,c2,"Human Capital","value")
-        coloredPlot(soc,c3,"Social Capital","value")
-        coloredPlot(fin,c4,"Financial Capital","value")
+        # print(nat)
+
+        coloredPlot(nat,c1,"Natural Capital","value") 
+        coloredPlot(hum,c2,"Human Capital","value") 
+        coloredPlot(soc,c3,"Social Capital","value") 
+        coloredPlot(fin,c4,"Financial Capital","value") 
         coloredPlot(man,c5,"Manufactured Capital","value")
+        
+        # coloredPlot(nat,c1,"Natural Capital","value") if not nat.empty else c1.write("No data available for Natural Capital")
+        # coloredPlot(hum,c2,"Human Capital","value") if not hum.empty else c2.write("No data available for Human Capital")
+        # coloredPlot(soc,c3,"Social Capital","value") if not soc.empty else c3.write("No data available")
+        # coloredPlot(fin,c4,"Financial Capital","value") if not fin.empty else c4.write("No data available")
+        # coloredPlot(man,c5,"Manufactured Capital","value") if not man.empty else c5.write("No data available")
+
+        # if not hum.empty:
+        #     coloredPlot(hum,c2,"Human Capital","value")
+        # if not soc.empty:
+        #     coloredPlot(soc,c3,"Social Capital","value")
+        # if not fin.empty():
+        #     coloredPlot(fin,c4,"Financial Capital","value")
+        # if not man.empty():
+        #     coloredPlot(man,c5,"Manufactured Capital","value")
 
 
 def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.DataFrame()):
@@ -210,6 +236,7 @@ def showOption():
     return op
 
 def visualizeOp(op,yearChoice=2022):
+    
     global dataColl
     if(isinstance(yearChoice,list)):
         if(len(yearChoice)==1):
@@ -217,6 +244,7 @@ def visualizeOp(op,yearChoice=2022):
         else:
             yearChoice=2022
     trans_data=dataColl[yearChoice]
+
     if op=="Country":
         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
         print("choice of year = " + str(yearChoice))
@@ -274,34 +302,7 @@ def visualizeOp(op,yearChoice=2022):
 
         df["Indicator"] = indicator1
         df =df.rename(columns={Year:"value"})
-    # indicator = all_factors[indicator1]
-        # Year = yearChoice
-        # if(indicator1=="Food Systems Resilience Score"):
-        #     df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df["Indicator"] = indicator1
-        #     df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Natural Capital"):
-        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(natural),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Human Capital"):
-        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(human),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Social Capital"):
-        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(social),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Financial Capital"):
-        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(financial),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Manufactured Capital"):
-        #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(manufactured),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df =df.rename(columns={Year:"value"})
-        # else:
-        #     df = alldata1[(alldata1["Year"]==Year) & (alldata1["Indicator"]==indicator1)]
-        # print(df)
-        # df = df[(df["Year"]==Year) & (df["Indicator"]==indicator1)]
-        # print(df)
-        # if indicator1 in capitals:
-        #   if indicator1==
+
         print(df)
 
         showPlot(df,index='Country',visType=vistype,indicator=indicator1)
@@ -309,6 +310,16 @@ def visualizeOp(op,yearChoice=2022):
 
 
 def app():
+    with open('style.css') as f:
+        st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
+    st.sidebar.subheader("LEGEND")
+    style_text=""
+    for i in range(4):
+        colors = ['red','orange','yellow','green']
+        legend = ['Weak [0-40]' , 'Moderate [40-60]', 'Good [60-80]', 'Very Good [80 -100]' ]
+        style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
+    # print(style_text)
+    st.sidebar.markdown(style_text,unsafe_allow_html=True)
     yearChoice =  st.sidebar.selectbox('Select Year(s)',sorted(list(years),reverse=True))
     op =showOption()
     visualizeOp(op,yearChoice)
