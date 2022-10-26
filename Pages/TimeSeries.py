@@ -724,9 +724,9 @@ def app():
         st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
     st.sidebar.subheader("LEGEND")
     style_text=""
-    for i in range(4):
-        colors = ['red','orange','yellow','green']
-        legend = ['Weak [0-40]' , 'Moderate [40-60]', 'Good [60-80]', 'Very Good [80 -100]' ]
+    for i in range(2):
+        colors = ['red','green']
+        legend = ['Improvement', 'Deterioration' ]
         style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
     # print(style_text)
     st.sidebar.markdown(style_text,unsafe_allow_html=True)

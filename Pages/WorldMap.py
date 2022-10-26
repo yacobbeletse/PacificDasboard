@@ -56,14 +56,15 @@ def visualizeMap1(gdf):
 
     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
     #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value",color_continuous_scale="RdYlGn",range_color=(0, 100),
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value",color_continuous_scale="RdYlGn",width = 1600,height = 400,range_color=(0, 100),
      hover_data = ['value'],labels={"index": "Country",
                                       "value": gdf["Indicator"].unique()[0]})
      fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
      fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
      fig.update_traces(marker_line_width=2)
 
-     st.plotly_chart(fig, use_container_width=True)
+    #  st.plotly_chart(fig, use_container_width=True)
+     st.plotly_chart(fig, use_container_width=False)
 # @st.cache(suppress_st_warning=True)
 years =[*range(2012,2023)]
 years.sort(reverse=True)
