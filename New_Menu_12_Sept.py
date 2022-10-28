@@ -64,7 +64,7 @@ selected = option_menu(
 if(selected!="About"):
     st.sidebar.title("Control Center")
 
-st.title("Food Systems Resilience Diagnostic (FSRD) Tool")
+st.title("Food Systems Resilience Diagnostics (FSRD) Tool")
 st.markdown('The FSRD gives the scores for several food system resilience indicators based on the performance of the countries.')
 st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 
@@ -80,7 +80,7 @@ def load_data(data_url):
     data=pd.read_csv(data_url)
     return data
 
-alldata1 = pd.read_csv("FinalData.csv")
+alldata1 = load_data("FinalData.csv")
 
 years = range(2012,2023)
 dataColl = {}
@@ -104,12 +104,13 @@ my_html1 = """<h3>Please share your experience of using this tool
 
 
 
-components.html(my_html1)
+
 
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
+components.html(my_html1)
 
-st.sidebar.write("PARTNERS")
+st.sidebar.subheader("PARTNERS")
 st.sidebar.image('partners.PNG')
 # a1,b1,c1 = st.sidebar.columns(3)
 # a1.image('CSIRO.png',width=100)
@@ -118,6 +119,6 @@ st.sidebar.image('partners.PNG')
 
 # st.write("__Please share your experience here__")
 
-with st.sidebar:
-    components.html(my_html1)
+# with st.sidebar:
+#     components.html(my_html1)
 
