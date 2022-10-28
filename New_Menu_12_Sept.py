@@ -80,7 +80,7 @@ def load_data(data_url):
     data=pd.read_csv(data_url)
     return data
 
-alldata1 = pd.read_csv("FinalData.csv")
+alldata1 = load_data("FinalData.csv")
 
 years = range(2012,2023)
 dataColl = {}

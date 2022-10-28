@@ -84,6 +84,7 @@ def coloredPlot(df,c1,capital,i,height =600):
         fig1.update_yaxes(tickfont=dict(size =8,family = "Arial Black"))
         fig1.layout.showlegend = False
         fig1.update_traces(textposition='auto')
+        # fig1.write_image('Figures/'+capital+".png") 
         # c1.subheader(capital) 
         # a1.metric(label="Food System Resilience Score",value=df.loc[df["var_name"]=="Food System Resilience Score",i])
         # if i not in all_factors1.keys():
