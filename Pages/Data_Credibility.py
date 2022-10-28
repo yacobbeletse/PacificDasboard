@@ -74,7 +74,7 @@ def app():
         st.subheader(indicator1)
         print(indicator1)
         print(dataInfo[dataInfo["Indicator"]==indicator1])
-        st.subheader("Countries Covered: " + str(dataInfo[datuaInfo["Indicator"]==indicator1]["#Countries"].iloc[0]))
+        st.subheader("Countries Covered: " + str(dataInfo[dataInfo["Indicator"]==indicator1]["#Countries"].iloc[0]))
         text_html = "<h3> Source: <a href = '{}'> {}</a> </h3>".format(dataInfo[dataInfo["Indicator"]==indicator1]["Link"].iloc[0],dataInfo[dataInfo["Indicator"]==indicator1]["Source"].iloc[0])
         print(text_html)
         st.markdown(text_html,unsafe_allow_html=True)
