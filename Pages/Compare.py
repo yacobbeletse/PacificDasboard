@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+qualities = ["Robustness", "Redundancy", "Resourcefulness","Rapidity"]
 
 capitals1 = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
@@ -28,7 +29,7 @@ notCountry = ['World','Lower middle income' 'Upper middle income' 'High income' 
  'Latin America & Caribbean' 'East Asia & Pacific' 'Europe & Central Asia'
  'South Asia' 'North America']
 
-alldata1 = pd.read_csv("allIndicatorData1.csv")
+alldata1 = pd.read_csv("allIndicatorData11.csv")
 # countries = alldata1[~alldata1["Country"].isin(notCountry)]["Country"].unique()
 countries = alldata1["Country"].unique()
 
@@ -53,6 +54,7 @@ def linePlot(df,countrySelect,indicator1):
                 family="Arial Black",
                 size=12,
             ))
+      st.subheader(indicator1)
       st.plotly_chart(fig_ind)
     else:
       st.subheader(indicator1)
@@ -91,20 +93,28 @@ def linePlot(df,countrySelect,indicator1):
 
 def app():
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-    capital = st.sidebar.selectbox('Capital',['Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital'])
+    option = st.sidebar.selectbox("Visualization by: ", ["Capital", "Quality"])
     indicator1=None
-    if capital=="Natural Capital":
-        indicator1 = st.sidebar.selectbox("Indicator",natural)
-    elif capital=="Human Capital":
-        indicator1 = st.sidebar.selectbox("Indicator",human)
-    elif capital=="Social Capital":
-        indicator1 = st.sidebar.selectbox("Indicator",social)
-    elif capital=="Financial Capital":
-        indicator1 = st.sidebar.selectbox("Indicator",financial)
-    elif capital=="Manufactured Capital":
-        indicator1 = st.sidebar.selectbox("Indicator",manufactured)
+    if option=="Quality":
+      indicator1 = st.sidebar.selectbox('Quality',qualities)
+    
     else:
+      capital = st.sidebar.selectbox('Capital',['Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital'])
+
+      
+      if capital=="Natural Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",natural)
+      elif capital=="Human Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",human)
+      elif capital=="Social Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",social)
+      elif capital=="Financial Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",financial)
+      elif capital=="Manufactured Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",manufactured)
+      else:
         indicator1 = "Food Systems Resilience Score"
+    st.header(indicator1)
 
     # df = alldata1[(alldata1["Indicator"]==indicator1) & (alldata1["Country"].isin(countrySelect))]
     # # print(df1.head())
