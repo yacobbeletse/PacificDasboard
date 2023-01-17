@@ -84,6 +84,21 @@ countryRename = {
 }
 
 
+def altgraph(c,fd,col):
+    fd = fd.reset_index()
+    print(fd)
+    fig3 = px.bar(fd.sort_values(by=col,ascending=False), y ="Disaster Type" , x = col,orientation='h',text = col)
+    fig3.update_layout(xaxis_range=[0,max(fd[col])+3],xaxis_title='Total Impact',yaxis_title=None, font = dict(
+            size =18,
+    )
+    )
+    fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+    fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+    fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+    fig3.update_traces(textposition='auto')
+    c.subheader(col)
+    c.plotly_chart(fig3,use_container_width=True)
+
 def coloredPlot(df,c1,i):
     df = df.sort_values(by="Value",ascending=True)
     df.index =df.index.str.title()
@@ -192,7 +207,12 @@ capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','S
 
 def app():
     global dataColl
-    df = pd.read_csv("alldisaster.csv")
+    # df = pd.read_csv("alldisaster.csv")
+    df = pd.read_csv("disasterdata.csv",encoding='latin-1')
+    cols = df.columns[-3:]
+    for i in range(len(cols)):
+        print(cols[i])
+    # print(cols)
     print(df.head())
     disasters = df["Disaster Type"].dropna().unique()
     # df = df.replace(countryRename)
@@ -212,7 +232,8 @@ def app():
 
     if (scale=="Global"):
         shock = st.sidebar.selectbox('Select a shock',disasters)
-        choice = st.sidebar.selectbox("Choose a Disaster Impact",["Deaths","Total Affected","Economic Damages"])
+        # choice = st.sidebar.selectbox("Choose a Disaster Impact",["Deaths","Total Affected","Economic Damages"])
+        choice = st.sidebar.selectbox("Choose a Disaster Impact",cols)
         # intensity_score = st.sidebar.slider('Enter the shock intensity', min_value=0,max_value=10,value=0)
         ranger = st.sidebar.slider('Choose the range!', min_value=int(low),max_value=int(high),value=(2000,2022))
 
@@ -239,22 +260,31 @@ def app():
             st.subheader("No "+shock+" reported globally in the selected range "+str(ranger[0]) +" and " + str(ranger[1]))
         else:
 
-            fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+            # fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+            fd = df.groupby(["Country","Disaster Type"])[cols].sum().reset_index()
             # print(fd)
 
-            fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+            # fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+            fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols].sum().reset_index()
 
-            fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
-            fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
-            print("Years")
-            print(fd11)
-            if choice=="Deaths":
-                df1 = fd[["Country","Disaster Type","Total Deaths_new"]]
-            elif choice=="Total Affected":
-                df1 = fd[["Country","Disaster Type","Total Affected_new"]]
+            # fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
+            fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols[0]].count().reset_index()
+            # fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
+            fd11 = fd11.rename(columns = {cols[0]:"Count"})
+            # print("Years")
+            # print(fd11)
+            # if choice=="Deaths":
+            if choice==cols[0]:
+                # df1 = fd[["Country","Disaster Type","Total Deaths_new"]]
+                df1 = fd[["Country","Disaster Type",cols[0]]]
+            # elif choice=="Total Affected":
+            elif choice==cols[1]:
+                # df1 = fd[["Country","Disaster Type","Total Affected_new"]]
+                df1 = fd[["Country","Disaster Type",cols[1]]]
             else:
-                df1 = fd[["Country","Disaster Type","AdjustedDamages_new"]]
-            print(df1)
+                # df1 = fd[["Country","Disaster Type","AdjustedDamages_new"]]
+                df1 = fd[["Country","Disaster Type",cols[2]]]
+            # print(df1)
 
             df1 = df1.replace({"United States":"United States of America"})
             df1["Country"]=df1["Country"].str.lower()
@@ -270,16 +300,16 @@ def app():
             
             gdf.index = gdf.name
             gdf = gdf.rename(columns = {gdf.columns[4]:"Value"})
-            print(gdf.head())
+            # print(gdf.head())
             # gdf["Year"]=gdf["Year"].astype("int")
             st.subheader(str.upper(choice))
             
             gdf = gdf.replace({"United States":"United States of America"})
-            print(gdf.sort_values(by = "Value", ascending = False))
+            # print(gdf.sort_values(by = "Value", ascending = False))
 
             visualizeMap1(gdf)
             
-            print(alldata1.head())
+            # print(alldata1.head())
 
 #NO MAPS REQUIRED
         df = pd.DataFrame()
@@ -346,13 +376,17 @@ def app():
         if df.empty:
             st.subheader("NO DISASTERS REPORTED IN "+country)
         else:
-            fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum()
-            fd = fd.assign(intensity=lambda x: x[['Total Deaths_new','Total Affected_new','AdjustedDamages_new']].mean(axis=1)).reset_index()
-            fd = fd[["Country","Disaster Type","intensity"]]
-            print(fd)
+            # fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum()
+            fd = df.groupby(["Country","Disaster Type"])[cols].sum()
+            # print("Checking*****")
+            # print(fd)
+            # fd = fd.assign(intensity=lambda x: x[['Total Deaths_new','Total Affected_new','AdjustedDamages_new']].mean(axis=1)).reset_index()
+            # fd = fd.assign(intensity=lambda x: x[cols].mean(axis=1)).reset_index()
+            # fd = fd[["Country","Disaster Type","intensity"]]
+            # print(fd)
 
-            fd["intensity"] = fd["intensity"].apply(np.ceil)
-            print(fd.head())
+            # fd["intensity"] = fd["intensity"].apply(np.ceil)
+            # print(fd.head())
 
             # d1,d2 = st.columns([1,10])
             try:
@@ -360,17 +394,24 @@ def app():
                 st.subheader(str.upper(country))
             except:
                 st.subheader(str.upper(country))
-            fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
-            fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
-                    size =18,
-            )
-            )
-            fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-            fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
-            fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
-            fig3.update_traces(textposition='outside')
-            st.subheader("Impacts of Food Shocks")
-            st.plotly_chart(fig3,use_container_width=False)
+
+
+            c = st.columns(3)
+            # print('printing c')
+            for i in range(len(cols)):
+                altgraph(c[i],fd,cols[i])
+                
+            # fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
+            # fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
+            #         size =18,
+            # )
+            # )
+            # fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+            # fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
+            # fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
+            # fig3.update_traces(textposition='outside')
+            # st.subheader("Impacts of Food Shocks")
+            # st.plotly_chart(fig3,use_container_width=False)
 
             sdf = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
             # print(dff)
@@ -380,12 +421,15 @@ def app():
                 st.subheader("No "+ shock + " reported in chosen year range "+ str(years[0]) + " and "+  str(years[-1]))
 
             else:
-                fd1 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+                # fd1 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
+                fd1 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols].sum().reset_index()
 
-                fd11 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
+                # fd11 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
+                fd11 = sdf[sdf["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols[0]].count().reset_index()
                 print("fd1")
                 print(fd1)
-                fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
+                # fd11 = fd11.rename(columns = {"Total Deaths_new":"Count"})
+                fd11 = fd11.rename(columns = {cols[0]:"Count"})
                 print("fd11")
                 print(fd11)
 
@@ -466,7 +510,10 @@ def app():
                 merged = merged.merge(fd1,on = "Year", how = "left")
                 print(merged.head())
 
-                var = ["Count","Total Deaths_new","Total Affected_new","AdjustedDamages_new"]
+                # var = ["Count","Total Deaths_new","Total Affected_new","AdjustedDamages_new"]
+                var = ["Count"]
+                print("*******************")
+                print(var)
                 # c1,c2,c3 = st.columns([1,8,1])
                 linePlot(merged, indicator1,var,st,shock=shock)
           # coll = int(len(var)/2)
