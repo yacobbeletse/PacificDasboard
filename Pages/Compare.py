@@ -114,7 +114,7 @@ def app():
         indicator1 = st.sidebar.selectbox("Indicator",manufactured)
       else:
         indicator1 = "Food Systems Resilience Score"
-    st.header(indicator1)
+
 
     # df = alldata1[(alldata1["Indicator"]==indicator1) & (alldata1["Country"].isin(countrySelect))]
     # # print(df1.head())

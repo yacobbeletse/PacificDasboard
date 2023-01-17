@@ -278,6 +278,7 @@ def visualizeOp(df,country):
     c = st.columns(4)
     for i in range(len(qualities)):
         c[i].subheader(qualities[i])
+        c[i].text('Score: {}'.format(np.round(df[df["Indicator"]==qualities[i]]['value'].iloc[0],1)))
         linePlot(df[df["Indicator"]==qualities[i]],c[i],width = True)
 
 

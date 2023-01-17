@@ -43,7 +43,9 @@ world['name'] = world['name'].str.upper()
 alldata1 = pd.read_csv("allIndicatorData11.csv")
 
 
-alldata1 = alldata1.replace({'United States':'United States of America'})
+alldata1 = alldata1.replace({'United States':'United States of America'}).drop_duplicates(["Country","Year", "Indicator"])
+
+print(alldata1.head())
 
 alldata_pivot = alldata1.pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
 # capitalsOnly = pd.read_csv("finalCapital.csv")
@@ -65,8 +67,8 @@ def visualizeMap1(gdf):
      fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
      fig.update_traces(marker_line_width=2)
 
-    #  st.plotly_chart(fig, use_container_width=True)
-     st.plotly_chart(fig, use_container_width=False)
+     st.plotly_chart(fig, use_container_width=True)
+    #  st.plotly_chart(fig, use_container_width=False)
 # @st.cache(suppress_st_warning=True)
 years =[*range(2012,2023)]
 years.sort(reverse=True)
