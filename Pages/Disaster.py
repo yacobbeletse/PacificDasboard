@@ -123,27 +123,27 @@ def coloredPlot(df,c1,i):
 
     c1.plotly_chart(fig1,use_container_width=True)
 def visualizeMap1(gdf):
+    # fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value",color_continuous_scale="RdYlGn",width = 1600,height = 400,range_color=(0, 100),
+    # hover_data = ['value'],labels={"index": "Country",
+    #                                 "value": gdf["Indicator"].unique()[0]})
+    # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    # fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
+    # fig.update_traces(marker_line_width=2)
 
 
-    #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
-    #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
-     hover_name=gdf.index)
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
-     hover_name=gdf.index)
-     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-     fig.update_geos(fitbounds="locations", visible=False,landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
-     fig.update_traces(marker_line_width=2)
-    #  cb_ax = fig.axes[1] 
-    #  cb_ax.tick_params(labelsize=5)
+#  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
+#  hover_name=gdf.index,animation_frame="Year")
+    fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
+    hover_name=gdf.index)
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
+    fig.update_traces(marker_line_width=2)
 
-
-    #  fig.colorbar.lim(0,100)
-     col1, col2, col3= st.columns([4,1,2])
-     col1.plotly_chart(fig,use_container_width=True)
-     col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
-    #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
-     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col3,"Value")
+    col1, col2, col3= st.columns([4,1,2])
+    col1.plotly_chart(fig,use_container_width=True)
+    col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
+#  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
+    coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col3,"Value")
 # @st.cache(suppress_st_warning=True)
 
 def linePlot(df,i,var,c1,shock=None):
@@ -208,12 +208,12 @@ capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','S
 def app():
     global dataColl
     # df = pd.read_csv("alldisaster.csv")
-    df = pd.read_csv("disasterdata.csv",encoding='latin-1')
+    df = pd.read_csv("disasterdata1.csv",encoding='latin-1')
     cols = df.columns[-3:]
     for i in range(len(cols)):
         print(cols[i])
     # print(cols)
-    print(df.head())
+    # print(df.head())
     disasters = df["Disaster Type"].dropna().unique()
     # df = df.replace(countryRename)
     years_df = df['Year'].unique()
@@ -255,17 +255,20 @@ def app():
         df = df[(df["Year"]>=ranger[0]) & (df["Year"]<=ranger[1])]
    
         df = df[df["Disaster Type"]==shock]
-        print(df.head())
-        if df.empty:
-            st.subheader("No "+shock+" reported globally in the selected range "+str(ranger[0]) +" and " + str(ranger[1]))
+
+        
+        if df.dropna(subset = choice).empty:
+            st.subheader("No "+choice + " due to " +shock+" reported globally in the selected range "+str(ranger[0]) +" and " + str(ranger[1]))
         else:
 
             # fd = df.groupby(["Country","Disaster Type"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
-            fd = df.groupby(["Country","Disaster Type"])[cols].sum().reset_index()
+            fd = df.groupby(["Country","Disaster Type"])[cols].sum().reset_index().dropna(subset = cols, how = "all")
+            # fd = fd[fd[cols]!=0]
             # print(fd)
 
             # fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[["Total Deaths_new","Total Affected_new", "AdjustedDamages_new"]].sum().reset_index()
             fd1 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols].sum().reset_index()
+            # fd1 = fd1[fd1[cols]!=0]
 
             # fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])["Total Deaths_new"].count().reset_index()
             fd11 = df[df["Year"].isin(years)].groupby(["Disaster Type","Year"])[cols[0]].count().reset_index()
@@ -276,15 +279,19 @@ def app():
             # if choice=="Deaths":
             if choice==cols[0]:
                 # df1 = fd[["Country","Disaster Type","Total Deaths_new"]]
-                df1 = fd[["Country","Disaster Type",cols[0]]]
+                df1 = fd[["Country","Disaster Type",cols[0]]].dropna()
             # elif choice=="Total Affected":
             elif choice==cols[1]:
                 # df1 = fd[["Country","Disaster Type","Total Affected_new"]]
-                df1 = fd[["Country","Disaster Type",cols[1]]]
+                df1 = fd[["Country","Disaster Type",cols[1]]].dropna()
             else:
                 # df1 = fd[["Country","Disaster Type","AdjustedDamages_new"]]
-                df1 = fd[["Country","Disaster Type",cols[2]]]
+                df1 = fd[["Country","Disaster Type",cols[2]]].dropna()
             # print(df1)
+
+
+            print("Choice = "+choice)
+            print(df1.sort_values(choice,ascending = False).head())
 
             df1 = df1.replace({"United States":"United States of America"})
             df1["Country"]=df1["Country"].str.lower()
@@ -306,20 +313,22 @@ def app():
             
             gdf = gdf.replace({"United States":"United States of America"})
             # print(gdf.sort_values(by = "Value", ascending = False))
+            print('?????????????????????????')
+            print(gdf.sort_values("Value",ascending = False).head(15))
 
             visualizeMap1(gdf)
             
             # print(alldata1.head())
 
-#NO MAPS REQUIRED
-        df = pd.DataFrame()
-        if(indicator1 in capitals):
-            df = capitalsOnly[capitalsOnly["Capital"]==indicator1].groupby("Year")["value"].mean().round(1).reset_index()
-            print(df.head())
+    # NO MAPS REQUIRED
+            df = pd.DataFrame()
+            if(indicator1 in capitals):
+                df = capitalsOnly[capitalsOnly["Capital"]==indicator1].groupby("Year")["value"].mean().round(1).reset_index()
+                print(df.head())
 
-        else:
-            df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
+            else:
+                df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
+                print(df.head())
 
 
         # df["Indicator"] = indicator1
@@ -353,13 +362,14 @@ def app():
         #     print(df)
 
             # df1= df[indexes]
-        df =df.rename(columns = {'value':indicator1})
-        merged = fd11.merge(df,on = "Year",how = "left")
-        print(merged.head())
+            df =df.rename(columns = {'value':indicator1})
+            merged = fd11.merge(df,on = "Year",how = "right")
+            merged['Year'] = merged['Year'].astype('int')
+            print(merged.head())
 
-        
-        c1,c2,c3 = st.columns([1,4,1])
-        linePlot(merged,indicator1,["Count"],c2,shock=shock)
+            
+            c1,c2,c3 = st.columns([1,4,1])
+            linePlot(merged,indicator1,["Count"],c2,shock=shock)
 
       # linePlot(fd11,avgdata,)
 
