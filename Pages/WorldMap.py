@@ -16,6 +16,8 @@ import numpy as np
 #  'Bosnia and Herz.': 'Bosnia and Herzegovina',
 # }
 
+qualities = ["Robustness", "Redundancy", "Resourcefulness","Rapidity"]
+
 capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 capitals1 = ['Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
@@ -38,12 +40,14 @@ world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["po
 world['name'] = world['name'].str.upper() 
 # print("Number of Countries = "+str(len(world['name'].unique())))
 
-alldata1 = pd.read_csv("allIndicatorData.csv")
+alldata1 = pd.read_csv("allIndicatorData11.csv")
 
 
 alldata1 = alldata1.replace({'United States':'United States of America'})
 
-alldata_pivot = alldata1.pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
+print(alldata1.head())
+
+alldata_pivot = alldata1.drop_duplicates(["Country","Year", "Indicator"]).pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
 # capitalsOnly = pd.read_csv("finalCapital.csv")
 # print("Printing Pivot PD")
 # print(alldata_pivot.head())
@@ -63,8 +67,8 @@ def visualizeMap1(gdf):
      fig.update_geos(fitbounds="locations", visible=False, landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
      fig.update_traces(marker_line_width=2)
 
-    #  st.plotly_chart(fig, use_container_width=True)
-     st.plotly_chart(fig, use_container_width=False)
+     st.plotly_chart(fig, use_container_width=True)
+    #  st.plotly_chart(fig, use_container_width=False)
 # @st.cache(suppress_st_warning=True)
 years =[*range(2012,2023)]
 years.sort(reverse=True)
@@ -72,20 +76,26 @@ years.sort(reverse=True)
 
 def app():
     Year = st.sidebar.selectbox("Year",years)
-    capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+    option = st.sidebar.selectbox("Visualization by: ", ["FSRS/Capital", "Quality"])
     indicator1=None
-    if capital=="Natural Capital":
-      indicator1 = st.sidebar.selectbox("Indicator",natural1)
-    elif capital=="Human Capital":
-      indicator1 = st.sidebar.selectbox("Indicator",human1)
-    elif capital=="Social Capital":
-      indicator1 = st.sidebar.selectbox("Indicator",social1)
-    elif capital=="Financial Capital":
-      indicator1 = st.sidebar.selectbox("Indicator",financial1)
-    elif capital=="Manufactured Capital":
-      indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+    if option=="Quality":
+      indicator1 = st.sidebar.selectbox('Quality',qualities)
+    
     else:
-      indicator1 = "Food Systems Resilience Score"
+      capital = st.sidebar.selectbox('FSRS/Capital',capitals)
+      
+      if capital=="Natural Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",natural1)
+      elif capital=="Human Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",human1)
+      elif capital=="Social Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",social1)
+      elif capital=="Financial Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",financial1)
+      elif capital=="Manufactured Capital":
+        indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
+      else:
+        indicator1 = "Food Systems Resilience Score"
 
 
 

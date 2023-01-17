@@ -39,7 +39,9 @@ def app():
     choice = st.sidebar.selectbox("Data Check by: ", ["Country","Indicator"])
     if choice=="Country":
         country = st.sidebar.selectbox("Country: ", countries)
-        df = alldata1[alldata1['Country']==country].drop_duplicates(["Country","Indicator"],keep='last').drop(columns = ["value","Income Group","Region"])
+        # df = alldata1[alldata1['Country']==country].drop_duplicates(["Country","Indicator"],keep='last').drop(columns = ["value","Income Group","Region"])
+        df = alldata1.dropna()[alldata1['Country']==country].drop_duplicates(["Country","Indicator"],keep='last').drop(columns = ["Income Group","Region"])
+        print(df)
         try:
             st.image("Con_Flags/"+flags[country]+".png",width=100)
             st.subheader(str.upper(country))
@@ -51,6 +53,7 @@ def app():
         for i in capitals:
             st.subheader(i)
             temp = df[df["Indicator"].isin(dd[i])]
+            print(temp.head())
             for k in temp["Indicator"].unique():
                 st.write(k+', '+str(temp[temp["Indicator"]==k]["Year"].iloc[0]))
         
@@ -74,11 +77,12 @@ def app():
         st.subheader(indicator1)
         print(indicator1)
         print(dataInfo[dataInfo["Indicator"]==indicator1])
-        st.subheader("Countries Covered: " + str(dataInfo[datuaInfo["Indicator"]==indicator1]["#Countries"].iloc[0]))
+        st.subheader("Countries Covered: " + str(dataInfo[dataInfo["Indicator"]==indicator1]["#Countries"].iloc[0]))
         text_html = "<h3> Source: <a href = '{}'> {}</a> </h3>".format(dataInfo[dataInfo["Indicator"]==indicator1]["Link"].iloc[0],dataInfo[dataInfo["Indicator"]==indicator1]["Source"].iloc[0])
         print(text_html)
         st.markdown(text_html,unsafe_allow_html=True)
-        print(df["Country"].unique())
+        st.subheader("Latest Data Available Year: "+ str(dataInfo[dataInfo["Indicator"]==indicator1]["Year"].iloc[0]))
+        # print(df["Country"].unique())
 
 
     

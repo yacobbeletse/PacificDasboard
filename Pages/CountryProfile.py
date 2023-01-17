@@ -8,6 +8,8 @@ import numpy as np
 import plotly.graph_objects as go
 
 # st.sidebar.title("Control Center")ff
+
+qualities = ["Robustness", "Redundancy", "Resourcefulness","Rapidity"]
 years = range(2012,2023)
 capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
@@ -30,7 +32,7 @@ incomeCat=pd.read_csv("IncomeCat.csv")
 
 years = range(2012,2023)
 # capitals = ['FSRS','Natural','Human','Social','Financial','Manufactured']
-alldata1 = pd.read_csv("allIndicatorData1.csv")
+alldata1 = pd.read_csv("allIndicatorData11.csv")
 # print(alldata1.head())
 alldata1["Color"] = 'green'
 alldata1.loc[alldata1['value']<40,'Color'] = "red"
@@ -215,7 +217,7 @@ def showPlot(df,index = "Country",visType="Des",indicator="nice",present=pd.Data
         coloredPlot(fd.sort_values("value",ascending=False).tail(15),c3,"Bottom Ranked Countries","value",height=1000)
 
 
-def linePlot(df,c):
+def linePlot(df,c,width = False):
     if not df.empty:
         # print(df)
         fig = px.line(df,x="Year",y="value",color = "Country",markers=True,symbol="Country")
@@ -223,13 +225,21 @@ def linePlot(df,c):
         # yaxis_range=[0,100],
         yaxis_title="Score",
         xaxis_title = None,
-    legend_title=None,
     font=dict(
         family="Arial Black",
         size=12,
-    ))
+    ),
+    legend = dict(
+        orientation="h",
+    yanchor="bottom",
+    y=1.02,
+    xanchor="right",
+    x=1,
+    title = None
+    )
+    )
         fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-        c.plotly_chart(fig)
+        c.plotly_chart(fig,use_container_width = width)
 
 
 
@@ -241,102 +251,7 @@ def showOption():
     op = st.sidebar.selectbox('Analysis by:',opts)
     return op
 
-# def visualizeOp(op,yearChoice=2022):
-#     global dataColl
-#     if(isinstance(yearChoice,list)):
-#         if(len(yearChoice)==1):
-#             yearChoice = yearChoice[0]
-#         else:
-#             yearChoice=2022
-#     trans_data=dataColl[yearChoice]
-#     if op=="Country":
-#         countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-#         print("choice of year = " + str(yearChoice))
-#         # abc = abc.append(i for i in countrySelect)
-#         # org_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country')
-#         org_data=dataColl[yearChoice]
-#         print(org_data.shape)
-#         # df = org_data[countrySelect]
-#         # df = org_data[org_data.index.isin(countrySelect)].transpose()
-#         df = org_data.loc[org_data["Country"].isin(countrySelect),:]
-#         # print(df)
-#         traffic(df,index = "Country")
-#         # showPlot(df,index='indicator')
 
-     
-#     else:
-#         vistype = st.sidebar.selectbox("Visualization by:",["Overall", "Income Category","Region"])
-#         capital = st.sidebar.selectbox('FSRS/Capital',capitals)
-#         # indicator1=None
-#         indicator1=None
-#         if capital=="Natural Capital":
-#             indicator1 = st.sidebar.selectbox("Indicator",natural1)
-#         elif capital=="Human Capital":
-#             indicator1 = st.sidebar.selectbox("Indicator",human1)
-#         elif capital=="Social Capital":
-#             indicator1 = st.sidebar.selectbox("Indicator",social1)
-#         elif capital=="Financial Capital":
-#             indicator1 = st.sidebar.selectbox("Indicator",financial1)
-#         elif capital=="Manufactured Capital":
-#             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
-#         else:
-#             indicator1 = "Food Systems Resilience Score"
-#         # indSelect1 = st.sidebar.multiselect('Select indicator(s)',all_factors.keys())
-#         # # trans_data=pd.read_csv(DATA_URL + "\\"+str(yearChoice)+'.csv',index_col= 'Country').transpose()
-#         # indSelect = [all_factors[i] for i in indSelect1]
-#         # print("choice of year = " + str(yearChoice))
-        
-#         # print(trans_data)
-#         # print(all_factors[indicator1])
-#         # df1 = trans_data.loc[:,[all_factors[indicator1]]]
-#         # print(df1)
-#         # df = pd.DataFrame()
-#         df = pd.DataFrame()
-#         print("indicator = "+indicator1)
-#         Year = yearChoice
-#         if(indicator1 in capitals):
-#             df = capitalsOnly[(capitalsOnly["Capital"]==indicator1) & (capitalsOnly['Year']==Year)]
-#             print(df.head())
-
-#         else:
-#             dff = alldata_pivot[["Country","Indicator",Year]].groupby(["Country", "Indicator"])[Year].mean().round(1).reset_index()
-#             df = dff[dff["Indicator"]==indicator1]
-#             print(df.head())
-
-
-#         df["Indicator"] = indicator1
-#         df =df.rename(columns={Year:"value"})
-#     # indicator = all_factors[indicator1]
-#         # Year = yearChoice
-#         # if(indicator1=="Food Systems Resilience Score"):
-#         #     df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df["Indicator"] = indicator1
-#         #     df =df.rename(columns={Year:"value"})
-#         # elif(indicator1=="Natural Capital"):
-#         #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(natural),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df =df.rename(columns={Year:"value"})
-#         # elif(indicator1=="Human Capital"):
-#         #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(human),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df =df.rename(columns={Year:"value"})
-#         # elif(indicator1=="Social Capital"):
-#         #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(social),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df =df.rename(columns={Year:"value"})
-#         # elif(indicator1=="Financial Capital"):
-#         #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(financial),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df =df.rename(columns={Year:"value"})
-#         # elif(indicator1=="Manufactured Capital"):
-#         #     df = alldata_pivot.loc[alldata_pivot["Indicator"].isin(manufactured),["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-#         #     df =df.rename(columns={Year:"value"})
-#         # else:
-#         #     df = alldata1[(alldata1["Year"]==Year) & (alldata1["Indicator"]==indicator1)]
-#         # print(df)
-#         # df = df[(df["Year"]==Year) & (df["Indicator"]==indicator1)]
-#         # print(df)
-#         # if indicator1 in capitals:
-#         #   if indicator1==
-#         print(df)
-
-#         showPlot(df,index='Country',visType=vistype,indicator=indicator1)
 dd = {}
 dd['Natural Capital'] = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
 dd['Human Capital'] = ['Access to Agricultural Resources','Food Dietary Diversity','Food Loss','Food Safety','Food Supply Sufficiency','Labor Force Participation Rate','Literacy Rate','Micronutrient Availability','Population Growth Rate','Poverty Population','Protein Quality']
@@ -359,6 +274,14 @@ def visualizeOp(df,country):
         st.subheader(str.upper(country))
     except:
         st.subheader(str.upper(country))
+
+    c = st.columns(4)
+    for i in range(len(qualities)):
+        c[i].subheader(qualities[i])
+        c[i].text('Score: {}'.format(np.round(df[df["Indicator"]==qualities[i]]['value'].iloc[0],1)))
+        linePlot(df[df["Indicator"]==qualities[i]],c[i],width = True)
+
+
 #     st.sidebar.markdown('''
 # # Sections
 # - [Section 1](#NaturalCapital)
