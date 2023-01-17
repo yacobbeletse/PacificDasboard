@@ -26,6 +26,7 @@ countries = org_data["Country"].unique()
 # print("Printing DFF")
 # print(dff)
 
+capitalsOnly = pd.read_csv("finalCapital.csv")
 
 natural = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
 human = ['Access to Agricultural Resources','Food Dietary Diversity','Food Loss','Food Safety','Food Supply Sufficiency','Labor Force Participation Rate','Literacy Rate','Micronutrient Availability','Population Growth Rate','Poverty Population','Protein Quality']
@@ -90,7 +91,8 @@ def coloredPlot(df,c1,i):
     fig1 = px.bar(df, x = i,y = df.index,orientation='h',text = i)
     
     # fig1.update_layout(xaxis_range=[0,100],yaxis_title=None, xaxis_title=None,width = 285)
-    fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 400,height =400)
+    # fig1.update_layout(yaxis_title=None, xaxis_title=None,width = 400,height =400)
+    fig1.update_layout(yaxis_title=None, xaxis_title=None,height =400)
     fig1.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
     # # fig1['layout']['xaxis'].update(autorange = True)
     fig1.update_xaxes(tickfont=dict(size =12, family = "Arial Black"))
@@ -104,13 +106,15 @@ def coloredPlot(df,c1,i):
     # else:
     #     c1.subheader(capital)
 
-    c1.plotly_chart(fig1)
+    c1.plotly_chart(fig1,use_container_width=True)
 def visualizeMap1(gdf):
 
 
     #  fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn",range_color=(0, 100),
     #  hover_name=gdf.index,animation_frame="Year")
-     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value", width = 1000,color_continuous_scale="RdYlGn_r",
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
+     hover_name=gdf.index)
+     fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="Value",color_continuous_scale="RdYlGn_r",
      hover_name=gdf.index)
      fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
      fig.update_geos(fitbounds="locations", visible=False,landcolor = 'lightgray',showland = True,showcountries=True, countrycolor="gray")
@@ -120,11 +124,11 @@ def visualizeMap1(gdf):
 
 
     #  fig.colorbar.lim(0,100)
-     col1, col2, col3= st.columns([3,1,1])
-     col1.plotly_chart(fig)
-     col2.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
+     col1, col2, col3= st.columns([4,1,2])
+     col1.plotly_chart(fig,use_container_width=True)
+     col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
     #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
-     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col2,"Value")
+     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col3,"Value")
 # @st.cache(suppress_st_warning=True)
 
 def linePlot(df,i,var,c1,shock=None):
@@ -148,6 +152,7 @@ def linePlot(df,i,var,c1,shock=None):
 
     fig.update_yaxes(title_text = "Score for Indicator",secondary_y = False)
     fig.update_yaxes(title_text = "Standardized Value for the Shock",secondary_y = True)
+    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
 
     fig.update_layout(legend=dict(
     orientation="h",
@@ -166,7 +171,7 @@ def linePlot(df,i,var,c1,shock=None):
   fig.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
   fig.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
   # fig.update_traces(mode = "markers")
-  fig.update_layout(width = 800)
+#   fig.update_layout(width = 800)
   fig.update_layout(
     # title="Plot Title",
     # xaxis_title="X Axis Title",
@@ -178,9 +183,9 @@ def linePlot(df,i,var,c1,shock=None):
     ))
 
   
-  c1.plotly_chart(fig)
+  c1.plotly_chart(fig,use_container_width=True)
 
-capitals = ['Food Systems Resilience Score','Natural','Human','Social','Financial','Manufactured']
+capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','Social Capital','Financial Capital','Manufactured Capital']
 
 
 
@@ -213,15 +218,15 @@ def app():
 
         capital = st.sidebar.selectbox('FSRS/Capital',capitals)
         indicator1=None
-        if capital=="Natural":
+        if capital=="Natural Capital":
             indicator1 = st.sidebar.selectbox("Indicator",natural1)
-        elif capital=="Human":
+        elif capital=="Human Capital":
             indicator1 = st.sidebar.selectbox("Indicator",human1)
-        elif capital=="Social":
+        elif capital=="Social Capital":
             indicator1 = st.sidebar.selectbox("Indicator",social1)
-        elif capital=="Financial":
+        elif capital=="Financial Capital":
             indicator1 = st.sidebar.selectbox("Indicator",financial1)
-        elif capital=="Manufactured":
+        elif capital=="Manufactured Capital":
             indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
         else:
             indicator1 = "Food Systems Resilience Score"
@@ -278,33 +283,44 @@ def app():
 
 #NO MAPS REQUIRED
         df = pd.DataFrame()
-        if(indicator1=="Food Systems Resilience Score"):
-            # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-            df = alldata1.groupby("Year")["value"].mean().reset_index()
-           
-            # df["Indicator"] = indicator1
+        if(indicator1 in capitals):
+            df = capitalsOnly[capitalsOnly["Capital"]==indicator1].groupby("Year")["value"].mean().round(1).reset_index()
             print(df.head())
-            # df =df.rename(columns={Year:"value"})
-        elif(indicator1=="Natural Capital"):
-            df = alldata1[alldata1["Indicator"].isin(natural)].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
-        elif(indicator1=="Human Capital"):
-            df = alldata1[alldata1["Indicator"].isin(human)].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
-        elif(indicator1=="Social Capital"):
-            df = alldata1[alldata1["Indicator"].isin(social)].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
-        elif(indicator1=="Financial Capital"):
-            df = alldata1[alldata1["Indicator"].isin(financial)].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
-        elif(indicator1=="Manufactured Capital"):
-            df = alldata1[alldata1["Indicator"].isin(manufactured)].groupby("Year")["value"].mean().reset_index()
-            print(df.head())
+
         else:
-            # df = alldata1[(alldata1["Indicator"]==indicator1)]
             df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
-            # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
-            print(df)
+            print(df.head())
+
+
+        # df["Indicator"] = indicator1
+        # df =df.rename(columns={Year:"value"})
+        # if(indicator1=="Food Systems Resilience Score"):
+        #     # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+        #     df = alldata1.groupby("Year")["value"].mean().reset_index()
+           
+        #     # df["Indicator"] = indicator1
+        #     print(df.head())
+        #     # df =df.rename(columns={Year:"value"})
+        # elif(indicator1=="Natural Capital"):
+        #     df = alldata1[alldata1["Indicator"].isin(natural)].groupby("Year")["value"].mean().reset_index()
+        #     print(df.head())
+        # elif(indicator1=="Human Capital"):
+        #     df = alldata1[alldata1["Indicator"].isin(human)].groupby("Year")["value"].mean().reset_index()
+        #     print(df.head())
+        # elif(indicator1=="Social Capital"):
+        #     df = alldata1[alldata1["Indicator"].isin(social)].groupby("Year")["value"].mean().reset_index()
+        #     print(df.head())
+        # elif(indicator1=="Financial Capital"):
+        #     df = alldata1[alldata1["Indicator"].isin(financial)].groupby("Year")["value"].mean().reset_index()
+        #     print(df.head())
+        # elif(indicator1=="Manufactured Capital"):
+        #     df = alldata1[alldata1["Indicator"].isin(manufactured)].groupby("Year")["value"].mean().reset_index()
+        #     print(df.head())
+        # else:
+        #     # df = alldata1[(alldata1["Indicator"]==indicator1)]
+        #     df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
+        #     # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
+        #     print(df)
 
             # df1= df[indexes]
         df =df.rename(columns = {'value':indicator1})
@@ -338,19 +354,23 @@ def app():
             fd["intensity"] = fd["intensity"].apply(np.ceil)
             print(fd.head())
 
-            d1,d2 = st.columns([1,10])
-            d1.image("Con_Flags/"+flags[country]+".png",width=50)
-            d2.subheader(str.upper(country))
+            # d1,d2 = st.columns([1,10])
+            try:
+                st.image("Con_Flags/"+flags[country]+".png",width=50)
+                st.subheader(str.upper(country))
+            except:
+                st.subheader(str.upper(country))
             fig3 = px.bar(fd.sort_values(by="intensity",ascending=False), x ="Disaster Type" , y = 'intensity',orientation='v',text = 'intensity')
             fig3.update_layout(yaxis_range=[0,max(fd['intensity'])+3],yaxis_title='Standardized Impact Score',xaxis_title=None, font = dict(
                     size =18,
             )
             )
+            fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
             fig3.update_xaxes(tickfont=dict(size =15, family = "Arial Black"))
             fig3.update_yaxes(tickfont=dict(size =15,family = "Arial Black"))
             fig3.update_traces(textposition='outside')
             st.subheader("Impacts of Food Shocks")
-            st.plotly_chart(fig3)
+            st.plotly_chart(fig3,use_container_width=False)
 
             sdf = df[(df["Year"].isin(years)) & (df['Disaster Type']==shock)]
             # print(dff)
@@ -371,15 +391,16 @@ def app():
 
                 capital = st.sidebar.selectbox('FSRS/Capital',capitals)
                 indicator1=None
-                if capital=="Natural":
+                indicator1=None
+                if capital=="Natural Capital":
                     indicator1 = st.sidebar.selectbox("Indicator",natural1)
-                elif capital=="Human":
+                elif capital=="Human Capital":
                     indicator1 = st.sidebar.selectbox("Indicator",human1)
-                elif capital=="Social":
+                elif capital=="Social Capital":
                     indicator1 = st.sidebar.selectbox("Indicator",social1)
-                elif capital=="Financial":
+                elif capital=="Financial Capital":
                     indicator1 = st.sidebar.selectbox("Indicator",financial1)
-                elif capital=="Manufactured":
+                elif capital=="Manufactured Capital":
                     indicator1 = st.sidebar.selectbox("Indicator",manufactured1)
                 else:
                     indicator1 = "Food Systems Resilience Score"
@@ -396,31 +417,39 @@ def app():
 
                 print(alldata1.head())
                 df = pd.DataFrame()
-                if(indicator1=="Food Systems Resilience Score"):
-                    # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-                    df = alldata1.groupby("Year")["value"].mean().reset_index()
-                
-                    # df["Indicator"] = indicator1
-                    # print(df.head())
-                    # df =df.rename(columns={Year:"value"})
-                elif(indicator1=="Natural Capital"):
-                    df = alldata1[alldata1["Indicator"].isin(natural)].groupby("Year")["value"].mean().reset_index()
-                    # print(df.head())
-                elif(indicator1=="Human Capital"):
-                    df = alldata1[alldata1["Indicator"].isin(human)].groupby("Year")["value"].mean().reset_index()
-                    # print(df.head())
-                elif(indicator1=="Social Capital"):
-                    df = alldata1[alldata1["Indicator"].isin(social)].groupby("Year")["value"].mean().reset_index()
-                    # print(df.head())
-                elif(indicator1=="Financial Capital"):
-                    df = alldata1[alldata1["Indicator"].isin(financial)].groupby("Year")["value"].mean().reset_index()
-                    # print(df.head())
-                elif(indicator1=="Manufactured Capital"):
-                    df = alldata1[alldata1["Indicator"].isin(manufactured)].groupby("Year")["value"].mean().reset_index()
-                    # print(df.head())
+                if(indicator1 in capitals):
+                    df = capitalsOnly[capitalsOnly["Capital"]==indicator1].groupby("Year")["value"].mean().round(1).reset_index()
+                    print(df.head())
+
                 else:
-                    # df = alldata1[(alldata1["Indicator"]==indicator1)]
                     df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
+                    print(df.head())
+                # df = pd.DataFrame()
+                # if(indicator1=="Food Systems Resilience Score"):
+                #     # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
+                #     df = alldata1.groupby("Year")["value"].mean().reset_index()
+                
+                #     # df["Indicator"] = indicator1
+                #     # print(df.head())
+                #     # df =df.rename(columns={Year:"value"})
+                # elif(indicator1=="Natural Capital"):
+                #     df = alldata1[alldata1["Indicator"].isin(natural)].groupby("Year")["value"].mean().reset_index()
+                #     # print(df.head())
+                # elif(indicator1=="Human Capital"):
+                #     df = alldata1[alldata1["Indicator"].isin(human)].groupby("Year")["value"].mean().reset_index()
+                #     # print(df.head())
+                # elif(indicator1=="Social Capital"):
+                #     df = alldata1[alldata1["Indicator"].isin(social)].groupby("Year")["value"].mean().reset_index()
+                #     # print(df.head())
+                # elif(indicator1=="Financial Capital"):
+                #     df = alldata1[alldata1["Indicator"].isin(financial)].groupby("Year")["value"].mean().reset_index()
+                #     # print(df.head())
+                # elif(indicator1=="Manufactured Capital"):
+                #     df = alldata1[alldata1["Indicator"].isin(manufactured)].groupby("Year")["value"].mean().reset_index()
+                #     # print(df.head())
+                # else:
+                #     # df = alldata1[(alldata1["Indicator"]==indicator1)]
+                #     df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
                     # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
                     # print(df)
 

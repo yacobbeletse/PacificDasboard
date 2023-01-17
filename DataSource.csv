@@ -1,0 +1,49 @@
+Indicator,Source,#Countries,Year,Link
+Access to Agricultural Resources,"GFSI, UN",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Access to Diversified Financial Services,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Access to Financial Services,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Adaptation of Innovative Technologies,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural GDP,FAO,217,2021,https://www.fao.org/faostat/en/#data/QV
+Agricultural Production Volatility,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural R&D,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural Trade,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural Water Quality,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural Water Quantity,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Agricultural Women Empowerment,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Armed Conflict,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Biodiversity and Habitat,EPI,180,2022,https://epi.yale.edu/downloads/epi2022results05302022.csv
+Community Organizations,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Corruption,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Crop Storage Facilities,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Dependency on Chronic Food Aid,"GFSI, OECD",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Disaster Risk Management,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Early Warning Measures,"GFSI, CCAFS",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Ecosystem Services,EPI,180,2022,https://epi.yale.edu/downloads/epi2022results05302022.csv
+Food Dietary Diversity,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Loss,"GFSI, FAO",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Price Volatility,"GFSI, FAO",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Safety,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Safety Net Programs,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Security Policy Commitment,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Food Supply Sufficiency,"GFSI, FAO",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Forest Change,"GFSI, World Bank",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Gender Equality,"GFSI, UNDP",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Green House Emission Per Capita,EPI,180,2022,https://epi.yale.edu/downloads/epi2022results05302022.csv
+Income Inequality,"GFSI,UNDP",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Irrigation Infrastructure,"GFSI, FAO",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+KOFGI Globalization Index,KOFGI,204,2019,https://ethz.ch/content/dam/ethz/special-interest/dual/kof-dam/documents/Globalization/2021/KOFGI_2021_public.dta
+Labor Force Participation Rate,World Bank,217,2021,https://data.worldbank.org/indicator/SL.TLF.ACTI.ZS
+Land Degradation,"GFSI, UN",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Literacy Rate,World Bank,217,2018,https://data.worldbank.org/indicator/SE.ADT.LITR.ZS
+Micronutrient Availability,"GFSI,Global Nutrient Database",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Natural Hazard Exposure,"GFSI,ND-GAIN",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Nutritional Standards,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Political Stability Risk,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Population Growth Rate,World Bank,217,2021,https://data.worldbank.org/indicator/SP.POP.GROW
+Protein Quality,"GFSI, WHO,USDA Nutrient Database",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Soil Organic Content,"GFSI,FAO",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Supply Chain Infrastructure,"GFSI, World Bank",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Sustainable Agriculture,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Telecommunications,"GFSI, ITU",113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Poverty Population,GFSI,113,2022,https://my.corteva.com/GFSI?file=GFSI_2022_Model_Sep_2022
+Per Capita GDP,World Bank,217,2021,https://data.worldbank.org/indicator/NY.GDP.PCAP.CD
