@@ -38,6 +38,10 @@ flags = {
    }
 
 def linePlot(df,countrySelect,indicator1):
+  #Function for lineplot
+  #df - dataframe
+  #countrySelect - selected country in the dashboard
+  #indicator1 - selected indicator in the dashboard.
   if(len(countrySelect)!=0):
     df = df[df["Country"].isin(countrySelect)]
     temp = df[df["Indicator"]==indicator1].dropna()

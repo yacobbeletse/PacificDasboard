@@ -1,3 +1,5 @@
+#this is the main hosting file for the dashboard.
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -22,6 +24,7 @@ from PIL import Image
 import plotly.graph_objects as go
 
 
+#basic functions for using streamlit for building dashboards.
 # 
 # st.set_page_config(layout="wide")
 st.set_page_config(page_title="Food Systems Resilience Diagnostics", layout="wide")
@@ -31,15 +34,6 @@ a.write('')
 b.image("FSDR_1.png")
 c.write('')
 
-
-# apps = [
-#     {"func": About.app, "title": "About", "icon": "info-circle"},
-#     {"func": WorldMap.app, "title": "World Map", "icon": "map"},
-#     {"func": Diagnostics.app, "title": "Diagnostics", "icon": "tools"},
-#     {"func": TimeSeries.app, "title": "Time-Series Analysis", "icon": "graph-up-arrow"},
-#     {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
-#     {"func": Compare.app, "title": "Compare", "icon": "arrow-down-up"}
-# ]
 
 apps = [
     {"func": WorldMap.app, "title": "World Map", "icon": "map"},
@@ -82,39 +76,10 @@ for app in apps:
     if app["title"] == selected:
         app["func"]()
         break
-
-
-
-# @st.cache(persist=True)
-# def load_data(data_url):
-#     data=pd.read_csv(data_url)
-#     return data
-
-# alldata1 = pd.read_csv("allIndicatorData.csv")
-
-# years = range(2012,2023)
-# dataColl = {}
-# for i in years:
-#     # abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
-#     # dataColl[i] = pd.read_csv(DATA_URL + "\\"+str(i)+'.csv',index_col= 'Country')
-#     dataColl[i] = alldata1[alldata1["Year"]==i]
-
-# org_data=dataColl[2022]
-
-
-    
+   
 my_html1 = """<h3>Please share your experience of using this tool 
     <a href="https://forms.gle/JpgirdYtypVdiLC27" target="_blank">HERE</a> </h3>
     """
-
-    
-    
-
-
-
-
-
-
 
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
@@ -122,13 +87,4 @@ components.html(my_html1)
 
 st.sidebar.subheader("PARTNERS")
 st.sidebar.image('partners.PNG')
-# a1,b1,c1 = st.sidebar.columns(3)
-# a1.image('CSIRO.png',width=100)
-# b1.image('ANU.png',width=100)
-# c1.image('DFAT.png',width=100)
-
-# st.write("__Please share your experience here__")
-
-# with st.sidebar:
-#     components.html(my_html1)
 

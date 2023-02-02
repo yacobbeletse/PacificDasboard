@@ -1,3 +1,5 @@
+#This is the main file for hosting the dashboard
+
 import streamlit as st
 import pandas as pd
 import numpy as np

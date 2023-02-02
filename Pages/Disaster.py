@@ -9,23 +9,29 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 
+#Create a dictionary to hold multiple dataframes on a temporal scale
+dataColl = {}
 
-dataColl = {}
-dataColl = {}
+#Loading the structured data
 alldata1 = pd.read_csv("FinalData.csv")
 alldata1["Year"] = alldata1["Year"].astype("int")
 years = range(2012,2023)
+
+#Loading year wise data to the data dictionry created earlier
 for i in years:
     # abc = pd.read_csv(str(i)+'.csv',index_col= 'Country').transpose()
     # dataColl[i] = pd.read_csv(DATA_URL + "\\"+str(i)+'.csv',index_col= 'Country')
     dataColl[i] = alldata1[alldata1["Year"]==i]
 
+#Creating the present data set (for year 2022)
 org_data=dataColl[2022]
 alldata_pivot = alldata1.pivot(["Country","Indicator"],columns="Year",values="value").reset_index()
 countries = org_data["Country"].unique()
 # print("Printing DFF")
 # print(dff)
 
+
+#Data for Capital Headings and Food Systems Resilience Score
 capitalsOnly = pd.read_csv("finalCapital.csv")
 
 natural = ['Agricultural Water Quality','Agricultural Water Quantity','Biodiversity and Habitat','Ecosystem Services','Forest Change','Green House Emission Per Capita','Land Degradation','Natural Hazard Exposure','Soil Organic Content']
@@ -42,14 +48,20 @@ manufactured1 = ["Manufactured Capital",'Agricultural R&D','Crop Storage Facilit
 
 
 countries = ['Algeria', 'Angola', 'Argentina', 'Australia', 'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Benin', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Czech Republic', 'DR Congo', 'Denmark', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Finland', 'France', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Mexico', 'Morocco', 'Mozambique', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Sierra Leone', 'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sudan', 'Sweden', 'Switzerland', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tunisia', 'Turkey', 'Uganda', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan']
+
+#Block of code for the world map visualization // Check plotly example on stackoverflow for more customization.
 world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
 world = world[(world.pop_est>0) & (world.name!="Antarctica")].drop(columns =["pop_est","continent","iso_a3","gdp_md_est"])
 world['name'] = world['name'].str.lower() 
+
+#Dictionary for Flag in the dashboard
 
 flags = {
    'Afghanistan': 'af', 'Albania': 'al', 'Algeria': 'dz', 'American Samoa': 'as', 'Andorra': 'ad', 'Angola': 'ao', 'Anguilla': 'ai', 'Antarctica': 'aq', 'Antigua and Barbuda': 'ag', 'Argentina': 'ar', 'Armenia': 'am', 'Aruba': 'aw', 'Australia': 'au', 'Austria': 'at', 'Azerbaijan': 'az', 'Bahamas': 'bs', 'Bahrain': 'bh', 'Bangladesh': 'bd', 'Barbados': 'bb', 'Belarus': 'by', 'Belgium': 'be', 'Belize': 'bz', 'Benin': 'bj', 'Bermuda': 'bm', 'Bhutan': 'bt', 'Bolivia, Plurinational State of': 'bo', 'Bolivia': 'bo', 'Bosnia and Herzegovina': 'ba', 'Botswana': 'bw', 'Bouvet Island': 'bv', 'Brazil': 'br', 'British Indian Ocean Territory': 'io', 'Brunei Darussalam': 'bn', 'Brunei': 'bn', 'Bulgaria': 'bg', 'Burkina Faso': 'bf', 'Burundi': 'bi', 'Cambodia': 'kh', 'Cameroon': 'cm', 'Canada': 'ca', 'Cape Verde': 'cv', 'Cayman Islands': 'ky', 'Central African Republic': 'cf', 'Chad': 'td', 'Chile': 'cl', 'China': 'cn', 'Christmas Island': 'cx', 'Cocos (Keeling) Islands': 'cc', 'Colombia': 'co', 'Comoros': 'km', 'Congo': 'cg', 'DR Congo':'cd','Congo, the Democratic Republic of the': 'cd', 'Cook Islands': 'ck', 'Costa Rica': 'cr', "Côte d'Ivoire": 'ci', 'Ivory Coast': 'ci', 'Croatia': 'hr', 'Cuba': 'cu', 'Cyprus': 'cy', 'Czech Republic': 'cz', 'Denmark': 'dk', 'Djibouti': 'dj', 'Dominica': 'dm', 'Dominican Republic': 'do', 'Ecuador': 'ec', 'Egypt': 'eg', 'El Salvador': 'sv', 'Equatorial Guinea': 'gq', 'Eritrea': 'er', 'Estonia': 'ee', 'Ethiopia': 'et', 'Falkland Islands (Malvinas)': 'fk', 'Faroe Islands': 'fo', 'Fiji': 'fj', 'Finland': 'fi', 'France': 'fr', 'French Guiana': 'gf', 'French Polynesia': 'pf', 'French Southern Territories': 'tf', 'Gabon': 'ga', 'Gambia': 'gm', 'Georgia': 'ge', 'Germany': 'de', 'Ghana': 'gh', 'Gibraltar': 'gi', 'Greece': 'gr', 'Greenland': 'gl', 'Grenada': 'gd', 'Guadeloupe': 'gp', 'Guam': 'gu', 'Guatemala': 'gt', 'Guernsey': 'gg', 'Guinea': 'gn', 'Guinea-Bissau': 'gw', 'Guyana': 'gy', 'Haiti': 'ht', 'Heard Island and McDonald Islands': 'hm', 'Holy See (Vatican City State)': 'va', 'Honduras': 'hn', 'Hong Kong': 'hk', 'Hungary': 'hu', 'Iceland': 'is', 'India': 'in', 'Indonesia': 'id', 'Iran, Islamic Republic of': 'ir', 'Iraq': 'iq', 'Ireland': 'ie', 'Isle of Man': 'im', 'Israel': 'il', 'Italy': 'it', 'Jamaica': 'jm', 'Japan': 'jp', 'Jersey': 'je', 'Jordan': 'jo', 'Kazakhstan': 'kz', 'Kenya': 'ke', 'Kiribati': 'ki', "Korea, Democratic People's Republic of": 'kp', 'Korea, Republic of': 'kr', 'South Korea': 'kr', 'Kuwait': 'kw', 'Kyrgyzstan': 'kg', "Lao People's Democratic Republic": 'la', 'Latvia': 'lv', 'Lebanon': 'lb', 'Lesotho': 'ls', 'Liberia': 'lr', 'Libyan Arab Jamahiriya': 'ly', 'Libya': 'ly', 'Liechtenstein': 'li', 'Lithuania': 'lt', 'Luxembourg': 'lu', 'Macao': 'mo', 'Macedonia, the former Yugoslav Republic of': 'mk', 'Madagascar': 'mg', 'Malawi': 'mw', 'Malaysia': 'my', 'Maldives': 'mv', 'Mali': 'ml', 'Malta': 'mt', 'Marshall Islands': 'mh', 'Martinique': 'mq', 'Mauritania': 'mr', 'Mauritius': 'mu', 'Mayotte': 'yt', 'Mexico': 'mx', 'Micronesia, Federated States of': 'fm', 'Moldova, Republic of': 'md', 'Monaco': 'mc', 'Mongolia': 'mn', 'Montenegro': 'me', 'Montserrat': 'ms', 'Morocco': 'ma', 'Mozambique': 'mz', 'Myanmar': 'mm', 'Burma': 'mm', 'Namibia': 'na', 'Nauru': 'nr', 'Nepal': 'np', 'Netherlands': 'nl', 'Netherlands Antilles': 'an', 'New Caledonia': 'nc', 'New Zealand': 'nz', 'Nicaragua': 'ni', 'Niger': 'ne', 'Nigeria': 'ng', 'Niue': 'nu', 'Norfolk Island': 'nf', 'Northern Mariana Islands': 'mp', 'Norway': 'no', 'Oman': 'om', 'Pakistan': 'pk', 'Palau': 'pw', 'Palestinian Territory, Occupied': 'ps', 'Panama': 'pa', 'Papua New Guinea': 'pg', 'Paraguay': 'py', 'Peru': 'pe', 'Philippines': 'ph', 'Pitcairn': 'pn', 'Poland': 'pl', 'Portugal': 'pt', 'Puerto Rico': 'pr', 'Qatar': 'qa', 'Réunion': 're', 'Romania': 'ro', 'Russian Federation': 'ru', 'Russia': 'ru', 'Rwanda': 'rw', 'Saint Helena, Ascension and Tristan da Cunha': 'sh', 'Saint Kitts and Nevis': 'kn', 'Saint Lucia': 'lc', 'Saint Pierre and Miquelon': 'pm', 'Saint Vincent and the Grenadines': 'vc', 'Saint Vincent & the Grenadines': 'vc', 'St. Vincent and the Grenadines': 'vc', 'Samoa': 'ws', 'San Marino': 'sm', 'Sao Tome and Principe': 'st', 'Saudi Arabia': 'sa', 'Senegal': 'sn', 'Serbia': 'rs', 'Seychelles': 'sc', 'Sierra Leone': 'sl', 'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'Solomon Islands': 'sb', 'Somalia': 'so', 'South Africa': 'za', 'South Georgia and the South Sandwich Islands': 'gs', 'South Sudan': 'ss', 'Spain': 'es', 'Sri Lanka': 'lk', 'Sudan': 'sd', 'Suriname': 'sr', 'Svalbard and Jan Mayen': 'sj', 'Swaziland': 'sz', 'Sweden': 'se', 'Switzerland': 'ch', 'Syrian Arab Republic': 'sy', 'Taiwan, Province of China': 'tw', 'Taiwan': 'tw', 'Tajikistan': 'tj', 'Tanzania': 'tz', 'Thailand': 'th', 'Timor-Leste': 'tl', 'Togo': 'tg', 'Tokelau': 'tk', 'Tonga': 'to', 'Trinidad and Tobago': 'tt', 'Tunisia': 'tn', 'Turkey': 'tr', 'Turkmenistan': 'tm', 'Turks and Caicos Islands': 'tc', 'Tuvalu': 'tv', 'Uganda': 'ug', 'Ukraine': 'ua', 'United Arab Emirates': 'ae', 'United Kingdom': 'gb', 'United States': 'us', 'United States of America':'us','United States Minor Outlying Islands': 'um', 'Uruguay': 'uy', 'Uzbekistan': 'uz', 'Vanuatu': 'vu', 'Venezuela, Bolivarian Republic of': 've', 'Venezuela': 've', 'Viet Nam': 'vn', 'Vietnam': 'vn', 'Virgin Islands, British': 'vg', 'Virgin Islands, U.S.': 'vi', 'Wallis and Futuna': 'wf', 'Western Sahara': 'eh', 'Yemen': 'ye', 'Zambia': 'zm', 'Zimbabwe': 'zw'
    }
 
+
+#Incase the countries are named differently in different systems. Just use .replace function on the country column with this dictionary.
 countryRename = {
     'Bahamas (the)': 'Bahamas',
     'Bolivia (Plurinational State of)': 'Bolivia',
@@ -84,7 +96,11 @@ countryRename = {
 }
 
 
+#Function for the worldmap visualization that takes the streamlit component, dataframe, and the column in the dataframe.
 def altgraph(c,fd,col):
+    # c - streamlit component
+    #fd - geodataframe with data
+    #col - column of the geodataframe with values.
     fd = fd.reset_index()
     print(fd)
     fig3 = px.bar(fd.sort_values(by=col,ascending=False), y ="Disaster Type" , x = col,orientation='h',text = col)
@@ -100,6 +116,11 @@ def altgraph(c,fd,col):
     c.plotly_chart(fig3,use_container_width=True)
 
 def coloredPlot(df,c1,i):
+    #Function for three different colors in the bar graph
+    #df - the dataframe with data
+    #c1 - streamlit component for visualization
+    #i - is the column with values
+
     df = df.sort_values(by="Value",ascending=True)
     df.index =df.index.str.title()
     df["Value"] = np.round(df["Value"],2)
@@ -122,7 +143,12 @@ def coloredPlot(df,c1,i):
     #     c1.subheader(capital)
 
     c1.plotly_chart(fig1,use_container_width=True)
+
+
 def visualizeMap1(gdf):
+    #Function to visualize the worldmap in the entire page
+    #gdf is the geodataframe with data and the values are stored in "Value" column of the dataframe.
+
     # fig = px.choropleth(gdf, geojson=gdf.geometry, locations=gdf.index, color="value",color_continuous_scale="RdYlGn",width = 1600,height = 400,range_color=(0, 100),
     # hover_data = ['value'],labels={"index": "Country",
     #                                 "value": gdf["Indicator"].unique()[0]})
@@ -144,9 +170,17 @@ def visualizeMap1(gdf):
     col3.subheader("Top 10 countries worst-hit by "+ gdf["Disaster Type"].unique()[0])
 #  col2.write(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10))
     coloredPlot(gdf[["name","Value"]].sort_values("Value",ascending=False).head(10),col3,"Value")
-# @st.cache(suppress_st_warning=True)
+
 
 def linePlot(df,i,var,c1,shock=None):
+    #Function for lineplot 
+    #df - dataframe with data
+    #i - selected indicator for title of the visualization.
+    #var - column in the dataframe with values of interest.
+    #c1 - Streamlit componenet for visualization
+    #shock - name of the shokc chosen for any specific shock [limited usability for functionality such as Disaster Vulnerability Analysis]
+
+
   print(df)
 
   fig = make_subplots(specs=[[{"secondary_y": True}]])
@@ -206,10 +240,14 @@ capitals = ['Food Systems Resilience Score','Natural Capital','Human Capital','S
 
 
 def app():
+    #The layout with options to customize the dashboard are defined here with calls to different functions.
+
     global dataColl
     # df = pd.read_csv("alldisaster.csv")
+
+    #Load Data
     df = pd.read_csv("disasterdata1.csv",encoding='latin-1')
-    cols = df.columns[-3:]
+    cols = df.columns[-3:] #Column of interest (deaths, affected, and damage) are the last three columns in the dataframe
     for i in range(len(cols)):
         print(cols[i])
     # print(cols)
@@ -221,14 +259,6 @@ def app():
     high = max(years_df)
     # print(df['Country'].unique())
     scale = st.sidebar.selectbox('Select a scale',["Global","Country"])
-    # country=None
-    
-    # shock = st.sidebar.selectbox('Select a shock',damages.keys())
-    # # intensity_score = st.sidebar.slider('Enter the shock intensity', min_value=0,max_value=10,value=0)
-    # ranger = st.sidebar.slider('Choose the range!', min_value=int(low),max_value=int(high),value=(2000,2022))
-    # # print(intensity_score,ranger)
-    # df = df[(df["Year"]>=ranger[0]) & (df["Year"]<=ranger[1])]
-    # print(df.head())
 
     if (scale=="Global"):
         shock = st.sidebar.selectbox('Select a shock',disasters)
@@ -331,37 +361,6 @@ def app():
                 print(df.head())
 
 
-        # df["Indicator"] = indicator1
-        # df =df.rename(columns={Year:"value"})
-        # if(indicator1=="Food Systems Resilience Score"):
-        #     # df = alldata_pivot[["Country","Indicator",Year]].groupby("Country")[Year].mean().reset_index()
-        #     df = alldata1.groupby("Year")["value"].mean().reset_index()
-           
-        #     # df["Indicator"] = indicator1
-        #     print(df.head())
-        #     # df =df.rename(columns={Year:"value"})
-        # elif(indicator1=="Natural Capital"):
-        #     df = alldata1[alldata1["Indicator"].isin(natural)].groupby("Year")["value"].mean().reset_index()
-        #     print(df.head())
-        # elif(indicator1=="Human Capital"):
-        #     df = alldata1[alldata1["Indicator"].isin(human)].groupby("Year")["value"].mean().reset_index()
-        #     print(df.head())
-        # elif(indicator1=="Social Capital"):
-        #     df = alldata1[alldata1["Indicator"].isin(social)].groupby("Year")["value"].mean().reset_index()
-        #     print(df.head())
-        # elif(indicator1=="Financial Capital"):
-        #     df = alldata1[alldata1["Indicator"].isin(financial)].groupby("Year")["value"].mean().reset_index()
-        #     print(df.head())
-        # elif(indicator1=="Manufactured Capital"):
-        #     df = alldata1[alldata1["Indicator"].isin(manufactured)].groupby("Year")["value"].mean().reset_index()
-        #     print(df.head())
-        # else:
-        #     # df = alldata1[(alldata1["Indicator"]==indicator1)]
-        #     df = alldata1[alldata1["Indicator"]==indicator1].groupby("Year")["value"].mean().reset_index()
-        #     # .groupby("Year")[all_factors[indicator1]].mean().reset_index()
-        #     print(df)
-
-            # df1= df[indexes]
             df =df.rename(columns = {'value':indicator1})
             merged = fd11.merge(df,on = "Year",how = "right")
             merged['Year'] = merged['Year'].astype('int')
@@ -371,11 +370,8 @@ def app():
             c1,c2,c3 = st.columns([1,4,1])
             linePlot(merged,indicator1,["Count"],c2,shock=shock)
 
-      # linePlot(fd11,avgdata,)
 
-      # linePlot()
-
-
+    #The visualization for the country scale done here itself.
     else:
         country = st.sidebar.selectbox('Select a country',countries)
         if country == "United States of America":
