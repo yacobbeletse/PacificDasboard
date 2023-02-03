@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from streamlit import caching
 import streamlit.components.v1 as components, html
-from google1 import main as mn
 import plotly.express as px
 import base64
 from streamlit_option_menu import option_menu
@@ -36,7 +35,6 @@ c.write('')
 
 
 apps = [
-    {"func": WorldMap.app, "title": "World Map", "icon": "map"},
     {"func": CountryProfile.app, "title": "Country Profile", "icon": "tools"},
     {"func": Compare.app, "title": "Compare", "icon": "graph-up-arrow"},
     {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
@@ -54,7 +52,7 @@ print("Params: "+str(params))
 if "page" in params:
     default_index = int(titles_lower.index(params["page"][0].lower()))
 else:
-    default_index =0
+    default_index =-1
 
 
 selected = option_menu(
@@ -68,9 +66,9 @@ selected = option_menu(
 if(selected!="About"):
     st.sidebar.title("Control Center")
 
-st.title("Food Systems Resilience Diagnostics (FSRD) Tool")
-st.markdown('The FSRD gives the scores for several food system resilience indicators based on the performance of the countries.')
-st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
+st.title("Pacific Food System Dashboard")
+st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.')
+# st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 
 for app in apps:
     if app["title"] == selected:

@@ -1,0 +1,26 @@
+Indicator,Unit,Aspect,Pillar
+Food imports, % of merchandise imports,Exposure,Availability
+Direct disaster economic loss,USD (millions),Exposure,Availability
+Agricultural Production Index,2015 = 100,Capacity,Availability
+Agriculture orientation Index for Government Expenditures,0-1,Capacity,Availability
+Average dietary energy adequacy,%,Capacity,Availability
+Inflation Rate,%,Exposure,Accessibility
+Poverty Population Proportion,0-1,Exposure,Accessibility
+Unemployment rate,%,Exposure,Accessibility
+"Agriculture, value added",% of GDP,Capacity,Accessibility
+Remittances,% of GDP,Capacity,Accessibility
+Prevelance of Undernourishment,%,Exposure,Utilization
+Proportion of children moderately or severely stunted,0-1,Exposure,Utilization
+Proportion of children moderately or severely wasted,0-1,Exposure,Utilization
+Proportion of severely food insecure,0-1,Exposure,Utilization
+Food Diet Diversity,kcal/cap/day,Capacity,Utilization
+Access to drinking water,%,Capacity,Utilization
+Access to Electricity,%,Capacity,Utilization
+Access to sanitation,%,Capacity,Utilization
+Average Protein Supply,g/cap/day,Capacity,Utilization
+Political Stability and Absence of Violence Terrorism,Standard normal distribution from approx. -2.5 to 2.5,Exposure,Stability
+Control of Corruption,Standard normal distribution from approx. -2.5 to 2.5,Capacity,Stability
+Regulatory Quality,Standard normal distribution from approx. -2.5 to 2.5,Capacity,Stability
+Rule of Law,Standard normal distribution from approx. -2.5 to 2.5,Capacity,Stability
+Score for adoption and implementation of disaster reduction strategies,Standard normal distribution from approx. -2.5 to 2.5,Capacity,Stability
+Voice and Accountability,Standard normal distribution from approx. -2.5 to 2.5,Capacity,Stability
