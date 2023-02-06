@@ -37,7 +37,7 @@ c.write('')
 apps = [
     {"func": CountryProfile.app, "title": "Country Profile", "icon": "tools"},
     {"func": Compare.app, "title": "Compare", "icon": "graph-up-arrow"},
-    {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
+   # {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
     {"func": Data_Credibility.app, "title": "Data Check", "icon": "file-check"},
     {"func": Information.app, "title": "Information", "icon": "info-circle"}
 ]
