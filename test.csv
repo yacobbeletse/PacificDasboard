@@ -1,0 +1,26 @@
+Indicator,American Samoa,Cook Islands,Fiji,French Polynesia,Guam,Kiribati,Marshall Islands,Micronesia (Federated States of),Nauru,New Caledonia,Niue,Northern Mariana Islands,Pacific,Palau,Papua New Guinea,Samoa,Solomon Islands,Tokelau,Tonga,Tuvalu,Vanuatu,Wallis and Futuna
+Access to Electricity,red,red,green,green,green,green,green,green,green,green,red,green,green,green,green,green,green,red,green,green,green,red
+Access to drinking water,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green
+Access to sanitation,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green
+Agricultural Production Index,red,green,green,green,red,green,green,green,green,green,green,red,green,red,green,green,green,green,green,green,green,red
+Agriculture orientation Index for Government Expenditures,red,green,green,red,red,red,green,green,red,green,red,red,green,green,green,green,green,red,red,red,green,red
+"Agriculture, value added",red,red,green,green,red,green,green,green,green,green,red,red,green,green,green,green,green,red,green,green,green,red
+Average Protein Supply,green,green,green,green,red,green,green,green,green,green,green,red,green,green,green,green,green,green,green,green,green,red
+Average dietary energy adequacy,green,green,green,green,red,green,green,green,green,green,green,red,green,green,green,green,green,green,green,green,green,red
+Control of Corruption,green,green,green,red,green,green,green,green,green,red,green,red,green,green,green,green,green,red,green,green,green,red
+Direct disaster economic loss,red,red,green,green,red,green,green,green,red,green,red,red,green,green,green,green,green,red,green,red,green,red
+Food Diet Diversity,green,green,green,green,red,green,green,green,green,green,green,red,green,green,green,green,green,green,green,green,green,red
+Food imports,red,red,green,green,red,green,red,green,red,green,red,red,green,green,green,green,green,red,green,green,green,red
+Inflation Rate,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green
+Political Stability and Absence of Violence Terrorism,green,green,green,red,green,green,green,green,green,red,green,red,green,green,green,green,green,red,green,green,green,red
+Poverty Population Proportion,red,red,green,red,red,red,red,red,red,red,red,red,green,red,green,red,green,red,red,red,red,red
+Prevelance of Undernourishment,red,red,green,green,red,green,red,red,red,green,red,red,green,red,green,green,green,red,red,red,green,red
+Proportion of children moderately or severely stunted,red,red,green,red,red,green,green,red,green,red,red,red,green,red,green,green,green,red,green,green,green,red
+Proportion of children moderately or severely wasted,red,red,green,red,red,green,red,red,green,red,red,red,green,red,green,green,green,red,green,green,green,red
+Proportion of severely food insecure,red,red,green,red,red,green,red,red,red,red,red,red,green,red,red,green,red,red,green,red,green,red
+Regulatory Quality,green,green,green,red,green,green,green,green,green,red,green,red,green,green,green,green,green,red,green,green,green,red
+Remittances,red,red,green,green,red,green,green,green,green,green,red,red,green,green,green,green,green,red,green,green,green,red
+Rule of Law,green,green,green,red,green,green,green,green,green,red,green,red,green,green,green,green,green,red,green,green,green,red
+Score for adoption and implementation of disaster reduction strategies,red,red,green,red,red,green,green,green,green,red,red,red,green,green,green,green,green,red,green,green,green,red
+Unemployment rate,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,green,red,green,green,green,green
+Voice and Accountability,green,green,green,red,green,green,green,green,green,red,green,red,green,green,green,green,green,red,green,green,green,red

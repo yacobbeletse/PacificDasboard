@@ -10,7 +10,7 @@ import plotly.express as px
 import base64
 from streamlit_option_menu import option_menu
 
-from Pages import WorldMap, Disaster, Compare, CountryProfile,Information, Data_Credibility
+from Pages import WorldMap, Disaster, Compare, CountryProfile,Information, Data_Credibility,Home
 
 import copy
 
@@ -26,7 +26,7 @@ import plotly.graph_objects as go
 #basic functions for using streamlit for building dashboards.
 # 
 # st.set_page_config(layout="wide")
-st.set_page_config(page_title="Food Systems Resilience Diagnostics", layout="wide")
+st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
 
 a,b,c = st.sidebar.columns([1,5,1])
 a.write('')
@@ -39,7 +39,7 @@ apps = [
     {"func": Compare.app, "title": "Compare", "icon": "graph-up-arrow"},
    # {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
     {"func": Data_Credibility.app, "title": "Data Check", "icon": "file-check"},
-    {"func": Information.app, "title": "Information", "icon": "info-circle"}
+    {"func": Home.app, "title": "Home", "icon": "info-circle"}
 ]
 
 titles = [app["title"] for app in apps]
@@ -66,7 +66,7 @@ selected = option_menu(
 if(selected!="About"):
     st.sidebar.title("Control Center")
 
-st.title("Pacific Food System Dashboard")
+st.title("Pacific Food Security Dashboard")
 st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.')
 # st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 

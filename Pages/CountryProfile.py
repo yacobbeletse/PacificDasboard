@@ -8,10 +8,11 @@ import numpy as np
 import plotly.graph_objects as go
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
+aspects = ["Exposure","Capacity"]
 
 # st.sidebar.title("Control Center")ff
 typology = pd.read_csv("Typology.csv")
-alldata1 = pd.read_csv("Data.csv")
+alldata1 = pd.read_csv("Data1.csv")
 
 countries = alldata1["Country"].dropna().unique()
 # print(countries)
@@ -25,7 +26,7 @@ flags = {
 
 
 def linePlot(df,c,width = False):
-    print(df.head())
+    # print(df.head())
     #function to visualize lineplot.
     if not df.empty:
         # print(df)
@@ -53,6 +54,20 @@ def linePlot(df,c,width = False):
         c.plotly_chart(fig,use_container_width = width)
 
 
+def wrap_long_text(text):
+    words = text.split(" ")
+    line1 = ""
+    line2 = ""
+    line3 = ""
+    for word in words:
+        if len(line1) + len(word) < 20:
+            line1 += word + " "
+        else:
+            if len(line2) + len(word) < 20:
+                line2 += word + " "
+            else:
+                line3+= word+" "
+    return line1 + "<br>" + line2 + "<br>" + line3
 
 
 
@@ -69,6 +84,9 @@ def visualizeOp(df,country):
     # data["Color"] = "gray"
     # print(data)
     present = country_data.dropna(subset = "Value").sort_values("Year").drop_duplicates(["Country", "Indicator"], keep = "last")
+    present_rad = df.dropna(subset = "Value").sort_values("Year").drop_duplicates(["Country", "Indicator"], keep = "last")
+    # print("************RAD DATA************")
+    # print(present_rad)
     # print(present)
     try:
         st.image("Con_Flags/"+flags[country]+".png",width=100)
@@ -77,49 +95,95 @@ def visualizeOp(df,country):
         st.subheader(str.upper(country))
 
     style_text=""
-    for i in range(5):
-        colors = ['red','orange','yellow','green','gray']
-        legend = ['Weak [0-40]' , 'Moderate [40-60]', 'Good [60-80]', 'Very Good [80 -100]', 'Data Missing']
+    for i in range(4):
+        colors = ['red','yellow','green','gray']
+        legend = ['Weak ' , 'Fine ', 'Excellent', 'Data Missing']
         style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
     st.sidebar.markdown(style_text,unsafe_allow_html=True)
     st.sidebar.subheader("INDICATORS")
     
     for i in range(len(pillars)):
+        color_discrete_map= {country:"red", "Pacific":"blue"}
         
-        st.sidebar.header(pillars[i])
-        # st.header(pillars[i])
+        # st.sidebar.header(pillars[i])
+        st.header(pillars[i])
+        showhide = st.checkbox("Show Trends for Indicators!",key = i)
         temp = df[df["Pillar"]==pillars[i]].dropna(subset = "Value")
+        rad_data = present_rad[present_rad["Pillar"]==pillars[i]]
+        rad_data.loc[rad_data["Indicator"]=="Agriculture orientation Index for Government Expenditures","Value"]*=100
+        # print(rad_data[["Country","Indicator","Value"]])
+
+        c = st.columns(len(rad_data["Aspect"].unique()))
+        # cat_order = None
+        # if pillars[i]=="Stability":
+        #     cat_order = ["Control of Corruption","Reulatory Quality","Rule of Law", "score for adoption and implementation of disaster reduction strategies", "Voice and Accountability"]
+        # t_fig=None
+
+
+        for k in range(len(aspects)):
+            bac =rad_data[rad_data["Aspect"]==aspects[k]].sort_values("Indicator").sort_values("Country",ascending=False)
+            print(bac[["Country","Indicator","Value"]])
+            if len(bac[bac["Country"]==country]["Indicator"].unique())<3:
+            # t_fig = px.bar_polar(rad_data[rad_data["Aspect"]==aspects[k]],r = "Value",theta="Indicator", color = "Country",line_close=True)
+                t_fig = px.bar_polar(bac,r = "Value",theta="Indicator", color = "Country",color_discrete_map=color_discrete_map)
+            else:
+                t_fig = px.line_polar(bac,r = "Value",theta="Indicator",color = "Country",color_discrete_map=color_discrete_map,line_close=True,line_shape = 'spline')
+            # t_fig.update_yaxes(tickangle=90)
+                t_fig.update_traces(fill='toself')
+            t_fig.update_layout(
+                font=dict(
+        family="Arial Black",
+        size=12
+    ),
+    polar=dict(
+        angularaxis=dict(
+            ticktext=[wrap_long_text(text) for text in bac["Indicator"]],
+            tickvals=bac["Indicator"]
+        )
+    )
+            )
+            # t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+
+            c[k].plotly_chart(t_fig)
+        # st.plotly_chart(fig1)
         # print(temp)
         # print(temp["Indicator"].dropna().unique())
         # print(temp["Country"].unique())
-        for j in temp["Indicator"].unique():
-            # st.header(j)
-            present_df = present[present["Indicator"]==j]
-            print(present_df)
-            presentValue = 'NA'
-            color = "gray"
-            try:
-                # color = present_df['Color'].iloc[0]
-                presentValue = present_df['Value'].iloc[0]
-            except:
-                # color = 'gray'
+        if showhide:
+            st.sidebar.header(pillars[i])
+            for j in temp["Indicator"].unique():
+                # st.header(j)
+                present_df = present[present["Indicator"]==j]
+                # print(present_df["Color"])
                 presentValue = 'NA'
+                color = ''
+                try:
+                    color = present_df['Color'].iloc[0]
+                    presentValue = present_df['Value'].iloc[0]
+                except:
+                    color = 'gray'
+                    presentValue = 'NA'
 
-            st.subheader(j,anchor=j.replace(' ',''))
-            anchor_text="<div><div class = 'rectangle {}'></div><a href = '#{}'>{}</div> <br>".format(color,j.replace(' ',''),j)
-            # print(anchor_text)
-            
-            st.text('Unit: {}'.format(temp['Unit'].iloc[0]))
-            st.text('Value: {}'.format(presentValue))
-            linePlot(temp[temp["Indicator"]==j],st)
-            st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
+                st.subheader(j,anchor=j.replace(' ',''))
+                st.write(typology[typology["Indicator"]==j]["About"].iloc[0])
+                anchor_text="<div><div class = 'rectangle {}'></div><a href = '#{}'>{}</div> <br>".format(color,j.replace(' ',''),j)
+                # print(anchor_text)
+                
+                st.text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
+                st.text('Value: {}'.format(presentValue))
+                linePlot(temp[temp["Indicator"]==j],st)
+                st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
 
 
 def app():
     country = st.sidebar.selectbox("Select a Country:",countries)
-    choice = st.sidebar.selectbox("Visualization by:",["Exposure","Capacity"])
+    choice = ["Exposure","Capacity"]
+    if st.sidebar.checkbox("Visualization by Aspect",value=False):
+        choice1 = st.sidebar.selectbox("Visualization by:",["Exposure","Capacity"])
+        choice = choice1.split()
+        # print(choice)
     df = alldata1.merge(typology, on = "Indicator", how = "left")
     df =df[df["Country"].isin(["Pacific",country])]
     # print(df.head())
-    visualizeOp(df[df["Aspect"]==choice],country)
+    visualizeOp(df[df["Aspect"].isin(choice)],country)
 
