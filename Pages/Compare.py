@@ -29,7 +29,7 @@ def linePlot(df,countrySelect):
     # temp = df[df["Indicator"]==indicator1].dropna()
     # # print(temp.head())
     # print(temp)
-    for i in df["Pillar"].unique():
+    for i in pillars:
       data = df[df["Pillar"]==i]
       if not data.empty:
         st.header(i)
@@ -48,6 +48,7 @@ def linePlot(df,countrySelect):
                       size=12,
                   ))
             st.subheader(j)
+            st.write(typology[typology["Indicator"]==j]["About"].iloc[0])
             st.plotly_chart(fig_ind)
           else:
             st.subheader(j)
