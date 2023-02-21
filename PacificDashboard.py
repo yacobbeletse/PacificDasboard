@@ -1,10 +1,10 @@
 #this is the main hosting file for the dashboard.
 
 import streamlit as st
+st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from streamlit import caching
 import streamlit.components.v1 as components, html
 import plotly.express as px
 import base64
@@ -15,23 +15,29 @@ from Pages import WorldMap, Disaster, Compare, CountryProfile,Information, Data_
 import copy
 
 from pathlib import Path
-import seaborn as sns
-import geopandas
+# import seaborn as sns
+# import geopandas
 
 # import plotly.express as px
-from PIL import Image
-import plotly.graph_objects as go
+# from PIL import Image
+# import plotly.graph_objects as go
 
 
 #basic functions for using streamlit for building dashboards.
 # 
 # st.set_page_config(layout="wide")
-st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
+# st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
+
+
 
 a,b,c = st.sidebar.columns([1,5,1])
 a.write('')
 b.image("FSDR_1.png")
 c.write('')
+
+
+
+
 
 
 apps = [
@@ -63,18 +69,25 @@ selected = option_menu(
         default_index=default_index,
         orientation = "horizontal"
     )
-if(selected!="About"):
+if(selected!="Home"):
     st.sidebar.title("Control Center")
 
 st.title("Pacific Food Security Dashboard")
 st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.')
-# st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 
-for app in apps:
-    if app["title"] == selected:
-        app["func"]()
-        break
-   
+
+# st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
+def chooseapp(selected):
+    global apps
+    for app in apps:
+        if app["title"] == selected:
+            app["func"]()
+            break
+
+chooseapp(selected)
+st.sidebar.subheader(' ')
+st.sidebar.subheader("PARTNERS")
+st.sidebar.image('partners.PNG')
 my_html1 = """<h3>Please share your experience of using this tool 
     <a href="https://forms.gle/JpgirdYtypVdiLC27" target="_blank">HERE</a> </h3>
     """
@@ -82,7 +95,4 @@ my_html1 = """<h3>Please share your experience of using this tool
 expander = st.expander("FAQ")
 expander.write("Here you could put in some really, really long explanations...")
 components.html(my_html1)
-
-st.sidebar.subheader("PARTNERS")
-st.sidebar.image('partners.PNG')
 

@@ -5,12 +5,14 @@ import geopandas
 import pandas as pd
 import plotly.express as px
 import numpy as np
+from Pages.Home import alldata1,typology
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
+aspects = ["Exposure","Capacity"]
 
 # st.sidebar.title("Control Center")ff
-typology = pd.read_csv("Typology.csv")
-alldata1 = pd.read_csv("Data.csv")
+# typology = pd.read_csv("Typology.csv")
+# alldata1 = pd.read_csv("Data.csv")
 
 countries = alldata1["Country"].dropna().unique()
 
@@ -19,7 +21,7 @@ flags = {
    }
 
 def linePlot(df,countrySelect):
-  print(df.head())
+  # print(df.head())
   #Function for lineplot
   #df - dataframe
   #countrySelect - selected country in the dashboard
@@ -29,30 +31,45 @@ def linePlot(df,countrySelect):
     # temp = df[df["Indicator"]==indicator1].dropna()
     # # print(temp.head())
     # print(temp)
+    st.sidebar.header("FOOD SECURITY PILLARS")
     for i in pillars:
       data = df[df["Pillar"]==i]
+      # print(data)
       if not data.empty:
-        st.header(i)
-        for j in data["Indicator"].unique():
-          data_df = data[data["Indicator"]==j]
-          if not data_df.empty:
-            fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",markers=True,symbol="Country")
-            fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-            fig_ind.update_layout(
-                      yaxis_title="Score",
-                      xaxis_title = None,
-                      xaxis_tickformat = 'd',
-                  legend_title=None,
-                  font=dict(
-                      family="Arial Black",
-                      size=12,
-                  ))
-            st.subheader(j)
-            st.write(typology[typology["Indicator"]==j]["About"].iloc[0])
-            st.plotly_chart(fig_ind)
+        st.header(i.upper(),anchor=i)
+        refPillar ="<div style ='height:10px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(i,i.upper())
+        st.sidebar.markdown(refPillar,unsafe_allow_html=True)
+        c = st.columns(len(aspects))
+        for k in range(len(aspects)): 
+          c[k].subheader(aspects[k])
+          if aspects[k]=="Exposure":
+                c[k].write("Less Exposure is better.")
           else:
-            st.subheader(j)
-            st.write("No data for "+j)
+              c[k].write("Higher Capacity is better.")
+          temp_data = data[data["Aspect"]==aspects[k]]
+          if temp_data.empty:
+             c[k].write('No data for '+ aspects[k])
+          else:
+            for j in temp_data["Indicator"].unique():
+              data_df = temp_data[temp_data["Indicator"]==j]
+              if not data_df.empty:
+                fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",markers=True,symbol="Country")
+                fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+                fig_ind.update_layout(
+                          yaxis_title="Score",
+                          xaxis_title = None,
+                          xaxis_tickformat = 'd',
+                      legend_title=None,
+                      font=dict(
+                          family="Arial Black",
+                          size=12,
+                      ))
+                c[k].subheader(j)
+                c[k].write(typology[typology["Indicator"]==j]["About"].iloc[0])
+                c[k].plotly_chart(fig_ind)
+              else:
+                c[k].subheader(j)
+                c[k].write("No data for "+j)
       else:
             st.subheader(i)
             st.write("No data for "+i)
@@ -61,8 +78,8 @@ def linePlot(df,countrySelect):
 
 def app():
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-    option = st.sidebar.selectbox("Visualization by: ", ["Exposure", "Capacity"])
+    # option = st.sidebar.selectbox("Visualization by: ", ["Exposure", "Capacity"])
     df = alldata1.merge(typology, on = "Indicator", how = "left")
     
-    df1 = df[(df["Country"].isin(countrySelect)) & (df["Aspect"]==option)]
+    df1 = df[(df["Country"].isin(countrySelect))]
     linePlot(df1,countrySelect)

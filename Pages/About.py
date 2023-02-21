@@ -2,7 +2,6 @@ import streamlit as st
 
 
 
-
 def app():
     about = st.sidebar.selectbox("More about...", ["Abstract","Using the Tool", "Adapted Five-Capitals Framework"])
     

@@ -1,18 +1,18 @@
 
-from turtle import color
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
+from Pages.Home import alldata1,typology
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
 aspects = ["Exposure","Capacity"]
 
 # st.sidebar.title("Control Center")ff
-typology = pd.read_csv("Typology.csv")
-alldata1 = pd.read_csv("Data1.csv")
+# typology = pd.read_csv("Typology.csv")
+# alldata1 = pd.read_csv("Data1.csv")
 
 countries = alldata1["Country"].dropna().unique()
 # print(countries)
@@ -70,8 +70,6 @@ def wrap_long_text(text):
     return line1 + "<br>" + line2 + "<br>" + line3
 
 
-
-
 def visualizeOp(df,country):
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
@@ -101,13 +99,18 @@ def visualizeOp(df,country):
         style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
     st.sidebar.markdown(style_text,unsafe_allow_html=True)
     st.sidebar.subheader("INDICATORS")
+   
     
     for i in range(len(pillars)):
         color_discrete_map= {country:"red", "Pacific":"blue"}
         
         # st.sidebar.header(pillars[i])
-        st.header(pillars[i])
+        st.header(pillars[i],anchor=pillars[i])
         showhide = st.checkbox("Show Trends for Indicators!",key = i)
+        if showhide:
+            # st.sidebar.subheader(pillars[i])
+            refPillar ="<div style ='height:2px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(pillars[i],pillars[i].upper())
+            st.sidebar.markdown(refPillar,unsafe_allow_html=True)
         temp = df[df["Pillar"]==pillars[i]].dropna(subset = "Value")
         rad_data = present_rad[present_rad["Pillar"]==pillars[i]]
         rad_data.loc[rad_data["Indicator"]=="Agriculture orientation Index for Government Expenditures","Value"]*=100
@@ -125,11 +128,12 @@ def visualizeOp(df,country):
             print(bac[["Country","Indicator","Value"]])
             if len(bac[bac["Country"]==country]["Indicator"].unique())<3:
             # t_fig = px.bar_polar(rad_data[rad_data["Aspect"]==aspects[k]],r = "Value",theta="Indicator", color = "Country",line_close=True)
-                t_fig = px.bar_polar(bac,r = "Value",theta="Indicator", color = "Country",color_discrete_map=color_discrete_map)
+                t_fig = px.bar_polar(bac,r = "Value",theta="Indicator", color = "Country",color_discrete_map=color_discrete_map, custom_data=["Country","Indicator","Value"])
             else:
-                t_fig = px.line_polar(bac,r = "Value",theta="Indicator",color = "Country",color_discrete_map=color_discrete_map,line_close=True,line_shape = 'spline')
+                t_fig = px.line_polar(bac,r = "Value",theta="Indicator",color = "Country",color_discrete_map=color_discrete_map,line_close=True,line_shape = 'spline',custom_data=["Country","Indicator","Value"])
             # t_fig.update_yaxes(tickangle=90)
                 t_fig.update_traces(fill='toself')
+            t_fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Indicator: %{customdata[1]} <br>Value: %{customdata[2]:.2f}')
             t_fig.update_layout(
                 font=dict(
         family="Arial Black",
@@ -143,47 +147,77 @@ def visualizeOp(df,country):
     )
             )
             # t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-
+            c[k].subheader(aspects[k])
+            if aspects[k]=="Exposure":
+                c[k].write("Less Exposure is better.")
+            else:
+                c[k].write("Higher Capacity is better.")
             c[k].plotly_chart(t_fig)
-        # st.plotly_chart(fig1)
-        # print(temp)
-        # print(temp["Indicator"].dropna().unique())
-        # print(temp["Country"].unique())
-        if showhide:
-            st.sidebar.header(pillars[i])
-            for j in temp["Indicator"].unique():
-                # st.header(j)
-                present_df = present[present["Indicator"]==j]
-                # print(present_df["Color"])
-                presentValue = 'NA'
-                color = ''
-                try:
-                    color = present_df['Color'].iloc[0]
-                    presentValue = present_df['Value'].iloc[0]
-                except:
-                    color = 'gray'
-                    presentValue = 'NA'
 
-                st.subheader(j,anchor=j.replace(' ',''))
-                st.write(typology[typology["Indicator"]==j]["About"].iloc[0])
-                anchor_text="<div><div class = 'rectangle {}'></div><a href = '#{}'>{}</div> <br>".format(color,j.replace(' ',''),j)
-                # print(anchor_text)
+            if showhide:
+                st.sidebar.header(aspects[k])
+                trendData = temp[temp["Aspect"]==aspects[k]]
+                print(trendData)
+                for j in trendData["Indicator"].unique():
+                    # st.header(j)
+                    present_df = present[present["Indicator"]==j]
+                    # print(present_df["Color"])
+                    presentValue = 'NA'
+                    color = ''
+                    try:
+                        color = present_df['Color'].iloc[0]
+                        presentValue = present_df['Value'].iloc[0]
+                    except:
+                        color = 'gray'
+                        presentValue = 'NA'
+
+                    c[k].subheader(j,anchor=j.replace(' ',''))
+                    c[k].write(typology[typology["Indicator"]==j]["About"].iloc[0])
+                    anchor_text="<div><div class = 'rectangle {}'></div><a href = '#{}'>{}</div> <br>".format(color,j.replace(' ',''),j)
+                    # print(anchor_text)
+                    
+                    c[k].text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
+                    c[k].text('Value: {}'.format(presentValue))
+                    linePlot(temp[temp["Indicator"]==j],c[k])
+                    st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
+
+        
+        # if showhide:
+        #     st.sidebar.header(pillars[i])
+            
+        #     for j in temp["Indicator"].unique():
+        #         # st.header(j)
+        #         present_df = present[present["Indicator"]==j]
+        #         # print(present_df["Color"])
+        #         presentValue = 'NA'
+        #         color = ''
+        #         try:
+        #             color = present_df['Color'].iloc[0]
+        #             presentValue = present_df['Value'].iloc[0]
+        #         except:
+        #             color = 'gray'
+        #             presentValue = 'NA'
+
+        #         st.subheader(j,anchor=j.replace(' ',''))
+        #         st.write(typology[typology["Indicator"]==j]["About"].iloc[0])
+        #         anchor_text="<div><div class = 'rectangle {}'></div><a href = '#{}'>{}</div> <br>".format(color,j.replace(' ',''),j)
+        #         # print(anchor_text)
                 
-                st.text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
-                st.text('Value: {}'.format(presentValue))
-                linePlot(temp[temp["Indicator"]==j],st)
-                st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
+        #         st.text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
+        #         st.text('Value: {}'.format(presentValue))
+        #         linePlot(temp[temp["Indicator"]==j],st)
+        #         st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
 
 
 def app():
     country = st.sidebar.selectbox("Select a Country:",countries)
     choice = ["Exposure","Capacity"]
-    if st.sidebar.checkbox("Visualization by Aspect",value=False):
-        choice1 = st.sidebar.selectbox("Visualization by:",["Exposure","Capacity"])
-        choice = choice1.split()
+    # if st.sidebar.checkbox("Visualization by Aspect",value=False):
+    #     choice1 = st.sidebar.selectbox("Visualization by:",["Exposure","Capacity"])
+    #     choice = choice1.split()
         # print(choice)
     df = alldata1.merge(typology, on = "Indicator", how = "left")
     df =df[df["Country"].isin(["Pacific",country])]
     # print(df.head())
-    visualizeOp(df[df["Aspect"].isin(choice)],country)
+    visualizeOp(df,country)
 
