@@ -98,7 +98,7 @@ def app():
     
     color = {"red":"red","green":"green","gray":"gray"}
     info = {"red":"Amplifier","green":"Mitigator", "gray":"Data Missing"}
-
+    print(alldata1.head())
     data = alldata1.dropna(subset="Value").drop_duplicates(["Country","Indicator"],keep="last")
     # print(data)
 
