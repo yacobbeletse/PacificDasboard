@@ -19,8 +19,7 @@ def load_data(url):
     return df
 
 
-typology = load_data("Typology.csv")
-alldata1 =load_data("Data1.csv")
+
 
 # cluster_ref = alldata1.merge(typology, on = "Indicator", how = "left")
 
@@ -89,6 +88,9 @@ def clockMeter(df,country,pillar):
     # )
 
     return fig1
+
+typology = load_data("Typology.csv")
+alldata1 =load_data("Data1.csv")
 
 def app():
     
