@@ -31,6 +31,19 @@ def linePlot(df,c,width = False):
     if not df.empty:
         # print(df)
         fig = px.line(df,x="Year",y="Value",color = "Country",markers=True,symbol="Country")
+        fig.add_trace(
+    go.Scatter(
+        x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
+        fill='tozeroy', fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
+    )
+        )
+    #     fig.add_trace(
+    #     go.Scatter(
+    #          x=[df["Year"].min(),df["Year"].max()], y=[max(df["Value"].max(),df["Baseline"].iloc[0]),max(df["Value"].max(),df["Baseline"].iloc[0])], mode='lines',
+    #         fill='tonexty', fillcolor='rgba(176, 0, 0, 0.2)',showlegend=False
+    #     )
+    # )
+
         fig.update_layout(
         # yaxis_range=[0,100],
         # yaxis_title="Score",
@@ -68,6 +81,7 @@ def linePlot(df,c,width = False):
             )
         )
     ]
+    
 )
 #         fig.add_annotation(
 #     x=0.5,
@@ -136,9 +150,9 @@ def visualizeOp(df,country):
     #     colors = ['red','yellow','green','gray']
     #     legend = ['Weak ' , 'Fine ', 'Excellent', 'Data Missing']
     #     style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
-    for i in range(3):
-        colors = ['red','green','gray']
-        legend = ['Amplifier ' , 'Mitigator', 'Data Missing']
+    colors = ['redop','greenop','red','green']
+    legend = ['Amplifier Zone ' , 'Mitigator Zone', "Amplifer","Mitigator"]
+    for i in range(len(colors)):
         style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
     st.sidebar.subheader("LEGEND")
     st.sidebar.markdown(style_text,unsafe_allow_html=True)

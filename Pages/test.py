@@ -1,32 +1,38 @@
 import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
 
-# create sample data
-df = pd.DataFrame({'group': ['A', 'A', 'B', 'B'], 
-                   'category': ['X', 'Y', 'X', 'Y'], 
-                   'value': [1, 2, 3, 4]})
+# Create some data for the chart
+df = pd.DataFrame({
+    'x': [1, 2, 3, 4, 5],
+    'y': [1, 3, 2, 4, 3]
+})
 
-# define the angles for each group
-angles = np.linspace(0, 360, len(df['group'].unique()) + 1)[:-1]
+# Create a line chart
+fig = go.Figure()
 
-# create a trace for each group
-traces = []
-for i, group in enumerate(df['group'].unique()):
-    group_df = df[df['group'] == group]
-    # define the angles for each category within the group
-    theta = angles[i] + np.linspace(0, 360/len(group_df), len(group_df) + 1)[:-1]
-    trace = go.Barpolar(r=group_df['value'], 
-                        theta=theta, 
-                        name=group, 
-                        marker_color=i)
-    traces.append(trace)
+# Add a trace for the upper filled area
+fig.add_trace(
+    go.Scatter(
+        x=[1,5], y=[2,2], mode='lines', line_color='rgba(0, 176, 246, 1)',
+        fill='tozeroy', fillcolor='rgba(0, 176, 246, 0.2)'
+    )
+)
 
-# create the layout
-layout = go.Layout(polar={'angularaxis': {'direction': 'clockwise'},
-                           'radialaxis': {'range': [0, 5]}},
-                   barmode='group')
+# Add a trace for the lower filled area
+fig.add_trace(
+    go.Scatter(
+        x=[1,5], y=[4,4], mode='lines', line_color='rgba(255, 178, 0, 1)',
+        fill='tonexty', fillcolor='rgba(255, 178, 0, 0.2)'
+    )
+)
 
-# create the figure and plot it
-fig = go.Figure(data=traces, layout=layout)
+# Add a trace for the line
+fig.add_trace(
+    go.Scatter(
+        x=[1, 5], y=[2.5, 2.5], mode='lines', line_color='rgba(0, 0, 0, 1)',
+        line_width=2
+    )
+)
+
+# Show the chart
 fig.show()

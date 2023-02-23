@@ -13,8 +13,16 @@
   .green {
     background-color: green;
   }
+  .greenop {
+    background-color: green;
+    opacity: 0.2;
+  }
   .red {
     background-color: red;
+  }
+  .redop {
+    background-color: red;
+    opacity: 0.2;
   }
   .yellow {
     background-color: yellow;
