@@ -43,6 +43,8 @@ alldata1 =load_data("Data1.csv")
 #             else:
 #                 line3+= word+" "
 #     return line1 + "<br>" + line2 + "<br>" + line3
+
+
 def clockData(df):
     clockmap = {"red": -1, "green": 1, "gray": 0}
     temp = df.copy()
@@ -69,17 +71,11 @@ def clockMeter(df,country,pillar):
     value = 0
     if not data.empty:
         value = data["colValue"].iloc[0]
-    # fig1 = pn.indicators.Gauge(name='Food Security', value=value, bounds=(-25, 25),format='{value}',
-    #                            colors=[(0.4, 'red'), (0.7, 'yellow'), (1, 'green')])
-        
     fig1 = go.Figure(go.Indicator(
     number = {'font': {'size': 20}},
     domain = {'x': [0, 1], 'y': [0, 1]},
     value = value,
     mode = "gauge+number",
-    # number ={'suffix': "%"},
-    # title = {'text': names[0]},
-# delta = {'reference': 380},
     gauge = {'axis': {'range': [-25, 25]},
              'bar': {'color': "darkblue"},
             'steps' : [
