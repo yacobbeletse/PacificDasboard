@@ -2,6 +2,9 @@
 
 import streamlit as st
 st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
+
+import warnings
+warnings.filterwarnings("ignore")
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +13,7 @@ import plotly.express as px
 import base64
 from streamlit_option_menu import option_menu
 
-from Pages import WorldMap, Disaster, Compare, CountryProfile,Information, Data_Credibility,Home
+from Pages import  Compare, CountryProfile, Data_Credibility,Home
 
 import copy
 
@@ -73,6 +76,9 @@ if(selected!="Home"):
     st.sidebar.title("Control Center")
 
 st.title("Pacific Food Security Dashboard")
+
+st.markdown("## *'You can improve what you can measure!!!'*")
+
 st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.')
 
 

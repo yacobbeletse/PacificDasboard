@@ -8,7 +8,7 @@ import numpy as np
 from Pages.Home import alldata1,typology
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
-aspects = ["Exposure","Capacity"]
+# aspects = ["Exposure","Capacity"]
 
 # st.sidebar.title("Control Center")ff
 # typology = pd.read_csv("Typology.csv")
@@ -39,37 +39,65 @@ def linePlot(df,countrySelect):
         st.header(i.upper(),anchor=i)
         refPillar ="<div style ='height:10px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(i,i.upper())
         st.sidebar.markdown(refPillar,unsafe_allow_html=True)
-        c = st.columns(len(aspects))
-        for k in range(len(aspects)): 
-          c[k].subheader(aspects[k])
-          if aspects[k]=="Exposure":
-                c[k].write("Less Exposure is better.")
+        # c = st.columns(len(aspects))
+        c = st.columns(2)
+        k=0
+        # for k in range(2): 
+        #   # c[k].subheader(aspects[k])
+        #   # if aspects[k]=="Exposure":
+        #   #       c[k].write("Less Exposure is better.")
+        #   # else:
+        #   #     c[k].write("Higher Capacity is better.")
+        #   temp_data = data[data["Aspect"]==aspects[k]]
+        #   if temp_data.empty:
+        #      c[k].write('No data for '+ aspects[k])
+        #   else:
+        temp_data = data.copy()
+        for j in temp_data["Indicator"].unique():
+          data_df = temp_data[temp_data["Indicator"]==j]
+          # print(data_df)
+          avg_data = data_df.groupby(["Indicator","Year"])["Value"].mean().reset_index()
+          # print(avg_data)
+          # print(data_df)
+          if not data_df.empty:
+            fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",markers=True,symbol="Country")
+            fig_ind.add_scatter(x = avg_data["Year"], y = avg_data["Value"], name = "Selected Countries (Average)")
+            fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+            fig_ind.update_layout(
+                      yaxis_title="Score",
+                      xaxis_title = None,
+                      xaxis_tickformat = 'd',
+                  legend_title=None,
+                  font=dict(
+                      family="Arial Black",
+                      size=12,
+                  ))
+            fig_ind.update_layout(shapes=[
+        dict(
+            type='line',
+            xref='paper',
+            x0=0,
+            x1=1,
+            yref='y',
+            y0=data_df["Baseline"].iloc[0],
+            y1=data_df["Baseline"].iloc[0],
+            line=dict(
+                color='black',
+                width=1,
+                dash='dash'
+            )
+             )
+    ]
+)
+            c[k].subheader(j)
+            c[k].write(typology[typology["Indicator"]==j]["About"].iloc[0])
+            c[k].plotly_chart(fig_ind)
           else:
-              c[k].write("Higher Capacity is better.")
-          temp_data = data[data["Aspect"]==aspects[k]]
-          if temp_data.empty:
-             c[k].write('No data for '+ aspects[k])
-          else:
-            for j in temp_data["Indicator"].unique():
-              data_df = temp_data[temp_data["Indicator"]==j]
-              if not data_df.empty:
-                fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",markers=True,symbol="Country")
-                fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-                fig_ind.update_layout(
-                          yaxis_title="Score",
-                          xaxis_title = None,
-                          xaxis_tickformat = 'd',
-                      legend_title=None,
-                      font=dict(
-                          family="Arial Black",
-                          size=12,
-                      ))
-                c[k].subheader(j)
-                c[k].write(typology[typology["Indicator"]==j]["About"].iloc[0])
-                c[k].plotly_chart(fig_ind)
-              else:
-                c[k].subheader(j)
-                c[k].write("No data for "+j)
+            c[k].subheader(j)
+            c[k].write("No data for "+j)
+          k+=1
+          if k >1:
+              k=0
       else:
             st.subheader(i)
             st.write("No data for "+i)
