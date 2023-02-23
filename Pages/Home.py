@@ -13,7 +13,7 @@ flags = {
 
 
 
-@st.cache_data(show_spinner=False)
+@st.cache(show_spinner=False)
 def load_data(url):
     df = pd.read_csv(url)
     return df
