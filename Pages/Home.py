@@ -19,8 +19,6 @@ def load_data(url):
     return df
 
 
-
-
 # cluster_ref = alldata1.merge(typology, on = "Indicator", how = "left")
 
 # availability = [i for i in cluster_ref[cluster_ref["Pillar"]=="Availability"]["Indicator"].unique()]
