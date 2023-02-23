@@ -104,8 +104,8 @@ def app():
 
     dataClock = clockData(data.merge(typology, on = "Indicator", how = "left"))
     # print(dataClock)
-    df = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
-    df = df.merge(typology, on = "Indicator", how = "left")
+    df1 = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
+    df = df1.merge(typology, on = "Indicator", how = "left")
     df[(df.isna()) | df.isnull()] = 'gray'
     df["Bar"]=5
     # print(df)
