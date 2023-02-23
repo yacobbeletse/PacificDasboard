@@ -65,7 +65,7 @@ def showLegend(st):
 
 def clockMeter(df,country,pillar):
     data = df[(df["Country"]==country) & (df["Pillar"]==pillar)]
-    tot = len(data["Indicator"].unique())
+    # tot = len(data["Indicator"].unique())
     value = 0
     if not data.empty:
         value = data["colValue"].iloc[0]
