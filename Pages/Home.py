@@ -229,6 +229,7 @@ def app():
                             # print(df[i])
                     # fig = px.sunburst(df1, path = ["Status","Indicator"],values = "Bar", color=i,color_discrete_map=color, custom_data=["Indicator","Status"] )
                     if viewOption:
+                        print(df1)
                         fig = px.bar_polar(df1, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
                         fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Status: %{customdata[1]}')
                         # fig.update_traces(labels=['',] * len(fig.data[0]['labels']))
