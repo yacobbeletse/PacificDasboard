@@ -104,7 +104,8 @@ def app():
 
     dataClock = clockData(data.merge(typology, on = "Indicator", how = "left"))
     # print(dataClock)
-    df1 = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
+    # df1 = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
+    df1 = data.pivot(index=["Indicator"], columns=["Country"],values='Color')
     df = df1.merge(typology, on = "Indicator", how = "left")
     df[(df.isna()) | df.isnull()] = 'gray'
     df["Bar"]=5
@@ -218,8 +219,8 @@ def app():
                     #     # print("NTH")
 
                 else:
-                    df1 = df[df["Pillar"]==j].copy()
-                    df1.loc[:,"Status"] = df1[i].copy().map(info)
+                    df11 = df[df["Pillar"]==j].copy()
+                    df11.loc[:,"Status"] = df11[i].map(info)
                     fig = None
                     # df1["Status"] = df1["Status"].replace(info)
                     # df1.loc[:,"Status"] = df1.loc[:,i].replace(info)
@@ -229,8 +230,8 @@ def app():
                             # print(df[i])
                     # fig = px.sunburst(df1, path = ["Status","Indicator"],values = "Bar", color=i,color_discrete_map=color, custom_data=["Indicator","Status"] )
                     if viewOption:
-                        print(df1)
-                        fig = px.bar_polar(df1, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
+                        print(df11)
+                        fig = px.bar_polar(df11, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
                         fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Status: %{customdata[1]}')
                         # fig.update_traces(labels=['',] * len(fig.data[0]['labels']))
                         fig.update_layout(showlegend=False)
