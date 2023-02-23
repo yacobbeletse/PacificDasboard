@@ -173,8 +173,10 @@ def app():
                 if j=='Country':
                     c[0].subheader(' ', anchor = i)
                     c[0].write("<h3 style='height: 232px;'>{}</h3>".format(i), unsafe_allow_html=True)
-                    
-                    refCountry ="<div style ='height:2px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(i,i.upper())
+                   
+                    refCountry ="<div style ='height:2px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(i,i)
+                    if i=="Mirconesia (Federated States of)":
+                        refCountry ="<div style ='height:2px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br><br>".format(i,i.upper())
                     st.sidebar.markdown(refCountry,unsafe_allow_html=True)
                     # c[0].image("Con_Flags/"+flags[i]+".png", width = 100)
                     # html_string = ""
