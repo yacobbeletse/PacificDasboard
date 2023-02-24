@@ -50,21 +50,34 @@ def clockData(df):
     return clockData
 
 
-def showLegend(st):
-    c1,c2 = st.columns([1,8])
+def showLegend(c,viewOption):
+    # c1,c2 = st.columns([1,8])
     with open('style.css') as f:
-        st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
+        c.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
     style_text=""
-    for i in range(3):
-        colors = ['red','green','gray']
-        legend = ['Amplifier ' , 'Mitigator', 'Data Missing']
-        style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
-    c1.subheader("LEGEND")
-    c1.markdown(style_text,unsafe_allow_html=True)
+    if viewOption:
+        for i in range(3):
+            colors = ['red','green','gray']
+            legend = ['Amplifier ' , 'Mitigator', 'Data Missing']
+            style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
+    else:
+        for i in range(3):
+            colors = ['red','yellow','green']
+            legend = ['Severe Food Issue' , 'Moderate Food Issue', 'No Food Security Issue']
+            style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
+
+    c.subheader("LEGEND")
+    c.markdown(style_text,unsafe_allow_html=True)
 
 
 def clockMeter(df,country,pillar):
+    numInd = {"Availability":5,
+              "Accessibility":5,
+              "Utilization":9,
+              "Stability":6
+              }
     data = df[(df["Country"]==country) & (df["Pillar"]==pillar)]
+    # print(data.head())
     # tot = len(data["Indicator"].unique())
     value = 0
     if not data.empty:
@@ -74,12 +87,12 @@ def clockMeter(df,country,pillar):
     domain = {'x': [0, 1], 'y': [0, 1]},
     value = value,
     mode = "gauge+number",
-    gauge = {'axis': {'range': [-25, 25]},
+    gauge = {'axis': {'range': [numInd[pillar]*-1-1, numInd[pillar]+1]},
              'bar': {'color': "darkblue"},
             'steps' : [
-                {'range': [-25, -10], 'color': "red"},
-                {'range': [-9, 10], 'color': "yellow"},
-                {'range': [11, 25], 'color': "green"}],
+                {'range': [numInd[pillar]*-1-1, 0], 'color': "red"},
+                {'range': [0, int(numInd[pillar]/2)], 'color': "yellow"},
+                {'range': [int(numInd[pillar]/2), numInd[pillar]+1], 'color': "green"}],
             # 'threshold' : {'line': {'color': "red", 'width': 4}, 'thickness': 0.8, 'value': 100}
             }))
     # fig1.update_layout(
@@ -95,7 +108,7 @@ def app():
     
     color = {"red":"red","green":"green","gray":"gray"}
     info = {"red":"Amplifier","green":"Mitigator", "gray":"Data Missing"}
-    print(alldata1.head())
+    # print(alldata1.head())
     data = alldata1.dropna(subset="Value").drop_duplicates(["Country","Indicator"],keep="last")
     # print(data)
 
@@ -110,6 +123,8 @@ def app():
 
     st.sidebar.subheader("Select this to view the amplifiers and mitigators.")
     viewOption = st.sidebar.checkbox("Amplifier/Mitigator")
+
+    showLegend(st.sidebar,viewOption)
 
     # num_vars = len(df.index.unique())
     # print(num_vars)
@@ -229,7 +244,7 @@ def app():
                             # print(df[i])
                     # fig = px.sunburst(df1, path = ["Status","Indicator"],values = "Bar", color=i,color_discrete_map=color, custom_data=["Indicator","Status"] )
                     if viewOption:
-                        print(df11)
+                        # print(df11)
                         fig = px.bar_polar(df11, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
                         fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Status: %{customdata[1]}')
                         # fig.update_traces(labels=['',] * len(fig.data[0]['labels']))
