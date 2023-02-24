@@ -63,12 +63,19 @@ def showLegend(c,viewOption):
     else:
         for i in range(3):
             colors = ['red','yellow','green']
-            legend = ['Severe Food Issue' , 'Moderate Food Issue', 'No Food Security Issue']
+            legend = ['Severe Issue' , 'Moderate Issue', 'No Issue']
             style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
 
     c.subheader("LEGEND")
     c.markdown(style_text,unsafe_allow_html=True)
 
+def giveColor(value, ref):
+    if value <0:
+        return 'red'
+    elif value>=0 & value < int(ref/2):
+        return 'yellow'
+    else:
+        return 'green'
 
 def clockMeter(df,country,pillar):
     numInd = {"Availability":5,
@@ -83,16 +90,16 @@ def clockMeter(df,country,pillar):
     if not data.empty:
         value = data["colValue"].iloc[0]
     fig1 = go.Figure(go.Indicator(
-    number = {'font': {'size': 20}},
+    number = {'font': {'size': 30, 'family':"Arial Black"}},
     domain = {'x': [0, 1], 'y': [0, 1]},
     value = value,
     mode = "gauge+number",
     gauge = {'axis': {'range': [numInd[pillar]*-1-1, numInd[pillar]+1]},
-             'bar': {'color': "darkblue"},
-            'steps' : [
-                {'range': [numInd[pillar]*-1-1, 0], 'color': "red"},
-                {'range': [0, int(numInd[pillar]/2)], 'color': "yellow"},
-                {'range': [int(numInd[pillar]/2), numInd[pillar]+1], 'color': "green"}],
+             'bar': {'color': giveColor(value,numInd[pillar])},
+            # 'steps' : [
+            #     {'range': [numInd[pillar]*-1-1, 0], 'color': "red"},
+            #     {'range': [0, int(numInd[pillar]/2)], 'color': "yellow"},
+            #     {'range': [int(numInd[pillar]/2), numInd[pillar]+1], 'color': "green"}],
             # 'threshold' : {'line': {'color': "red", 'width': 4}, 'thickness': 0.8, 'value': 100}
             }))
     # fig1.update_layout(
@@ -124,7 +131,7 @@ def app():
     st.sidebar.subheader("Select this to view the amplifiers and mitigators.")
     viewOption = st.sidebar.checkbox("Amplifier/Mitigator")
 
-    showLegend(st.sidebar,viewOption)
+    showLegend(st,viewOption)
 
     # num_vars = len(df.index.unique())
     # print(num_vars)

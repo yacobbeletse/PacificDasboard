@@ -34,22 +34,24 @@ from pathlib import Path
 
 
 
-a,b,c = st.sidebar.columns([1,5,1])
-a.write('')
-b.image("FSDR_1.png")
-c.write('')
+# a,b,c = st.sidebar.columns([1,5,1])
+# a.write('')
+# b.image("FSDR_1.png")
+# c.write('')
 
 
+def navigateHeader():
 
-
+    st.markdown(f"Top", unsafe_allow_html=True)
 
 
 apps = [
+    {"func": Home.app, "title": "Home", "icon": "info-circle"},
     {"func": CountryProfile.app, "title": "Country Profile", "icon": "tools"},
     {"func": Compare.app, "title": "Compare", "icon": "graph-up-arrow"},
    # {"func": Disaster.app, "title": "Disaster Vulnerability", "icon": "radioactive"},
     {"func": Data_Credibility.app, "title": "Data Check", "icon": "file-check"},
-    {"func": Home.app, "title": "Home", "icon": "info-circle"}
+    
 ]
 
 titles = [app["title"] for app in apps]
@@ -57,26 +59,30 @@ titles_lower = [title.lower() for title in titles]
 icons = [app["icon"] for app in apps]
 
 params = st.experimental_get_query_params()
-print("Params: "+str(params))
+# print("Params: "+str(params))
 
 if "page" in params:
     default_index = int(titles_lower.index(params["page"][0].lower()))
 else:
-    default_index =-1
+    default_index =0
 
+with st.sidebar:
+    selected = option_menu(
+            "Navigation",
+            options=titles,
+            icons=icons,
+            menu_icon="cast",
+            default_index=default_index,
+            orientation = "vertical"
+        )
 
-selected = option_menu(
-        "Navigation",
-        options=titles,
-        icons=icons,
-        menu_icon="cast",
-        default_index=default_index,
-        orientation = "horizontal"
-    )
+# button = st.sidebar.button("Top", on_click=navigateHeader)
+st.sidebar.markdown("[Scroll to Top](#Top)")    
+
 if(selected!="Home"):
     st.sidebar.title("Control Center")
 
-st.title("Pacific Food Security Dashboard")
+st.title("Pacific Food Security Dashboard",anchor="Top")
 
 st.markdown("## *'You can improve what you can measure!!!'*")
 

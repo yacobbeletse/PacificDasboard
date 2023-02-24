@@ -144,7 +144,7 @@ def visualizeOp(df,country):
         st.subheader(str.upper(country))
     except:
         st.subheader(str.upper(country))
-
+    showhide = st.sidebar.checkbox("Show Trends for Indicators!")
     style_text=""
     # for i in range(4):
     #     colors = ['red','yellow','green','gray']
@@ -156,6 +156,7 @@ def visualizeOp(df,country):
         style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
     st.sidebar.subheader("LEGEND")
     st.sidebar.markdown(style_text,unsafe_allow_html=True)
+    
     st.sidebar.subheader("INDICATORS")
    
     
@@ -164,7 +165,7 @@ def visualizeOp(df,country):
         
         # st.sidebar.header(pillars[i])
         st.header(pillars[i].upper(),anchor=pillars[i])
-        showhide = st.checkbox("Show Trends for Indicators!",key = i)
+        # showhide = st.checkbox("Show Trends for Indicators!",key = i)
         if showhide:
             # st.sidebar.subheader(pillars[i])
             refPillar ="<div style ='height:2px'> <a href = '#{}'><h2><b> {}</b></h2></div> <br>".format(pillars[i],pillars[i].upper())
@@ -186,9 +187,9 @@ def visualizeOp(df,country):
         for k in range(len(aspects)):
             indList = [i for i in present.loc[(present["Pillar"]==pillars[i])& (present["Status"]==aspects[k]),"Indicator"].unique()]
             indList.sort()
-            print(indList)
+            # print(indList)
             bac =rad_data[rad_data["Indicator"].isin(indList)].sort_values("Indicator")
-            print(bac["Indicator"])
+            # print(bac["Indicator"])
             cat = len(indList)
 
 
