@@ -15,7 +15,7 @@ flags = {
 
 @st.cache(show_spinner=False)
 def load_data(url):
-    df = pd.read_csv(url)
+    df = pd.read_csv(url,encoding= 'unicode_escape')
     return df
 
 
@@ -113,8 +113,8 @@ def clockMeter(df,country,pillar):
 
     return fig1
 
-typology = load_data("Typology.csv",encoding= 'unicode_escape')
-alldata1 =load_data("Data1.csv",encoding= 'unicode_escape')
+typology = load_data("Typology.csv",)
+alldata1 =load_data("Data1.csv")
 
 def app():
     
