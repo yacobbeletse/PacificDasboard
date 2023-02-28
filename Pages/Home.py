@@ -26,20 +26,20 @@ def load_data(url):
 # utilization = [i for i in cluster_ref[cluster_ref["Pillar"]=="Utilization"]["Indicator"].unique()]
 # stability = [i for i in cluster_ref[cluster_ref["Pillar"]=="Stability"]["Indicator"].unique()]
 
-# def wrap_long_text(text):
-#     words = text.split(" ")
-#     line1 = ""
-#     line2 = ""
-#     line3 = ""
-#     for word in words:
-#         if len(line1) + len(word) < 20:
-#             line1 += word + " "
-#         else:
-#             if len(line2) + len(word) < 20:
-#                 line2 += word + " "
-#             else:
-#                 line3+= word+" "
-#     return line1 + "<br>" + line2 + "<br>" + line3
+def wrap_long_text(text):
+    words = text.split(" ")
+    line1 = ""
+    line2 = ""
+    line3 = ""
+    for word in words:
+        if len(line1) + len(word) < 20:
+            line1 += word + " "
+        else:
+            if len(line2) + len(word) < 20:
+                line2 += word + " "
+            else:
+                line3+= word+" "
+    return line1 + "<br>" + line2 + "<br>" + line3
 
 
 def clockData(df):
@@ -69,11 +69,12 @@ def showLegend(c,viewOption):
     c.subheader("LEGEND")
     c.markdown(style_text,unsafe_allow_html=True)
 
+
 def giveColor(value, ref):
     if value <0:
         return 'red'
-    elif value>=0 & value < int(ref/2):
-        return 'yellow'
+    # elif value>=0 & value < int(ref/2):
+    #     return 'yellow'
     else:
         return 'green'
 
@@ -93,13 +94,17 @@ def clockMeter(df,country,pillar):
     number = {'font': {'size': 30, 'family':"Arial Black"}},
     domain = {'x': [0, 1], 'y': [0, 1]},
     value = value,
-    mode = "gauge+number",
-    gauge = {'axis': {'range': [numInd[pillar]*-1-1, numInd[pillar]+1]},
-             'bar': {'color': giveColor(value,numInd[pillar])},
-            # 'steps' : [
-            #     {'range': [numInd[pillar]*-1-1, 0], 'color': "red"},
-            #     {'range': [0, int(numInd[pillar]/2)], 'color': "yellow"},
-            #     {'range': [int(numInd[pillar]/2), numInd[pillar]+1], 'color': "green"}],
+    mode = "number+gauge",
+    gauge = {
+        'shape':'angular',
+        'bar':{'thickness':0},
+             'axis': {'range': [numInd[pillar]*-1-1, numInd[pillar]+1]},
+            #  'axis': {'range': [numInd[pillar]*-1-1, numInd[pillar]+1]},
+            #  'bar': {'color': giveColor(value,numInd[pillar]), 'thickness' : 0},
+            'steps' : [
+                {'range': [-10, 10], 'color': 'white', 'thickness':1},
+                {'range': [0, value], 'color': giveColor(value,numInd[pillar]),'thickness':0.8}
+                ]
             # 'threshold' : {'line': {'color': "red", 'width': 4}, 'thickness': 0.8, 'value': 100}
             }))
     # fig1.update_layout(
@@ -120,7 +125,7 @@ def app():
     # print(data)
 
     dataClock = clockData(data.merge(typology, on = "Indicator", how = "left"))
-    # print(dataClock)
+    # print(dataClock))
     # df1 = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
     df1 = data.pivot(index=["Indicator"], columns=["Country"],values='Color')
     df = df1.merge(typology, on = "Indicator", how = "left")
@@ -242,6 +247,9 @@ def app():
                 else:
                     df11 = df[df["Pillar"]==j].copy()
                     df11.loc[:,"Status"] = df11[i].map(info)
+                    df11["Indicator"] = df11['Indicator'].apply(wrap_long_text)
+                    # print(df11.head())
+                    # df11 = df11.sort_values("Indicator")
                     fig = None
                     # df1["Status"] = df1["Status"].replace(info)
                     # df1.loc[:,"Status"] = df1.loc[:,i].replace(info)
@@ -264,6 +272,7 @@ def app():
                     polar=dict(
                     angularaxis=dict(
                         showticklabels = False,
+                        categoryorder = "category ascending"
                         # ticktext=[wrap_long_text(text) for text in df1["Indicator"]],
                         # tickvals=df1["Indicator"]
                     ),
@@ -284,7 +293,7 @@ def app():
                     # st.markdown("<div class='chart-container'>")
                     fig.update_layout(
                             height =230,
-                            margin=dict(l=5, r=50, t=20, b=50)
+                            margin=dict(l=10, r=50, t=20, b=50)
                         )
                     c[k].plotly_chart(fig,use_container_width = True)
                     # st.plotly_chart(fig)

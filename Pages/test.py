@@ -1,38 +1,23 @@
-import plotly.graph_objects as go
-import pandas as pd
+import plotly.graph_objs as go
 
-# Create some data for the chart
-df = pd.DataFrame({
-    'x': [1, 2, 3, 4, 5],
-    'y': [1, 3, 2, 4, 3]
-})
+# Example data
+x = [1, 2, 3]
+y = [4, 5, 6]
+name = ['Point A: This is a very long name that needs to be broken into two lines', 'Point B', 'Point C']
+description = ['This is Point A', 'This is Point B', 'This is Point C']
+customdata = list(zip(name, description))
 
-# Create a line chart
-fig = go.Figure()
-
-# Add a trace for the upper filled area
-fig.add_trace(
-    go.Scatter(
-        x=[1,5], y=[2,2], mode='lines', line_color='rgba(0, 176, 246, 1)',
-        fill='tozeroy', fillcolor='rgba(0, 176, 246, 0.2)'
-    )
+# Create the trace with hovertemplate
+trace = go.Scatter(
+    x=x,
+    y=y,
+    mode='markers',
+    customdata=customdata,
+    hovertemplate='<b>%{customdata[0]:.40s}</b><br>%{customdata[0]:.40s}<br>%{customdata[1]}'
 )
 
-# Add a trace for the lower filled area
-fig.add_trace(
-    go.Scatter(
-        x=[1,5], y=[4,4], mode='lines', line_color='rgba(255, 178, 0, 1)',
-        fill='tonexty', fillcolor='rgba(255, 178, 0, 0.2)'
-    )
-)
+# Create the figure
+fig = go.Figure(trace)
 
-# Add a trace for the line
-fig.add_trace(
-    go.Scatter(
-        x=[1, 5], y=[2.5, 2.5], mode='lines', line_color='rgba(0, 0, 0, 1)',
-        line_width=2
-    )
-)
-
-# Show the chart
+# Show the figure
 fig.show()

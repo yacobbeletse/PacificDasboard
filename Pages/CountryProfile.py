@@ -190,17 +190,16 @@ def visualizeOp(df,country):
             # print(indList)
             bac =rad_data[rad_data["Indicator"].isin(indList)].sort_values("Indicator")
             # print(bac["Indicator"])
-            cat = len(indList)
-
-
+            # cat = len(indList)
             if not bac.empty:
-                step = 360/cat
-                nbar_group = len(bac["Country"].unique())
-                small_step = step/(nbar_group+1)
-                theta = [0.5*(2*k-1)*step+small_step*(j+1)  for k in range(cat) for j in range(nbar_group)]
-                tickvals=[k*step for k in range(cat)]
-                ticktext=[wrap_long_text(text) for text in indList]
-                t_fig = px.bar_polar(bac,r = "Value",theta=theta, color = "Country",color_discrete_map=color_discrete_map,custom_data=["Country","Indicator","Value"])
+                # step = 360/cat
+                # nbar_group = len(bac["Country"].unique())
+                # small_step = step/(nbar_group+1)
+                # theta = [0.5*(2*k-1)*step+small_step*(j+1)  for k in range(cat) for j in range(nbar_group)]
+                # tickvals=[k*step for k in range(cat)]
+                # ticktext=[wrap_long_text(text) for text in indList]
+                # t_fig = px.bar_polar(bac,r = "Value",theta=theta, color = "Country",color_discrete_map=color_discrete_map,custom_data=["Country","Indicator","Value"])
+                t_fig = px.bar(bac,x = "Value", y = 'Indicator', color = "Country", orientation = 'h',color_discrete_map=color_discrete_map,barmode = 'group',custom_data=["Country","Indicator","Value"])
                 # t_fig.update_layout(barmode='group')
                 # t_fig.update_traces(text = bac["Indicator"],hovertemplate='%{theta}: %{r}')
                 # if len(bac[bac["Country"]==country]["Indicator"].unique())<3:
@@ -211,14 +210,25 @@ def visualizeOp(df,country):
                 # # t_fig.update_yaxes(tickangle=90)
                 #     t_fig.update_traces(fill='toself')
                 t_fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Indicator: %{customdata[1]} <br>Value: %{customdata[2]:.2f}')
-                t_fig.update_layout(polar=dict(angularaxis=dict(tickvals=tickvals, ticktext=ticktext)))
+                # t_fig.update_layout(polar=dict(angularaxis=dict(tickvals=tickvals, ticktext=ticktext)))
                 t_fig.update_layout(
                     font=dict(
                     family="Arial Black",
                     size=11
                 ))
+                t_fig.update_yaxes(
+                    title = '',
+                    tickmode='array',
+                    ticktext = [wrap_long_text(text) for text in indList],
+                    tickvals = indList
+                    # showticklabels = False,
+                )
+                t_fig.update_xaxes(
+                    title = ''
+                )
+
                 t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-                # t_fig.update_layout(margin = dict(l=10,r=10,t=10,b=10))
+# t_fig.update_layout(margin = dict(l=10,r=10,t=10,b=10))
                 # polar=dict(
                 #     angularaxis=dict(
                 #         ticktext=[wrap_long_text(text) for text in bac["Indicator"]],
@@ -230,16 +240,12 @@ def visualizeOp(df,country):
                 c[k].subheader(aspects[k])
                 if aspects[k]=="Mitigator":
                     c[k].write("Mitigators help ease the food insecurity conditions. Wider area coverage in the plot is better.")
-                    t_fig.update_layout(
-        plot_bgcolor='green',
-        # paper_bgcolor='green'
-    )
+    #                 t_fig.update_layout(
+    #     plot_bgcolor='green',
+    #     # paper_bgcolor='green'
+    # )
                 else:
                     c[k].write("Amplifiers worsen the food insecurity conditions. Less area coverage in the plot is better.")
-                    t_fig.update_layout(
-        plot_bgcolor='red',
-        # paper_bgcolor='red'
-    )
                 c[k].plotly_chart(t_fig)
 
                 if showhide:
