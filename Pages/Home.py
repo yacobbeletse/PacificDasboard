@@ -113,8 +113,8 @@ def clockMeter(df,country,pillar):
 
     return fig1
 
-typology = load_data("Typology.csv")
-alldata1 =load_data("Data1.csv")
+typology = load_data("Typology.csv",encoding= 'unicode_escape')
+alldata1 =load_data("Data1.csv",encoding= 'unicode_escape')
 
 def app():
     
