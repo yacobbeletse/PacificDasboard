@@ -77,16 +77,20 @@ with st.sidebar:
         )
 
 # button = st.sidebar.button("Top", on_click=navigateHeader)
-st.sidebar.markdown("[Scroll to Top](#Top)")    
+# st.sidebar.markdown("[Scroll to Top](#Top)")    
+st.markdown('<a href = "#{}"><button class = "scroll-to-top">Scroll to Top </button>'.format("Top"),unsafe_allow_html=True)
 
 if(selected!="Home"):
     st.sidebar.title("Control Center")
+
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
 
 st.title("Pacific Food Security Dashboard",anchor="Top")
 
 st.markdown("## *'You can improve what you can measure!!!'*")
 
-st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.')
+st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.',unsafe_allow_html=True)
 
 
 # st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')

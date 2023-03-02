@@ -193,7 +193,7 @@ def app():
         c[k].subheader(j)
         
         for i in df.columns:
-            if i not in  [ "Bar", "About","Unit","Aspect","Pillar","Indicator", "Pacific"]:
+            if i not in  [ "Bar", "About","Unit","Aspect","Pillar","Indicator", "Pacific", "Source","Link"]:
                 if j=='Country':
                     c[0].subheader(' ', anchor = i)
                     c[0].write("<h3 style='height: 232px;'>{}</h3>".format(i), unsafe_allow_html=True)

@@ -30,13 +30,30 @@ def linePlot(df,c,width = False):
     #function to visualize lineplot.
     if not df.empty:
         # print(df)
-        fig = px.line(df,x="Year",y="Value",color = "Country",markers=True,symbol="Country")
-        fig.add_trace(
-    go.Scatter(
-        x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
-        fill='tozeroy', fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
-    )
-        )
+        fig = px.line(df,x="Year",y="Value",color_discrete_sequence =px.colors.qualitative.Antique,color = "Country",markers=True,symbol="Country")
+        if (df["UpDown"].iloc[0]=="Down" and (df["Baseline"].iloc[0]<100 | width)):
+            fig.add_trace(
+            go.Scatter(
+                x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
+                fill='tozeroy', line = dict(color='rgba(0,176,0,0.5)'),fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
+            )
+                )
+        else:
+            if width:
+                fig.add_trace(
+            go.Scatter(
+                x=[df["Year"].min(),df["Year"].max()], y=[2.5,2.5], mode='lines',
+                fill='tozeroy', line = dict(color='rgba(0,176,0,0.5)'),fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
+            )
+                )
+            else:
+                fig.add_trace(
+                go.Scatter(
+                    x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
+                    fill='tozeroy', line = dict(color='rgba(176,0,0,0.5)'),fillcolor='rgba(176, 0, 0, 0.2)',showlegend=False
+                )
+                    )
+
     #     fig.add_trace(
     #     go.Scatter(
     #          x=[df["Year"].min(),df["Year"].max()], y=[max(df["Value"].max(),df["Baseline"].iloc[0]),max(df["Value"].max(),df["Baseline"].iloc[0])], mode='lines',
@@ -64,25 +81,25 @@ def linePlot(df,c,width = False):
     )
     )
         fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
-        fig.update_layout(
-    shapes=[
-        dict(
-            type='line',
-            xref='paper',
-            x0=0,
-            x1=1,
-            yref='y',
-            y0=df["Baseline"].iloc[0],
-            y1=df["Baseline"].iloc[0],
-            line=dict(
-                color='black',
-                width=2,
-                dash='dash'
-            )
-        )
-    ]
+#         fig.update_layout(
+#     shapes=[
+#         dict(
+#             type='line',
+#             xref='paper',
+#             x0=0,
+#             x1=1,
+#             yref='y',
+#             y0=df["Baseline"].iloc[0],
+#             y1=df["Baseline"].iloc[0],
+#             line=dict(
+#                 color='black',
+#                 width=2,
+#                 dash='dash'
+#             )
+#         )
+#     ]
     
-)
+# )
 #         fig.add_annotation(
 #     x=0.5,
 #     y=df["Baseline"].iloc[0],
@@ -133,8 +150,8 @@ def visualizeOp(df,country):
     
     mitigators = [i for i in present.loc[present["Status"]=="Mitigator","Indicator"].unique()]
     amplifier = [i for i in present.loc[present["Status"]=="Amplifier","Indicator"].unique()]
-    print(mitigators)
-    print(amplifier)
+    # print(mitigators)
+    # print(amplifier)
     present_rad = df.dropna(subset = "Value").sort_values("Year").drop_duplicates(["Country", "Indicator"], keep = "last")
     # print("************RAD DATA************")
     # print(present_rad)
@@ -161,7 +178,7 @@ def visualizeOp(df,country):
    
     
     for i in range(len(pillars)):
-        color_discrete_map= {country:"green", "Pacific":"blue"}
+        color_discrete_map= {country:"purple", "Pacific":"blue"}
         
         # st.sidebar.header(pillars[i])
         st.header(pillars[i].upper(),anchor=pillars[i])
@@ -199,7 +216,7 @@ def visualizeOp(df,country):
                 # tickvals=[k*step for k in range(cat)]
                 # ticktext=[wrap_long_text(text) for text in indList]
                 # t_fig = px.bar_polar(bac,r = "Value",theta=theta, color = "Country",color_discrete_map=color_discrete_map,custom_data=["Country","Indicator","Value"])
-                t_fig = px.bar(bac,x = "Value", y = 'Indicator', color = "Country", orientation = 'h',color_discrete_map=color_discrete_map,barmode = 'group',custom_data=["Country","Indicator","Value"])
+                t_fig = px.bar(bac,x = "Value", y = 'Indicator', color = "Country", orientation = 'h',color_discrete_sequence =px.colors.qualitative.Antique,barmode = 'group',custom_data=["Country","Indicator","Value"])
                 # t_fig.update_layout(barmode='group')
                 # t_fig.update_traces(text = bac["Indicator"],hovertemplate='%{theta}: %{r}')
                 # if len(bac[bac["Country"]==country]["Indicator"].unique())<3:
@@ -273,7 +290,10 @@ def visualizeOp(df,country):
                         
                         c[k].text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
                         c[k].text('Value: {}'.format(presentValue))
-                        linePlot(temp[temp["Indicator"]==j],c[k])
+                        if (j in ["Prevelance of Undernourishment",'Proportion of children moderately or severely stunted']) | (present_df["Pillar"].iloc[0]=="Stability"): 
+                            linePlot(temp[temp["Indicator"]==j],c[k],width = True)
+                        else:
+                            linePlot(temp[temp["Indicator"]==j],c[k])
                         st.sidebar.markdown(anchor_text,unsafe_allow_html=True)
             else:
                 c[k].write("No {} for {} in {} pillar of Food Security".format(aspects[k],country,pillars[i]))

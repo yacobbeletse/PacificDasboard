@@ -60,8 +60,8 @@ def linePlot(df,countrySelect):
           # print(avg_data)
           # print(data_df)
           if not data_df.empty:
-            fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",markers=True,symbol="Country")
-            fig_ind.add_scatter(x = avg_data["Year"], y = avg_data["Value"], name = "Selected Countries (Average)")
+            fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",color_discrete_sequence =px.colors.qualitative.Antique,markers=True,symbol="Country")
+            fig_ind.add_scatter(x = avg_data["Year"], y = avg_data["Value"], name = "Selected Countries (Average)",line=dict(color = 'purple'))
             fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
             fig_ind.update_layout(
                       yaxis_title="Score",

@@ -1,23 +1,31 @@
-import plotly.graph_objs as go
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
 
-# Example data
-x = [1, 2, 3]
-y = [4, 5, 6]
-name = ['Point A: This is a very long name that needs to be broken into two lines', 'Point B', 'Point C']
-description = ['This is Point A', 'This is Point B', 'This is Point C']
-customdata = list(zip(name, description))
+# Create a dummy dataframe with a linear trend and some random noise
+dates = pd.date_range(start='2020-01-01', end='2021-12-31', freq='D')
+data = np.arange(len(dates)) + np.random.randn(len(dates)) * 10
+df = pd.DataFrame(data=data, index=dates, columns=['value'])
 
-# Create the trace with hovertemplate
-trace = go.Scatter(
-    x=x,
-    y=y,
-    mode='markers',
-    customdata=customdata,
-    hovertemplate='<b>%{customdata[0]:.40s}</b><br>%{customdata[0]:.40s}<br>%{customdata[1]}'
-)
+# Method 1: Rolling statistics using Pandas
+rolling_mean = df.rolling(window=30).mean()
+rolling_std = df.rolling(window=30).std()
 
-# Create the figure
-fig = go.Figure(trace)
+plt.plot(df, label='Original')
+plt.plot(rolling_mean, label='Rolling Mean')
+plt.plot(rolling_std, label='Rolling Std')
+plt.legend(loc='best')
+plt.title('Rolling Mean & Standard Deviation')
+plt.show()
 
-# Show the figure
-fig.show()
+# Method 2: Regression using statsmodels
+model = sm.OLS(df, sm.add_constant(df.index)).fit()
+print(model.summary())
+
+# Method 3: Regression using scikit-learn
+X = df.index.values.reshape(-1, 1)
+y = df.values.reshape(-1, 1)
+model = LinearRegression().fit(X, y)
+print('Trend:', model.coef_[0][0])
