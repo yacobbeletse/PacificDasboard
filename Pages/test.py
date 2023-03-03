@@ -1,31 +1,27 @@
+import plotly.express as px
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
-from sklearn.linear_model import LinearRegression
+from plotly.subplots import make_subplots
+# Create dummy dataframes
+df1 = pd.DataFrame({'category': ['A', 'B', 'C', 'D'], 'value': [1, 2, 3, 4]})
+df2 = pd.DataFrame({'category': ['E', 'F', 'G', 'H'], 'value': [5, 6, 7, 8]})
+df3 = pd.DataFrame({'category': ['I', 'J', 'K', 'L'], 'value': [9, 10, 11, 12]})
+df4 = pd.DataFrame({'category': ['M', 'N', 'O', 'P'], 'value': [13, 14, 15, 16]})
 
-# Create a dummy dataframe with a linear trend and some random noise
-dates = pd.date_range(start='2020-01-01', end='2021-12-31', freq='D')
-data = np.arange(len(dates)) + np.random.randn(len(dates)) * 10
-df = pd.DataFrame(data=data, index=dates, columns=['value'])
+# Create the subplots
+fig =make_subplots(
+    rows=2, cols=2,
+    subplot_titles=('Subplot 1', 'Subplot 2', 'Subplot 3', 'Subplot 4'),
+    specs=[[{'type': 'barpolar'}]*2]*2
+)
 
-# Method 1: Rolling statistics using Pandas
-rolling_mean = df.rolling(window=30).mean()
-rolling_std = df.rolling(window=30).std()
+# Add the traces to the subplots
+fig.add_trace(px.bar_polar(df1, r='value', theta='category').data[0], row=1, col=1)
+fig.add_trace(px.bar_polar(df2, r='value', theta='category').data[0], row=1, col=2)
+fig.add_trace(px.bar_polar(df3, r='value', theta='category').data[0], row=2, col=1)
+fig.add_trace(px.bar_polar(df4, r='value', theta='category').data[0], row=2, col=2)
 
-plt.plot(df, label='Original')
-plt.plot(rolling_mean, label='Rolling Mean')
-plt.plot(rolling_std, label='Rolling Std')
-plt.legend(loc='best')
-plt.title('Rolling Mean & Standard Deviation')
-plt.show()
+# Update the layout
+fig.update_layout(title='Polar Bar Subplots')
 
-# Method 2: Regression using statsmodels
-model = sm.OLS(df, sm.add_constant(df.index)).fit()
-print(model.summary())
-
-# Method 3: Regression using scikit-learn
-X = df.index.values.reshape(-1, 1)
-y = df.values.reshape(-1, 1)
-model = LinearRegression().fit(X, y)
-print('Trend:', model.coef_[0][0])
+# Show the plot
+fig.show()

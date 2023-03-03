@@ -31,28 +31,31 @@ def linePlot(df,c,width = False):
     if not df.empty:
         # print(df)
         fig = px.line(df,x="Year",y="Value",color_discrete_sequence =px.colors.qualitative.Antique,color = "Country",markers=True,symbol="Country")
+        fig.add_hline(y=df["Baseline"].iloc[0], line_width=2, line_dash="dash", line_color="black")
         if (df["UpDown"].iloc[0]=="Down" and (df["Baseline"].iloc[0]<100 | width)):
-            fig.add_trace(
-            go.Scatter(
-                x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
-                fill='tozeroy', line = dict(color='rgba(0,176,0,0.5)'),fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
-            )
-                )
+            fig.add_hrect(y0=min(df["Value"].min(), df["Baseline"].iloc[0]), y1=df["Baseline"].iloc[0], line_width=0, fillcolor="green", opacity=0.1)
+            fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="red", opacity=0.1)
+
+            # fig.add_trace(
+            # go.Scatter(
+            #     x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
+            #     fill='tozeroy', line = dict(color='rgba(0,176,0,0.5)'),fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
+            # )
+            #     )
+            # fig.add_trace(
+            # go.Scatter(
+            #     x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
+            #     fill='tozeroy', line = dict(color='rgba(176,0,0,0.5)'),fillcolor='rgba(176, 0, 0, 0.2)',showlegend=False
+            # )
+            #     )
         else:
             if width:
-                fig.add_trace(
-            go.Scatter(
-                x=[df["Year"].min(),df["Year"].max()], y=[2.5,2.5], mode='lines',
-                fill='tozeroy', line = dict(color='rgba(0,176,0,0.5)'),fillcolor='rgba(0, 176, 0, 0.2)',showlegend=False
-            )
-                )
+                fig.add_hrect(y0=min(df["Value"].min(), df["Baseline"].iloc[0]), y1=df["Baseline"].iloc[0], line_width=0, fillcolor="red", opacity=0.1)
+                fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="green", opacity=0.1)
+
             else:
-                fig.add_trace(
-                go.Scatter(
-                    x=[df["Year"].min(),df["Year"].max()], y=[df["Baseline"].iloc[0],df["Baseline"].iloc[0]], mode='lines',
-                    fill='tozeroy', line = dict(color='rgba(176,0,0,0.5)'),fillcolor='rgba(176, 0, 0, 0.2)',showlegend=False
-                )
-                    )
+                fig.add_hrect(y0=min(df["Value"].min(), df["Baseline"].iloc[0]), y1=df["Baseline"].iloc[0], line_width=0, fillcolor="red", opacity=0.1)
+                fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="green", opacity=0.1)
 
     #     fig.add_trace(
     #     go.Scatter(
