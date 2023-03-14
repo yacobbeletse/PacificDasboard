@@ -283,13 +283,13 @@ def visualizeOp(df,country):
                 
                 c[k].subheader(aspects[k])
                 if aspects[k]=="Mitigator":
-                    c[k].write("Mitigators help ease the food insecurity conditions. Wider area coverage in the plot is better.")
+                    c[k].write("Mitigators help ease the food insecurity conditions.")
     #                 t_fig.update_layout(
     #     plot_bgcolor='green',
     #     # paper_bgcolor='green'
     # )
                 else:
-                    c[k].write("Amplifiers worsen the food insecurity conditions. Less area coverage in the plot is better.")
+                    c[k].write("Amplifiers worsen the food insecurity conditions.")
                 c[k].plotly_chart(t_fig)
 
                 if showhide:
