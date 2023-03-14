@@ -9,6 +9,7 @@ from Pages.Home import alldata1,typology
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
 aspects = ["Mitigator","Amplifier"]
+trend = ["Availability trend", "Accessibility trend", "Utilization trend"]
 
 # st.sidebar.title("Control Center")ff
 # typology = pd.read_csv("Typology.csv")
@@ -26,7 +27,9 @@ flags = {
 
 
 def linePlot(df,c,width = False):
-    # print(df.head())
+    print(df[["Country","Year","Indicator","Value","Baseline","UpDown"]])
+    if df["Indicator"].iloc[0]!="Average protein supply":
+        df["Baseline"] =df["Baseline"].astype(float)
     #function to visualize lineplot.
     if not df.empty:
         # print(df)
@@ -54,8 +57,15 @@ def linePlot(df,c,width = False):
                 fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="green", opacity=0.1)
 
             else:
-                fig.add_hrect(y0=min(df["Value"].min(), df["Baseline"].iloc[0]), y1=df["Baseline"].iloc[0], line_width=0, fillcolor="red", opacity=0.1)
-                fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="green", opacity=0.1)
+                if df["Indicator"].iloc[0]=="Average protein supply":
+                    print(int(df["Baseline"].iloc[0].split(',')[0]))
+                    fig.add_hrect(y0=40, y1=int(df["Baseline"].iloc[0].split(',')[0]), line_width=0, fillcolor="red", opacity=0.1)
+                    fig.add_hrect(y0=int(df["Baseline"].iloc[0].split(',')[-1]), y1=df["Value"].max()*1.2, line_width=0, fillcolor="red", opacity=0.1)
+                    fig.add_hrect(y0=int(df["Baseline"].iloc[0].split(',')[0]),y1=int(df["Baseline"].iloc[0].split(',')[-1]), line_width=0, fillcolor="green", opacity=0.1)
+                else:
+                    print(df.info())
+                    fig.add_hrect(y0=min(df["Value"].min(), df["Baseline"].iloc[0]), y1=df["Baseline"].iloc[0], line_width=0, fillcolor="red", opacity=0.1)
+                    fig.add_hrect(y0=df["Baseline"].iloc[0], y1=max(df["Value"].max(),df["Baseline"].iloc[0])*1.2, line_width=0, fillcolor="green", opacity=0.1)
 
     #     fig.add_trace(
     #     go.Scatter(
@@ -135,6 +145,7 @@ def wrap_long_text(text):
 
 
 def visualizeOp(df,country):
+    info = {'red':-1,'green':1,'gray':0}
     
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
@@ -178,13 +189,17 @@ def visualizeOp(df,country):
     st.sidebar.markdown(style_text,unsafe_allow_html=True)
     
     st.sidebar.subheader("INDICATORS")
-   
-    
+    score_data = present_rad[present_rad["Country"]==country].copy()
+    score_data["colVal"] = score_data["Color"].map(info)
+    score = score_data.groupby("Country")["colVal"].sum().reset_index()
+    st.header('Food Security Score: {}'.format(score["colVal"].iloc[0]))
+    st.write('Investment/Funding Areas: **{}**'.format(amplifier))
     for i in range(len(pillars)):
         color_discrete_map= {country:"purple", "Pacific":"blue"}
         
         # st.sidebar.header(pillars[i])
         st.header(pillars[i].upper(),anchor=pillars[i])
+
         # showhide = st.checkbox("Show Trends for Indicators!",key = i)
         if showhide:
             # st.sidebar.subheader(pillars[i])
@@ -192,11 +207,17 @@ def visualizeOp(df,country):
             st.sidebar.markdown(refPillar,unsafe_allow_html=True)
         temp = df[df["Pillar"]==pillars[i]]
         rad_data = present_rad[present_rad["Pillar"]==pillars[i]]
-        rad_data.loc[rad_data["Indicator"]=="Agriculture orientation Index for Government Expenditures","Value"]*=100
+        # print(rad_data)
+        # rad_data.loc[rad_data["Indicator"]=="Agriculture orientation Index for Government Expenditures","Value"]*=100
         # print(rad_data[["Country","Indicator","Status","Value"]])
         # print(rad_data.columns)
-
+        score = 0
+        if not score_data[score_data["Pillar"]==pillars[i]].empty:
+            score = score_data[score_data["Pillar"]==pillars[i]].groupby("Country")["colVal"].sum().reset_index()["colVal"].iloc[0]
+        st.write('Score: {}'.format(score))
+        
         c = st.columns(2)
+    
         # print(len(rad_data["Status"].unique()))
         # cat_order = None
         # if pillars[i]=="Stability":
@@ -219,6 +240,8 @@ def visualizeOp(df,country):
                 # tickvals=[k*step for k in range(cat)]
                 # ticktext=[wrap_long_text(text) for text in indList]
                 # t_fig = px.bar_polar(bac,r = "Value",theta=theta, color = "Country",color_discrete_map=color_discrete_map,custom_data=["Country","Indicator","Value"])
+                
+                
                 t_fig = px.bar(bac,x = "Value", y = 'Indicator', color = "Country", orientation = 'h',color_discrete_sequence =px.colors.qualitative.Antique,barmode = 'group',custom_data=["Country","Indicator","Value"])
                 # t_fig.update_layout(barmode='group')
                 # t_fig.update_traces(text = bac["Indicator"],hovertemplate='%{theta}: %{r}')
@@ -257,6 +280,7 @@ def visualizeOp(df,country):
                 # )
                 #         )
                         # t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+                
                 c[k].subheader(aspects[k])
                 if aspects[k]=="Mitigator":
                     c[k].write("Mitigators help ease the food insecurity conditions. Wider area coverage in the plot is better.")
@@ -276,6 +300,7 @@ def visualizeOp(df,country):
                     for j in trendData["Indicator"].unique():
                         # st.header(j)
                         present_df = present[present["Indicator"]==j]
+                        # praint(j)
                         # print(present_df["Color"])
                         presentValue = 'NA'
                         color = ''
@@ -293,8 +318,26 @@ def visualizeOp(df,country):
                         
                         c[k].text('Unit: {}'.format(temp[temp["Indicator"]==j]['Unit'].iloc[0]))
                         c[k].text('Value: {}'.format(presentValue))
-                        if (j in ["Prevelance of Undernourishment",'Proportion of children moderately or severely stunted']) | (present_df["Pillar"].iloc[0]=="Stability"): 
+
+                        if (j in ["Prevalance of undernourishment",'Proportion of children moderately or severely stunted or wasted']): 
                             linePlot(temp[temp["Indicator"]==j],c[k],width = True)
+                        elif j in trend:
+                             print(temp[temp["Indicator"]==j])
+                             t_fig = px.bar(temp[temp["Indicator"]==j],x = "Value", y = 'Year', color = "Country", orientation = 'h',color_discrete_sequence =px.colors.qualitative.Antique,barmode = 'group',custom_data=["Country","Year","Value"])
+                             t_fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Indicator: %{customdata[1]} <br>Value: %{customdata[2]:.2f}')
+                             t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+                             t_fig.update_xaxes(
+                                title = ''
+                            )
+                             t_fig.update_yaxes(
+                                title = ''
+                            )
+                             t_fig.update_layout(
+                                font=dict(
+                                family="Arial Black",
+                                size=11
+                            ))
+                             c[k].plotly_chart(t_fig)
                         else:
                             linePlot(temp[temp["Indicator"]==j],c[k])
                         st.sidebar.markdown(anchor_text,unsafe_allow_html=True)

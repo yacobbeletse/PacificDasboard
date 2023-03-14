@@ -79,20 +79,33 @@ def giveColor(value, ref):
         return 'green'
 
 def clockMeter(df,country,pillar):
-    numInd = {"Availability":5,
-              "Accessibility":5,
-              "Utilization":9,
-              "Stability":6
+    numInd = {  "Food Security":23,
+                "Availability":4,
+                "Accessibility":7,
+                "Utilization":7,
+                "Stability":6
               }
-    data = df[(df["Country"]==country) & (df["Pillar"]==pillar)]
+    value = 0
+    asterix = '**'
+    if not df.empty:
+        
+        if pillar == "Food Security":
+            data = df[(df["Country"]==country)]
+            value = data.groupby("Country")["colValue"].sum().reset_index()["colValue"].iloc[0]
+            asterix = ''
+            
+    
+        else:
+            data = df[(df["Country"]==country) & (df["Pillar"]==pillar)]
+            if not data.empty:
+                value = data["colValue"].iloc[0]
+                asterix = ''
         
     # print(data.head())
     # tot = len(data["Indicator"].unique())
-    value = 0
-    asterix = '**'
-    if not data.empty:
-        value = data["colValue"].iloc[0]
-        asterix = ''
+    
+    
+    
     fig1 = go.Figure(go.Indicator(
     number = {'font': {'size': 30, 'family':"Arial Black"}, 'suffix':asterix},
     domain = {'x': [0, 1], 'y': [0, 1]},
@@ -178,7 +191,7 @@ def app():
     # </style>
     # """, unsafe_allow_html=True)
 
-    c = st.columns([1.5,2,2,2,2])
+    c = st.columns([1.5,2,2,2,2,2])
     # c[0].subheader('COUNTRY')
     # for i in df.columns:
     #     if i not in  [ "Bar", "About","Unit","Aspect","Pillar","Indicator", "Pacific"]:
@@ -193,14 +206,17 @@ def app():
     #             st.markdown("</div>")
     k=0
     st.sidebar.subheader('COUNTRY')
-    for j in ["Country","Availability","Accessibility", "Utilization","Stability"]:
+    for j in ["Country","Food Security","Availability","Accessibility", "Utilization","Stability"]:
         if j=="Country":
             c[k].subheader(j)
         else:
+            # if viewOption and j=="Food Security":
+            #     pass
+            # else:
             c[k].markdown("<h3 style='text-align: center;'>{}</h1>".format(j), unsafe_allow_html=True)
         
         for i in df.columns:
-            if i not in  [ "Bar", "About","Unit","Aspect","Pillar","Indicator", "Pacific", "Source","Link"]:
+            if i not in  [ "Bar", "About","Unit","Aspect","Pillar","Indicator", "Source","Link"]:
                 if j=='Country':
                     c[0].subheader(' ', anchor = i)
                     c[0].write("<h3 style='height: 232px;'>{}</h3>".format(i), unsafe_allow_html=True)
@@ -267,28 +283,31 @@ def app():
                     # fig = px.sunburst(df1, path = ["Status","Indicator"],values = "Bar", color=i,color_discrete_map=color, custom_data=["Indicator","Status"] )
                     if viewOption:
                         # print(df11)
-                        fig = px.bar_polar(df11, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
-                        fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Status: %{customdata[1]}')
-                        # fig.update_traces(labels=['',] * len(fig.data[0]['labels']))
-                        fig.update_layout(showlegend=False)
-                        fig.update_layout(
-                            font=dict(
-                    family="Arial Black",
-                    size=8
-                ),
-                    polar=dict(
-                    angularaxis=dict(
-                        showticklabels = False,
-                        categoryorder = "category ascending"
-                        # ticktext=[wrap_long_text(text) for text in df1["Indicator"]],
-                        # tickvals=df1["Indicator"]
+                        if j=="Food Security":
+                            fig = clockMeter(dataClock,i,j)
+                        else: 
+                            fig = px.bar_polar(df11, r = "Bar", theta="Indicator",color=i,color_discrete_map=color, hover_name=None,custom_data=["Indicator","Status"])
+                            fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Status: %{customdata[1]}')
+                            # fig.update_traces(labels=['',] * len(fig.data[0]['labels']))
+                            fig.update_layout(showlegend=False)
+                            fig.update_layout(
+                                font=dict(
+                        family="Arial Black",
+                        size=8
                     ),
-                    radialaxis = dict(
-                        showticklabels = False,
-                        visible = False
-                    ) 
-                        )
-                        )
+                        polar=dict(
+                        angularaxis=dict(
+                            showticklabels = False,
+                            categoryorder = "category ascending"
+                            # ticktext=[wrap_long_text(text) for text in df1["Indicator"]],
+                            # tickvals=df1["Indicator"]
+                        ),
+                        radialaxis = dict(
+                            showticklabels = False,
+                            visible = False
+                        ) 
+                            )
+                            )
                         # fig.update_layout(
                         #     height =250,
                         #     margin=dict(l=0, r=150, t=10, b=100)
@@ -302,11 +321,14 @@ def app():
                             height =230,
                             margin=dict(l=30, r=30, t=20, b=50)
                         )
+                    # if viewOption and j=='Food Security':
+                    #     pass
+                    # else:
                     c[k].plotly_chart(fig,use_container_width = True)
                     # st.plotly_chart(fig)
                     
         k+=1
-        if k >4:
+        if k >5:
             k=1
 
   

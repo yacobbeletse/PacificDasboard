@@ -106,8 +106,21 @@ def linePlot(df,countrySelect):
 
 def app():
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
+    info = {'red':-1,'green':1,'gray':0}
     # option = st.sidebar.selectbox("Visualization by: ", ["Exposure", "Capacity"])
     df = alldata1.merge(typology, on = "Indicator", how = "left")
     
     df1 = df[(df["Country"].isin(countrySelect))]
-    linePlot(df1,countrySelect)
+    df1["Color"] = df1["Color"].map(info)
+    if not df1.empty:
+      temp_df = df1.dropna(subset = ["Value"]).drop_duplicates(["Country","Indicator"], keep= "last")
+      fund = temp_df.groupby("Country")["Color"].sum().reset_index().sort_values("Color")
+      # print(fund)
+      st.header("Investment Priority")
+      st.subheader("Food Security Score")
+      for k in fund["Country"].unique():
+        st.subheader('{} : {}'.format(k,fund[fund["Country"]==k]["Color"].iloc[0]) )
+      st.write('Better Country for investment/fundings: **{}**'.format(fund["Country"].iloc[0]))
+      st.write('Areas for investment in **{}** in **{}**'.format(fund["Country"].iloc[0],temp_df[temp_df["Country"]==fund["Country"].iloc[0]]["Indicator"].unique()))
+    
+      linePlot(df1,countrySelect)
