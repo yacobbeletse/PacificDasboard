@@ -164,7 +164,8 @@ def app():
             # print(data.columns)
             legend(c2)
             # fig = px.box(data, y = "Value", points="all", custom_data=["Country","Value"], color = "Color",color_discrete_map=info)
-            fig = px.bar(data[data["Country"]!="Pacific"].sort_values("Value"), x = "Value", y = "Country", custom_data=["Country","Value"], orientation = "h",color = "Color",color_discrete_map=color)
+            print(data["Color"])
+            fig = px.bar(data[data["Country"]!="Pacific"].sort_values("Value"), x = "Value", y = "Country", custom_data=["Country","Value"], orientation = "h",color = "Color",color_discrete_map={'red':'red','green':'green'})
             
             fig.add_vline(x=data[data["Country"]=="Pacific"]["Value"].iloc[0],line_dash="dash",annotation_text="{} (Pacific Average)".format(np.round(data[data["Country"]=="Pacific"]["Value"].iloc[0],2)),annotation_position = "bottom right")
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
