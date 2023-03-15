@@ -50,6 +50,7 @@ def app():
             df_count = df_count1.merge(df_total, on ="Country", how = "left")
             print(df_total)
             fig = px.bar(df_count.sort_values('Total'), x = "Value", y = "Country", text = "Value",color = "Status",color_discrete_map  = color,custom_data=["Country","Value"], orientation = "h")
+            # fig = px.bar(df_total.sort_values("Total")[df_total["Country"]!="Pacific"], x = "Total", y = "Country", text = "Total",color_discrete_map  = color,custom_data=["Country","Total"], orientation = "h")
             fig.update_yaxes(title = '')
             fig.update_xaxes(title = 'Indicators Covered')
             fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Indicators Countries: %{customdata[1]:.2f}')
@@ -123,11 +124,14 @@ def app():
 
             df_total = df.groupby("Indicator").agg(Total = ("Value",'count')).reset_index()
             df_count = df_count1.merge(df_total, on ="Indicator", how = "left")
-            print(df_count.sort_values('Total',ascending=False))
+            # print(df_count.sort_values('Total',ascending=False))
             # df_count = df.groupby("Indicator")["Value"].count().reset_index()
             # df_count['Value'] = df_count['Value']-1
             #-1 done to discount Pacific as a county
+            print(df_count.sort_values('Total'))
             fig = px.bar(df_count.sort_values('Total'), x = "Value", y = "Indicator", color = "Status", color_discrete_map  = color,text = "Value",custom_data=["Indicator","Value"], orientation = "h")
+            # print(df_count)
+            # fig = px.bar(df_total.sort_values('Total'), x = "Total", y = "Indicator", text = 'Total',  color_discrete_map  = color,custom_data=["Indicator","Total"], orientation = "h")
             fig.update_yaxes(title = '')
             fig.update_xaxes(title = 'Contries Covered')
             fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Covered Countries: %{customdata[1]:.0f}')
@@ -139,7 +143,8 @@ def app():
                         size=11
                     ),
                     )
-            fig.update_traces(textposition='inside')
+            fig.update_traces(textposition='auto')
+            fig.update_layout(yaxis={'categoryorder':'total ascending'})
             st.plotly_chart(fig)
         else:
 
@@ -164,7 +169,7 @@ def app():
             # print(data.columns)
             legend(c2)
             # fig = px.box(data, y = "Value", points="all", custom_data=["Country","Value"], color = "Color",color_discrete_map=info)
-            print(data["Color"])
+            # print(data["Color"])
             fig = px.bar(data[data["Country"]!="Pacific"].sort_values("Value"), x = "Value", y = "Country", custom_data=["Country","Value"], orientation = "h",color = "Color",color_discrete_map={'red':'red','green':'green'})
             
             fig.add_vline(x=data[data["Country"]=="Pacific"]["Value"].iloc[0],line_dash="dash",annotation_text="{} (Pacific Average)".format(np.round(data[data["Country"]=="Pacific"]["Value"].iloc[0],2)),annotation_position = "bottom right")
