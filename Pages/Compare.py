@@ -121,6 +121,24 @@ def app():
       for k in fund["Country"].unique():
         st.subheader('{} : {}'.format(k,fund[fund["Country"]==k]["Color"].iloc[0]) )
       st.write('Better Country for investment/fundings: **{}**'.format(fund["Country"].iloc[0]))
-      st.write('Areas for investment in **{}** in **{}**'.format(fund["Country"].iloc[0],temp_df[temp_df["Country"]==fund["Country"].iloc[0]]["Indicator"].unique()))
+      st.subheader("Investment/Funding Areas")
+      c = st.columns(4)
+      m=0
+      print(temp_df.info())
+      amp =temp_df[(temp_df["Country"]==fund["Country"].iloc[0]) & (temp_df["Color"]==-1)]
+      #-1 is the value for amplifier
+    
+      for k in pillars:
+          c[m].subheader(k)
+          if not amp[amp["Pillar"]==k].empty:
+              for l in amp[amp["Pillar"]==k]["Indicator"].unique():
+                  c[m].write(l)
+          else:
+              c[m].write("No indicators in {}".format(k))
+          m+=1
+          if(m>3):
+              m=0
+
+      # st.write('Areas for investment in **{}** in **{}**'.format(fund["Country"].iloc[0],temp_df[temp_df["Country"]==fund["Country"].iloc[0]]["Indicator"].unique()))
     
       linePlot(df1,countrySelect)

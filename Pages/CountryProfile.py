@@ -164,6 +164,8 @@ def visualizeOp(df,country):
     
     mitigators = [i for i in present.loc[present["Status"]=="Mitigator","Indicator"].unique()]
     amplifier = [i for i in present.loc[present["Status"]=="Amplifier","Indicator"].unique()]
+
+    amp = present[present["Status"]=="Amplifier"]
     # print(mitigators)
     # print(amplifier)
     present_rad = df.dropna(subset = "Value").sort_values("Year").drop_duplicates(["Country", "Indicator"], keep = "last")
@@ -193,7 +195,21 @@ def visualizeOp(df,country):
     score_data["colVal"] = score_data["Color"].map(info)
     score = score_data.groupby("Country")["colVal"].sum().reset_index()
     st.header('Food Security Score: {}'.format(score["colVal"].iloc[0]))
-    st.write('Investment/Funding Areas: **{}**'.format(amplifier))
+    st.subheader("Investment/Funding Areas")
+    c = st.columns(4)
+    m=0
+    for k in pillars:
+        c[m].subheader(k)
+        if not amp[amp["Pillar"]==k].empty:
+            for l in amp[amp["Pillar"]==k]["Indicator"].unique():
+                c[m].write(l)
+        else:
+            c[m].write("No indicators in {}".format(k))
+        m+=1
+        if(m>3):
+            m=0
+
+    # st.write('Investment/Funding Areas: **{}**'.format(amplifier))
     for i in range(len(pillars)):
         color_discrete_map= {country:"purple", "Pacific":"blue"}
         
