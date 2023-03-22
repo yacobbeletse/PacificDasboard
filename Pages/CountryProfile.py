@@ -338,7 +338,7 @@ def visualizeOp(df,country):
                         if (j in ["Prevalance of undernourishment",'Proportion of children moderately or severely stunted or wasted']): 
                             linePlot(temp[temp["Indicator"]==j],c[k],width = True)
                         elif j in trend:
-                             print(temp[temp["Indicator"]==j])
+                            #  print(temp[temp["Indicator"]==j])
                              t_fig = px.bar(temp[temp["Indicator"]==j],x = "Value", y = 'Year', color = "Country", orientation = 'h',color_discrete_sequence =px.colors.qualitative.Antique,barmode = 'group',custom_data=["Country","Year","Value"])
                              t_fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Indicator: %{customdata[1]} <br>Value: %{customdata[2]:.2f}')
                              t_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')

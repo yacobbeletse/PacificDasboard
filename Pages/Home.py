@@ -46,7 +46,7 @@ def clockData(df):
     clockmap = {"red": -1, "green": 1, "gray": 0}
     temp = df.copy()
     temp["colValue"] =  temp["Color"].map(clockmap)
-    clockData = temp.groupby(["Country","Pillar"])["colValue"].sum().reset_index()
+    clockData = temp.groupby(["Country","Pillar"])["colValue"].sum().reset_index().dropna(subset= ["Country"])
     return clockData
 
 
@@ -91,6 +91,7 @@ def clockMeter(df,country,pillar):
         
         if pillar == "Food Security":
             data = df[(df["Country"]==country)]
+            # print(data)
             value = data.groupby("Country")["colValue"].sum().reset_index()["colValue"].iloc[0]
             asterix = ''
             
@@ -141,10 +142,11 @@ def app():
     # print(data)
 
     dataClock = clockData(data.merge(typology, on = "Indicator", how = "left"))
-    # print(dataClock))
+    # print(dataClock)
     # df1 = data.dropna(subset=["Country"]).pivot(index=["Indicator"], columns=["Country"],values='Color')
     df1 = data.pivot(index=["Indicator"], columns=["Country"],values='Color')
     df = df1.merge(typology, on = "Indicator", how = "left")
+    # print(df)
     df[(df.isna()) | df.isnull()] = 'gray'
     df["Bar"]=5
     # print(df)
@@ -268,6 +270,7 @@ def app():
                     #     # print("NTH")
 
                 else:
+                    # print('Country = '+ i)
                     df11 = df[df["Pillar"]==j].copy()
                     df11.loc[:,"Status"] = df11[i].map(info)
                     df11["Indicator"] = df11['Indicator'].apply(wrap_long_text)

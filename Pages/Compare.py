@@ -58,13 +58,13 @@ def linePlot(df,countrySelect):
           # print(data_df)
           avg_data = data_df.groupby(["Indicator","Year"])["Value"].mean().reset_index()
           # print(avg_data)
-          # print(data_df)
+          # print(data_df.columns)
           if not data_df.empty:
             fig_ind = px.line(data_df,x="Year",y='Value',color = "Country",color_discrete_sequence =px.colors.qualitative.Antique,markers=True,symbol="Country")
             fig_ind.add_scatter(x = avg_data["Year"], y = avg_data["Value"], name = "Selected Countries (Average)",line=dict(color = 'purple'))
             fig_ind.update_layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
             fig_ind.update_layout(
-                      yaxis_title="Score",
+                      yaxis_title= None if pd.isnull(data_df["Unit"].iloc[0]) else data_df["Unit"].iloc[0],
                       xaxis_title = None,
                       xaxis_tickformat = 'd',
                   legend_title=None,
@@ -124,7 +124,7 @@ def app():
       st.subheader("Investment/Funding Areas")
       c = st.columns(4)
       m=0
-      print(temp_df.info())
+      # print(temp_df.info())
       amp =temp_df[(temp_df["Country"]==fund["Country"].iloc[0]) & (temp_df["Color"]==-1)]
       #-1 is the value for amplifier
     
