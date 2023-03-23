@@ -63,7 +63,7 @@ def showLegend(c,viewOption):
     else:
         for i in range(3):
             colors = ['red','yellow','green']
-            legend = ['Severe Issue' , 'Moderate Issue', 'No Issue']
+            legend = ['More Issue' , 'Neutral', 'Less Issue']
             style_text+= "<div><div class='rectangle {}'></div> {}</div>".format(colors[i],legend[i])
 
     c.subheader("LEGEND")
