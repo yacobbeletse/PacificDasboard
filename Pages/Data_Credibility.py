@@ -48,7 +48,7 @@ def app():
 
             df_total = df.groupby("Country").agg(Total = ("Value",'count')).reset_index(0)
             df_count = df_count1.merge(df_total, on ="Country", how = "left")
-            print(df_total)
+            # print(df_total)
             fig = px.bar(df_count.sort_values('Total'), x = "Value", y = "Country", text = "Value",color = "Status",color_discrete_map  = color,custom_data=["Country","Value"], orientation = "h")
             # fig = px.bar(df_total.sort_values("Total")[df_total["Country"]!="Pacific"], x = "Total", y = "Country", text = "Total",color_discrete_map  = color,custom_data=["Country","Total"], orientation = "h")
             fig.update_yaxes(title = '')
@@ -62,7 +62,8 @@ def app():
                         size=11
                     ),
                     )
-            fig.update_traces(textposition='inside')
+            fig.update_traces(textposition='inside', textangle = 0)
+            st.write('**Note: There are 23 indicators.**')
             st.plotly_chart(fig)
         else:
 
@@ -128,7 +129,7 @@ def app():
             # df_count = df.groupby("Indicator")["Value"].count().reset_index()
             # df_count['Value'] = df_count['Value']-1
             #-1 done to discount Pacific as a county
-            print(df_count.sort_values('Total'))
+            # print(df_count.sort_values('Total'))
             fig = px.bar(df_count.sort_values('Total'), x = "Value", y = "Indicator", color = "Status", color_discrete_map  = color,text = "Value",custom_data=["Indicator","Value"], orientation = "h")
             # print(df_count)
             # fig = px.bar(df_total.sort_values('Total'), x = "Total", y = "Indicator", text = 'Total',  color_discrete_map  = color,custom_data=["Indicator","Total"], orientation = "h")
@@ -143,8 +144,9 @@ def app():
                         size=11
                     ),
                     )
-            fig.update_traces(textposition='auto')
+            fig.update_traces(textposition='auto', textangle =0)
             fig.update_layout(yaxis={'categoryorder':'total ascending'})
+            st.write('**Note: There are 21 countries in the region.**')
             st.plotly_chart(fig)
         else:
 
@@ -183,7 +185,7 @@ def app():
             fig.update_yaxes(title = '')
             fig.update_traces(hovertemplate='<b>%{customdata[0]}</b> <br>Value: %{customdata[1]:.2f}')
         
-
+            
             c2.plotly_chart(fig)
 
 

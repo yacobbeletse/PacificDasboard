@@ -77,7 +77,7 @@ def linePlot(df,c,width = False):
         fig.update_layout(
         # yaxis_range=[0,100],
         # yaxis_title="Score",
-        yaxis_title=None,
+        yaxis_title=None if pd.isnull(df["Unit"].iloc[0]) else df["Unit"].iloc[0],
         xaxis_title = None,
         xaxis_tickformat = 'd',
     font=dict(
