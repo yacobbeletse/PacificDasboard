@@ -16,30 +16,11 @@ from streamlit_option_menu import option_menu
 
 from Pages import  Compare, CountryProfile, Data_Credibility,Home
 
-import copy
 
 from pathlib import Path
-# import seaborn as sns
-# import geopandas
-
-# import plotly.express as px
-# from PIL import Image
-# import plotly.graph_objects as go
 
 
-#basic functions for using streamlit for building dashboards.
-# 
-# st.set_page_config(layout="wide")
-# st.set_page_config(page_title="Pacific Food Security Dashboard", layout="wide")
-
-
-
-# a,b,c = st.sidebar.columns([1,5,1])
-# a.write('')
-# b.image("FSDR_1.png")
-# c.write('')
-
-
+#This is for scrolling to the top
 def navigateHeader():
 
     st.markdown(f"Top", unsafe_allow_html=True)
@@ -78,11 +59,13 @@ with st.sidebar:
 
 # button = st.sidebar.button("Top", on_click=navigateHeader)
 # st.sidebar.markdown("[Scroll to Top](#Top)")    
+#CREATING A TAG FOR SCROLLING TO THE TOP WITH A BUTTON
 st.markdown('<a href = "#{}"><button class = "scroll-to-top">Scroll to Top </button>'.format("Top"),unsafe_allow_html=True)
 
 if(selected!="Home"):
     st.sidebar.title("Control Center")
 
+#LOADING THE CSS FILE FOR STYLING THE HTML CONTENT
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
 
@@ -93,7 +76,6 @@ st.markdown("## *'You can improve what you can measure!!!'*")
 st.markdown('The PFSD visualizes the data of Pacific nations for different indicators in four pillars of food security - availability, accessibility, utilization and stability.',unsafe_allow_html=True)
 
 
-# st.markdown('This Dashboard is the preliminary version of a diagnostic tool for rapidly scanning food stresses and shocks.')
 def chooseapp(selected):
     global apps
     for app in apps:
@@ -105,11 +87,16 @@ chooseapp(selected)
 st.sidebar.subheader(' ')
 st.sidebar.subheader("PARTNERS")
 st.sidebar.image('partners.PNG')
+
+#THIS HAS A GOOGLE FORM LINKED.
 my_html1 = """<h3>Please share your experience of using this tool 
     <a href="https://forms.gle/JpgirdYtypVdiLC27" target="_blank">HERE</a> </h3>
     """
 
-expander = st.expander("FAQ")
-expander.write("Here you could put in some really, really long explanations...")
+#THIS IS OPTIONAL AND CAN BE REMOVED.
+# expander = st.expander("FAQ")
+# expander.write("Here you could put in some really, really long explanations...")
+
+
 components.html(my_html1)
 

@@ -4639,7 +4639,7 @@ Nauru,2017,16.9,Proportion of children moderately or severely stunted,red,5,Down
 Papua New Guinea,2017,47.9,Proportion of children moderately or severely stunted,red,5,Down
 Samoa,2017,6.1,Proportion of children moderately or severely stunted,red,5,Down
 Solomon Islands,2017,30.0,Proportion of children moderately or severely stunted,red,5,Down
-Tonga,2017,3.8,Proportion of children moderately or severely stunted,green,5,Down
+Tonga,2017,3.8,Proportion of children moderately or severely stunted,red,5,Down
 Tuvalu,2017,9.9,Proportion of children moderately or severely stunted,red,5,Down
 Vanuatu,2017,28.4,Proportion of children moderately or severely stunted,red,5,Down
 Fiji,2018,7.5,Proportion of children moderately or severely stunted,red,5,Down
@@ -4649,7 +4649,7 @@ Nauru,2018,16.3,Proportion of children moderately or severely stunted,red,5,Down
 Papua New Guinea,2018,48.1,Proportion of children moderately or severely stunted,red,5,Down
 Samoa,2018,6.4,Proportion of children moderately or severely stunted,red,5,Down
 Solomon Islands,2018,29.7,Proportion of children moderately or severely stunted,red,5,Down
-Tonga,2018,3.3,Proportion of children moderately or severely stunted,green,5,Down
+Tonga,2018,3.3,Proportion of children moderately or severely stunted,red,5,Down
 Tuvalu,2018,9.8,Proportion of children moderately or severely stunted,red,5,Down
 Vanuatu,2018,28.5,Proportion of children moderately or severely stunted,red,5,Down
 Fiji,2019,7.5,Proportion of children moderately or severely stunted,red,5,Down
@@ -4659,7 +4659,7 @@ Nauru,2019,15.5,Proportion of children moderately or severely stunted,red,5,Down
 Papua New Guinea,2019,48.3,Proportion of children moderately or severely stunted,red,5,Down
 Samoa,2019,6.6,Proportion of children moderately or severely stunted,red,5,Down
 Solomon Islands,2019,29.5,Proportion of children moderately or severely stunted,red,5,Down
-Tonga,2019,3.0,Proportion of children moderately or severely stunted,green,5,Down
+Tonga,2019,3.0,Proportion of children moderately or severely stunted,red,5,Down
 Tuvalu,2019,9.8,Proportion of children moderately or severely stunted,red,5,Down
 Vanuatu,2019,28.6,Proportion of children moderately or severely stunted,red,5,Down
 Fiji,2020,7.5,Proportion of children moderately or severely stunted,red,5,Down
@@ -4669,7 +4669,7 @@ Nauru,2020,15.0,Proportion of children moderately or severely stunted,red,5,Down
 Papua New Guinea,2020,48.4,Proportion of children moderately or severely stunted,red,5,Down
 Samoa,2020,6.8,Proportion of children moderately or severely stunted,red,5,Down
 Solomon Islands,2020,29.3,Proportion of children moderately or severely stunted,red,5,Down
-Tonga,2020,2.6,Proportion of children moderately or severely stunted,green,5,Down
+Tonga,2020,2.6,Proportion of children moderately or severely stunted,red,5,Down
 Tuvalu,2020,9.7,Proportion of children moderately or severely stunted,red,5,Down
 Vanuatu,2020,28.7,Proportion of children moderately or severely stunted,red,5,Down
 Fiji,1985,,Proportion of children moderately or severely wasted,gray,5,Down
@@ -4697,7 +4697,7 @@ Papua New Guinea,2007,,Proportion of children moderately or severely wasted,gray
 Samoa,2007,,Proportion of children moderately or severely wasted,gray,5,Down
 Solomon Islands,2007,4.3,Proportion of children moderately or severely wasted,red,5,Down
 Tonga,2007,,Proportion of children moderately or severely wasted,gray,5,Down
-Tuvalu,2007,3.3,Proportion of children moderately or severely wasted,green,5,Down
+Tuvalu,2007,3.3,Proportion of children moderately or severely wasted,red,5,Down
 Vanuatu,2007,,Proportion of children moderately or severely wasted,gray,5,Down
 Fiji,2010,,Proportion of children moderately or severely wasted,gray,5,Down
 Kiribati,2010,,Proportion of children moderately or severely wasted,gray,5,Down
@@ -4745,7 +4745,7 @@ Tonga,2015,,Proportion of children moderately or severely wasted,gray,5,Down
 Tuvalu,2015,,Proportion of children moderately or severely wasted,gray,5,Down
 Vanuatu,2015,,Proportion of children moderately or severely wasted,gray,5,Down
 Fiji,2018,,Proportion of children moderately or severely wasted,gray,5,Down
-Kiribati,2018,3.5,Proportion of children moderately or severely wasted,green,5,Down
+Kiribati,2018,3.5,Proportion of children moderately or severely wasted,red,5,Down
 Nauru,2018,,Proportion of children moderately or severely wasted,gray,5,Down
 Papua New Guinea,2018,,Proportion of children moderately or severely wasted,gray,5,Down
 Samoa,2018,,Proportion of children moderately or severely wasted,gray,5,Down
@@ -4757,10 +4757,10 @@ Fiji,2019,,Proportion of children moderately or severely wasted,gray,5,Down
 Kiribati,2019,,Proportion of children moderately or severely wasted,gray,5,Down
 Nauru,2019,,Proportion of children moderately or severely wasted,gray,5,Down
 Papua New Guinea,2019,,Proportion of children moderately or severely wasted,gray,5,Down
-Samoa,2019,3.1,Proportion of children moderately or severely wasted,green,5,Down
+Samoa,2019,3.1,Proportion of children moderately or severely wasted,red,5,Down
 Solomon Islands,2019,,Proportion of children moderately or severely wasted,gray,5,Down
 Tonga,2019,1.1,Proportion of children moderately or severely wasted,green,5,Down
-Tuvalu,2019,3.0,Proportion of children moderately or severely wasted,green,5,Down
+Tuvalu,2019,3.0,Proportion of children moderately or severely wasted,red,5,Down
 Vanuatu,2019,,Proportion of children moderately or severely wasted,gray,5,Down
 Fiji,2020,,Proportion of children moderately or severely wasted,gray,5,Down
 Kiribati,2020,,Proportion of children moderately or severely wasted,gray,5,Down
@@ -4769,7 +4769,7 @@ Papua New Guinea,2020,,Proportion of children moderately or severely wasted,gray
 Samoa,2020,,Proportion of children moderately or severely wasted,gray,5,Down
 Solomon Islands,2020,,Proportion of children moderately or severely wasted,gray,5,Down
 Tonga,2020,,Proportion of children moderately or severely wasted,gray,5,Down
-Tuvalu,2020,3.0,Proportion of children moderately or severely wasted,green,5,Down
+Tuvalu,2020,3.0,Proportion of children moderately or severely wasted,red,5,Down
 Vanuatu,2020,,Proportion of children moderately or severely wasted,gray,5,Down
 Fiji,2021,4.6,Proportion of children moderately or severely wasted,red,5,Down
 Kiribati,2021,,Proportion of children moderately or severely wasted,gray,5,Down
@@ -6396,9 +6396,9 @@ Pacific,2012,5.2,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2013,4.4,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2014,4.8,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2015,7.9,Proportion of children moderately or severely wasted,red,5,Down
-Pacific,2018,3.5,Proportion of children moderately or severely wasted,green,5,Down
+Pacific,2018,3.5,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2019,2.4,Proportion of children moderately or severely wasted,green,5,Down
-Pacific,2020,3.0,Proportion of children moderately or severely wasted,green,5,Down
+Pacific,2020,3.0,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2021,4.6,Proportion of children moderately or severely wasted,red,5,Down
 Pacific,2015,,Proportion of severely food insecure,gray,5,Down
 Pacific,2016,,Proportion of severely food insecure,gray,5,Down
