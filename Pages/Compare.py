@@ -1,18 +1,12 @@
 
 import streamlit as st
 from Pages.CountryProfile import linePlot
-import geopandas
 import pandas as pd
 import plotly.express as px
 import numpy as np
 from Pages.Home import alldata1,typology
 
 pillars = ["Availability","Accessibility","Utilization","Stability"]
-# aspects = ["Exposure","Capacity"]
-
-# st.sidebar.title("Control Center")ff
-# typology = pd.read_csv("Typology.csv")
-# alldata1 = pd.read_csv("Data.csv")
 
 countries = alldata1["Country"].dropna().unique()
 
@@ -42,16 +36,7 @@ def linePlot(df,countrySelect):
         # c = st.columns(len(aspects))
         c = st.columns(2)
         k=0
-        # for k in range(2): 
-        #   # c[k].subheader(aspects[k])
-        #   # if aspects[k]=="Exposure":
-        #   #       c[k].write("Less Exposure is better.")
-        #   # else:
-        #   #     c[k].write("Higher Capacity is better.")
-        #   temp_data = data[data["Aspect"]==aspects[k]]
-        #   if temp_data.empty:
-        #      c[k].write('No data for '+ aspects[k])
-        #   else:
+
         temp_data = data.copy()
         for j in temp_data["Indicator"].unique():
           data_df = temp_data[temp_data["Indicator"]==j]
@@ -106,8 +91,7 @@ def linePlot(df,countrySelect):
 
 def app():
     countrySelect = st.sidebar.multiselect('Select Country(ies)',countries)
-    info = {'red':-1,'green':1,'gray':0}
-    # option = st.sidebar.selectbox("Visualization by: ", ["Exposure", "Capacity"])
+    info = {'red':-1,'green':1,'gray':0} #This will be used to calculated the overall score for the dimensions and food security. +1 for mitigator and -1 for amplifier.
     df = alldata1.merge(typology, on = "Indicator", how = "left")
     
     df1 = df[(df["Country"].isin(countrySelect))]
@@ -139,6 +123,6 @@ def app():
           if(m>3):
               m=0
 
-      # st.write('Areas for investment in **{}** in **{}**'.format(fund["Country"].iloc[0],temp_df[temp_df["Country"]==fund["Country"].iloc[0]]["Indicator"].unique()))
+  
     
       linePlot(df1,countrySelect)
